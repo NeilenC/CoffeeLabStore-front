@@ -3,16 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-
-
-type Product = {
-    _id: string;
-    name: string;
-    imageURL: string,
-    price: number,
-    description:string,
-    stock:number
-  };
+import { Product } from '@/commons/types.interface';
   
 const ProductDetail = () => {
   const router = useRouter();
@@ -67,7 +58,7 @@ const ProductDetail = () => {
   }, [productId]);
 
   if (!product) {
-    return <div>Cargando...</div>;
+    return <>Cargando...</>;
   }
 
   const handleImageHover = () => {

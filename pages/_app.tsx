@@ -3,28 +3,32 @@ import type { AppProps } from 'next/app';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { useMemo } from 'react';
 import Footer from '@/components/Footer';
-
+import store from '@/redux/store';
+import { Provider } from 'react-redux'
 export default function App({ Component, pageProps }: AppProps) {
-  // Define un tema personalizado (puedes personalizarlo según tus necesidades)
+
   const theme = useMemo(
     () =>
       createTheme({
         palette: {
           primary: {
-            main: '#f0f0f0', // Color principal personalizado
+            main: '#f0f0f0', 
           },
         },
-        // Agrega otras configuraciones de tema según tus necesidades
       }),
     [],
   );
 
   return (
+      <Provider  store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
      <Navbar/>
-        <Component {...pageProps} />
-     <Footer/>
+     <Component {...pageProps} />
+     {/* <Footer/> */}
     </ThemeProvider>
+
+
+    </Provider>
   );
 }

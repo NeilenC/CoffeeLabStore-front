@@ -5,18 +5,17 @@ import {Typography, Box, Button, Card, CardMedia, CardContent, Grid } from '@mui
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+// import { connect } from 'react-redux';
+import { addToCart, removeFromCart } from '@/redux/actions';
+import { CartState } from './types.interface';
+import { useDispatch, useSelector } from 'react-redux';
+import { Product } from './types.interface';
 
-
-type Product = {
-    _id: string;
-    name: string;
-    imageURL: string,
-    price: number
-  };
-  
 const Products = () => {
 const [products, setProducts] = useState<Product[]>([])
 const router = useRouter()
+const cart = useSelector((state:CartState) => state.cart)
+const dispatch = useDispatch()
 
 
 async function getProducts() {
@@ -27,7 +26,6 @@ async function getProducts() {
       }
       const data = await response.json();
       setProducts(data);
-      console.log("data", data)
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -35,8 +33,13 @@ async function getProducts() {
 useEffect(()=> {
     getProducts()
 },[])
+
+const handleAddToCart = (product: Product) => {
+  dispatch(addToCart(product)); 
+};
+
 return (
-    <Grid container spacing={2} sx={{p:4, bgcolor:"pink"}}>
+    <Grid container spacing={2} sx={{p:4}}>
     {products.map((product) => (
       <Grid item key={product._id} xs={12} sm={6} md={4}>
         <Box sx={{ width:"55%"}}>
@@ -59,7 +62,8 @@ return (
               ${product.price}
             </Typography>
             <Button
-            sx={{color:"black"}}
+              onClick={() => handleAddToCart(product)}
+              sx={{color:"black"}}
               variant="contained"
               color="primary"
               fullWidth

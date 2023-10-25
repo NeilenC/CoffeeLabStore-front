@@ -3,12 +3,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React from 'react'
+import Link from 'next/link';
 
 const Navbar = () => {
   return (
-    <AppBar position="static" sx={{bgcolor:"yellow"}}>
+    <AppBar position="static" sx={{bgcolor:"#000000", color:"white"}}>
       <Toolbar>
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" sx={{}}>
           <Grid item xs={3}>
             <Typography variant="h6">Logo</Typography>
           </Grid>
@@ -25,10 +26,14 @@ const Navbar = () => {
             />
           </Grid>
           <Grid item xs={1}>
-            <Box  sx={{cursor:'pointer', color:"black"}}>Ingresar <LoginOutlinedIcon/></Box>
+            <Link href={'/login'}>
+            <Box  sx={{cursor:'pointer', color:"white"}}>Ingresar <LoginOutlinedIcon/></Box>
+            </Link>
           </Grid>
           <Grid item xs={1}>
-            <Box sx={{cursor:'pointer', color:"black"}}><ShoppingCartOutlinedIcon/></Box>
+          {/* <Link href={'/cart/${cartId}'}> */}
+            <Box sx={{cursor:'pointer'}}><ShoppingCartOutlinedIcon/></Box>
+          {/* </Link> */}
           </Grid>
         </Grid>
       </Toolbar>
