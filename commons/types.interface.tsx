@@ -6,6 +6,7 @@ export type Product = {
     stock: number,
     description:string,
     category: string[]
+    quantity: number;
   };
 
   export type CartState = {
@@ -27,3 +28,16 @@ export type Category = {
   name: string,
   description: string
 }
+export type UserState = {
+  user: {
+    id: string;
+    name: string;
+    lastname: string;
+    email: string;
+    address: string;
+    role: string;
+    phoneNumber: number;
+  };
+}
+
+  

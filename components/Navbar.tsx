@@ -1,11 +1,16 @@
 import { AppBar, Grid, IconButton, InputBase, Toolbar, Typography, Box } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import LogOutOutlinedIcon from '@mui/icons-material/LogOutOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React from 'react'
 import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { UserState } from '@/commons/types.interface';
 
 const Navbar = () => {
+  const user = useSelector((state: UserState) => state.user)
+
   return (
     <AppBar position="static" sx={{bgcolor:"#000000", color:"white"}}>
       <Toolbar>
@@ -26,9 +31,13 @@ const Navbar = () => {
             />
           </Grid>
           <Grid item xs={1}>
-            <Link href={'/login'}>
-            <Box  sx={{cursor:'pointer', color:"white"}}>Ingresar <LoginOutlinedIcon/></Box>
-            </Link>
+            {user?.id ?
+          (<Link href={'/login'}>
+            <Box  sx={{cursor:'pointer', color:"white"}}>LogIn <LoginOutlinedIcon/></Box>
+            </Link>) 
+            : 
+           ( <Box  sx={{cursor:'pointer', color:"white"}}>LogOut <LogOutOutlinedIcon/></Box>)
+          }
           </Grid>
           <Grid item xs={1}>
           {/* <Link href={'/cart/${cartId}'}> */}

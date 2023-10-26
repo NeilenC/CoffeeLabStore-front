@@ -6,16 +6,13 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Categories from '@/components/Categories'
 import { useSelector } from 'react-redux'
-// import { UserInfo } from '@/redux/userInfo';
+import { UserState } from '@/commons/types.interface'
 
 const inter = Inter({ subsets: ['latin'] })
 
-interface RootState {
-  user: string[]
-}
 
 export default function Home() {
-  const user = useSelector((state: RootState) => state.user)
+  const user = useSelector((state: UserState) => state.user)
 
   console.log("USERRRRR", user)
   return (

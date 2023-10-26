@@ -10,11 +10,13 @@ import { addToCart, removeFromCart } from '@/redux/actions';
 import { CartState } from './types.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from './types.interface';
+import { UserState } from '@/commons/types.interface'
 
 const Products = () => {
 const [products, setProducts] = useState<Product[]>([])
 const router = useRouter()
-const cart = useSelector((state:CartState) => state.cart)
+  const user = useSelector((state: UserState) => state.user)
+  const cart = useSelector((state:CartState) => state.cart)
 const dispatch = useDispatch()
 
 
@@ -25,6 +27,7 @@ async function getProducts() {
         throw new Error('Failed to fetch products');
       }
       const data = await response.json();
+
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -34,10 +37,41 @@ useEffect(()=> {
     getProducts()
 },[])
 
-const handleAddToCart = (product: Product) => {
-  dispatch(addToCart(product)); 
-};
+async function handleAddToCart(product: Product, quantity: number) {
+  try {
+    if(!user.id) {
+      alert('Debes loguearte para agregar productos al carrito')
+    }
+    const result = await fetch(`http://localhost:8000/cart/${user.id}`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        productId: product._id,
+        quantity: product.quantity ,
+      }),
+    });
 
+    // if (!result.ok) {
+    //   throw new Error('Failed to add product to cart');
+    // }
+
+    const cartResult = await result.json();
+
+    console.log("cartResult", cartResult);
+
+    dispatch(addToCart(product));
+
+  } catch (error) {
+    console.error('Error al agregar el producto al carrito', error);
+   
+  }
+}
+
+
+console.log("CART", cart)
 return (
     <Grid container spacing={2} sx={{p:4}}>
     {products.map((product) => (
@@ -62,7 +96,7 @@ return (
               ${product.price}
             </Typography>
             <Button
-              onClick={() => handleAddToCart(product)}
+              onClick={() => handleAddToCart(product, 1)}
               sx={{color:"black"}}
               variant="contained"
               color="primary"
