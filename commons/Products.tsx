@@ -7,77 +7,57 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 // import { connect } from 'react-redux';
 import { addToCart, removeFromCart } from '@/redux/actions';
-import { CartState } from './types.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { Product } from './types.interface';
 import { UserState } from '@/commons/types.interface'
+import useUserData from '@/Hooks/useUserData';
+import { CartState } from './types.interface';
 
 const Products = () => {
+  useUserData()
 const [products, setProducts] = useState<Product[]>([])
+const [addCart, setAddCart] = useState<Product[]>([])
 const router = useRouter()
-  const user = useSelector((state: UserState) => state.user)
-  const cart = useSelector((state:CartState) => state.cart)
+const user = useSelector((state: UserState) => state.user)
+const cart = useSelector((state:CartState) => state.cart)
 const dispatch = useDispatch()
 
-
+useEffect(()=>{
 async function getProducts() {
     try {
       const response = await fetch('http://localhost:8000/products', { method: 'GET' });
       if (!response.ok) {
-        throw new Error('Failed to fetch products');
+        throw new Error('Error');
       }
       const data = await response.json();
 
       setProducts(data);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error:', error);
     }
   }
-useEffect(()=> {
-    getProducts()
+  getProducts()
 },[])
 
-async function handleAddToCart(product: Product, quantity: number) {
-  try {
-    if(!user.id) {
-      alert('Debes loguearte para agregar productos al carrito')
-    }
-    const result = await fetch(`http://localhost:8000/cart/${user.id}`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: user.id,
-        productId: product._id,
-        quantity: product.quantity ,
-      }),
-    });
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]); 
 
-    // if (!result.ok) {
-    //   throw new Error('Failed to add product to cart');
-    // }
-
-    const cartResult = await result.json();
-
-    console.log("cartResult", cartResult);
-
-    dispatch(addToCart(product));
-
-  } catch (error) {
-    console.error('Error al agregar el producto al carrito', error);
-   
-  }
+function addItemToCart(product: Product) {
+ dispatch(addToCart(product))
 }
 
+// function addItemToCart(product: Product, userId: string | null = user.id) {
+//   dispatch({ type: 'ADD_TO_CART', payload: { product, userId: userId } })
+//  }
 
-console.log("CART", cart)
+console.log("CARRITO", cart)
 return (
-    <Grid container spacing={2} sx={{p:4}}>
+    <Grid container spacing={1} sx={{p:4}}>
     {products.map((product) => (
       <Grid item key={product._id} xs={12} sm={6} md={4}>
         <Box sx={{ width:"55%"}}>
-        <Card sx={{ bgcolor:"lightblue"}}>
+        <Card sx={{ bgcolor:""}}>
         <Link href={`/products/${product._id}`}>
 
         <Image 
@@ -96,8 +76,8 @@ return (
               ${product.price}
             </Typography>
             <Button
-              onClick={() => handleAddToCart(product, 1)}
-              sx={{color:"black"}}
+              onClick={() => addItemToCart(product)}
+              sx={{bgcolor:"black"}}
               variant="contained"
               color="primary"
               fullWidth

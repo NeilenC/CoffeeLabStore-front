@@ -10,12 +10,17 @@ export type Product = {
   };
 
   export type CartState = {
+    // userId: string | null; 
     cart: Product[];
   };
 
   export type AddToCartAction = {
     type: 'ADD_TO_CART';
     payload: Product;
+    // payload: {
+    //   product: Product;
+    //   userId: string | null; 
+    // };
   };
   
   export type RemoveFromCartAction = {
@@ -26,7 +31,8 @@ export type Product = {
 export type Category = {
   _id: string,
   name: string,
-  description: string
+  description: string,
+  subcategories: string[]
 }
 export type UserState = {
   user: {

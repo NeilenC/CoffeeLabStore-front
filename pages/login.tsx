@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Container, CssBaseline, TextField, Typography, Box } from '@mui/material';
 import { Formik, Form, Field, FormikHelpers} from 'formik';
 import { useDispatch } from 'react-redux';
-import { setUserInfo } from '@/redux/userInfo';
+import {  setUserInfo } from '@/redux/userInfo';
 import { useRouter } from 'next/router';
 
 
@@ -26,10 +26,12 @@ const LoginForm = () => {
         const { token, user } = data;
   
         localStorage.setItem('token', token);
+        localStorage.setItem('id', user.id);
 
         alert("Inicio de sesión exitoso");
 
-        dispatch(setUserInfo({ id: user._id,
+        dispatch(setUserInfo({ 
+           id: user._id,
            name: user.name,
            lastname: user.lastname,
            email: user.email,

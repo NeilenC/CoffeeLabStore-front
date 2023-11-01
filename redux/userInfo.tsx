@@ -11,6 +11,7 @@ export interface UserInfo {
   }
   
   export const setUserInfo = createAction<UserInfo>("SET_USERINFO");
+  export const clearUserInfo = createAction("CLEAR_USER_INFO");
 
 const initialState = {
   id: "",
@@ -25,6 +26,9 @@ const initialState = {
 const userReducer = createReducer(initialState, {
     [setUserInfo.type]: (state, action: { payload: UserInfo }) => {
       return action.payload;
+    },
+    [clearUserInfo.type]: (state) => {
+      return initialState; 
     },
   });
   
