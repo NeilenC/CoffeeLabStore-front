@@ -1,61 +1,83 @@
 import { Category, Product } from '@/commons/types.interface';
+import { Box, Grid, Card, CardContent, Typography, Button } from '@mui/material';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 function CategoryDetail() {
   const router = useRouter();
   const { categoryId, subCategoryId } = router.query;
-  const [subcategory, setSubcategory] = useState("")
+  const [products, setProducts] = useState([])
 
-  console.log("category, subcategory", categoryId +","+ subCategoryId)
-  //buscar los productos que tengan la categoryId y que coincidan con la subcategoria ? 
 
   async function getProductsByCategory() {
-    if(categoryId) {
-      
-      const response = await fetch(`http://localhost:8000/products/byCategory/${categoryId}`,{method:"GET"})
-      const dataPromise: Promise<any> = response.json();
-    
-    const data = await dataPromise; 
+    try{
 
-    if (data) {
-      console.log("producto", data);
-      console.log("categoria id de producto", data[0].category);
-    }
-    console.log("no")
-  }
-}
-  async function findCategory() {
-    if(categoryId) {
-      const response = await fetch(`http://localhost:8000/categories/${categoryId}`)
-      const dataPromise: Promise<any> = response.json();
-    
-      const data = await dataPromise; 
-  
-      if (data && data.subcategories) {
-        const subcategoryMatch = data.subcategories.find((subcategory:string) => subcategory === subCategoryId);
-  
-        if (subcategoryMatch) {
-          setSubcategory(subcategoryMatch)
-        } else {
-          console.log("La subcategoría especificada no coincide con ninguna subcategoría en la categoría.");
+      if(categoryId) {
+      
+        const response = await fetch(`http://localhost:8000/products/bySubCategory/${subCategoryId}`,{method:"GET"})
+        const dataPromise: Promise<Product[]> = response.json();
+        
+        const data = await dataPromise; 
+        
+        if (data) {
+          setProducts(data)
         }
       }
+      }catch(e){
+        console.log("error", e)
+      }
+    
     }
-  }
- 
+
 
   useEffect(()=>{
     getProductsByCategory()
-    findCategory()
-  },[])
+  },[products])
 
   return (
-    <div>
-      <h1>Detalles de la Categoría: {categoryId}</h1>
-      <h2>Subcategoría: {subCategoryId}</h2>
-      {/* Mostrar los detalles de la categoría y subcategoría */}
-    </div>
+    <Grid container spacing={3} sx={{p:4}}>
+
+      {products.map((product) => {
+        return (
+          <Grid item key={product._id}  >
+        <Box sx={{ bgcolor:"pink"}}>
+        <Card sx={{ bgcolor:""}}>
+        <Link href={`/products/${product._id}`}>
+
+        <Image 
+        src={product.imageURL}
+        width={300}
+        height={300}
+        alt={product.name}
+        />
+       
+        </Link>
+          <CardContent sx={{ bgcolor:"#FOFOFO ", borderTop:"1px solid lightgrey"}}>
+            <Typography variant="body1" color="initial">
+              {product.name}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              ${product.price}
+            </Typography>
+            <Button
+              // onClick={() => addItemToCart(product)}
+              sx={{bgcolor:"back", width:"auto"}}
+              variant="contained"
+              color="primary"
+              fullWidth
+            >
+              Agregar al carrito <ShoppingCartOutlinedIcon/>
+            </Button>
+          </CardContent>
+        </Card>
+        </Box>
+      </Grid>
+        )
+      })}
+    </Grid>
   );
 }
 

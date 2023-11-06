@@ -9,31 +9,44 @@ const [categories,setCategories] = useState([])
 const [selectedCategory, setSelectedCategory] = useState("");
 const [selectedSubcategory, setSelectedSubcategory] = useState("");
 const [products, setProducts] = useState([]);
+const [subCategory, setSubcategory] = useState([])
 const [expandedCategory, setExpandedCategory] = useState("")
 
 useEffect(()=> {
   async function getCategories(): Promise<void> {
     const response = await fetch('http://localhost:8000/categories', {method:"GET"})
     const data = await response.json()
-    // console.log("DATA CATEGORIES", data)  
     setCategories(data)
   }
   getCategories()
 },[])
 
-const handleCategoryClick = async (categoryId: string) => {
-    const response = await fetch(`http://localhost:8000/products?categoryID=${categoryId}`, {
-      method: 'GET',
-    });
+const getSubCategory = async (categoryId:any) => {
+  const response = await fetch(`http://localhost:8000/subcategory/${categoryId}`, {
+    method: 'GET',
+  });
   const data = await response.json();
-  setProducts(data);
-  setSelectedCategory(categoryId);
-  setExpandedCategory(categoryId)
-};
+  if(response.ok) {
+    setSubcategory(data)
+    setExpandedCategory(categoryId)
+  }
+  console.log("NO HAY CATEGORIAS")
+}
 
-const handleSubcategoryChange = (subcategory: string) => {
-  setSelectedSubcategory(subcategory);
-  router.push(`${selectedCategory}/${subcategory}`)
+// const handleCategoryClick = async (categoryId: string) => {
+//     const response = await fetch(`http://localhost:8000/products?categoryID=${categoryId}`, {
+//       method: 'GET',
+//     });
+//   const data = await response.json();
+//   setProducts(data);
+//   setSelectedCategory(categoryId);
+//   setExpandedCategory(categoryId)
+// };
+
+const handleSubcategoryChange = (subcategoryId: string) => {
+  setSelectedSubcategory(subcategoryId);
+  router.push(`${selectedCategory}/${subcategoryId}`)
+  // console.log(`categoria:${selectedCategory}/subcategoria:${subcategoryId}`)
 };
   return (
     <Box sx={{ height: "60px", borderBottom: "1px solid lightgrey", bgcolor: "white" }}>
@@ -50,28 +63,28 @@ const handleSubcategoryChange = (subcategory: string) => {
                 p: 1,
                 fontWeight: 'bold',
               }}
-              onClick={() =>{ isExpanded ? setExpandedCategory("") : handleCategoryClick(category._id)}}
+              onClick={() =>{ isExpanded ? setExpandedCategory("") : getSubCategory(category._id), setSelectedCategory(category._id)}}
             >
               {category.name}
             </Typography>
-            {isExpanded && category.subcategories && category.subcategories.length > 0 && (
+            {isExpanded ? (
                <Box sx={{position:'relative', zIndex:1, bgcolor:"white", p:1}}>
-               {category.subcategories.map((subcategory) => (
-                <Box sx={{py:0.5}}>
+               {subCategory.map((subcategory:any) => (
+                <Box key={subcategory._id} sx={{py:0.5}}>
 
                  <Typography
-                   key={subcategory}
-                   onClick={() => handleSubcategoryChange(subcategory)}
+                  //  key={subcategory}
+                   onClick={() => handleSubcategoryChange(subcategory._id)}
                    variant="body2"
                    sx={{ paddingLeft: 1, textAlign: 'left', '&:hover': {color:"grey"} }}
                    >
-                   {subcategory}
+                   {subcategory.name}
                  </Typography>
                  <Divider sx={{width:"80%", ml:1}}/>
                    </Box>
                ))}
              </Box>
-           )}
+           ): null}
           </Grid>
         );
       })}
