@@ -4,38 +4,22 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Product } from '@/commons/types.interface';
+import AddToCartButtom from '@/commons/AddToCartButtom';
   
 const ProductDetail = () => {
   const router = useRouter();
   const { productId } = router.query;
   const [product, setProduct] = useState<Product | null>(null)
   const [quantity, setQuantity] = useState(1); // Inicializamos la cantidad en 1
-  const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
+  // const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
   const [isImageHovered, setIsImageHovered] = useState(false);
 
 
-  // Función para manejar el cambio de la cantidad
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value, 10);
     setQuantity(isNaN(newQuantity) ? 1 : newQuantity); // Asegurarse de que sea un número válido
   };
 
-  const handleAddToCart = () => {
-    if (product && quantity <= product.stock) {
-      // Crear un nuevo objeto que representa el producto en el carrito
-      const itemInCart = { product, quantity };
-
-      // Agregar el producto al carrito
-      setCart([...cart, itemInCart]);
-
-      // Restablecer la cantidad a 1 
-      setQuantity(1);
-
-      console.log(`Agregado al carrito: ${quantity} x ${product.name}`);
-    } else {
-      console.error('No se puede agregar al carrito: cantidad excede el stock');
-    }
-  };
 
 
   useEffect(() => {
@@ -109,14 +93,7 @@ const ProductDetail = () => {
             />
              </Box>
              <Box>
-
-            <Button
-            onClick={handleAddToCart}
-            sx={{color:"black", p:2}}
-            variant="contained"
-            >
-              Agregar al carrito <ShoppingCartOutlinedIcon/>
-            </Button>
+              <AddToCartButtom product={product} />
             </Box>
           </Grid>
         </Grid>

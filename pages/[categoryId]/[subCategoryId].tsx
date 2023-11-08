@@ -5,11 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import AddToCartButtom from '@/commons/AddToCartButtom';
 
 function CategoryDetail() {
   const router = useRouter();
   const { categoryId, subCategoryId } = router.query;
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState<Product[]>([])
 
 
   async function getProductsByCategory() {
@@ -62,15 +63,7 @@ function CategoryDetail() {
             <Typography variant="body2" color="textSecondary">
               ${product.price}
             </Typography>
-            <Button
-              // onClick={() => addItemToCart(product)}
-              sx={{bgcolor:"back", width:"auto"}}
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
-              Agregar al carrito <ShoppingCartOutlinedIcon/>
-            </Button>
+           <AddToCartButtom product={product}/>
           </CardContent>
         </Card>
         </Box>

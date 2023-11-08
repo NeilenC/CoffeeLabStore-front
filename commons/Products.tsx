@@ -12,15 +12,12 @@ import { Product } from './types.interface';
 import { UserState } from '@/commons/types.interface'
 import useUserData from '@/Hooks/useUserData';
 import { CartState } from './types.interface';
+import AddToCartButtom from './AddToCartButtom';
 
 const Products = () => {
   useUserData()
 const [products, setProducts] = useState<Product[]>([])
-const [addCart, setAddCart] = useState<Product[]>([])
-const router = useRouter()
 const user = useSelector((state: UserState) => state.user)
-const cart = useSelector((state:CartState) => state.cart)
-const dispatch = useDispatch()
 
 useEffect(()=>{
 async function getProducts() {
@@ -39,19 +36,8 @@ async function getProducts() {
   getProducts()
 },[])
 
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]); 
 
-function addItemToCart(product: Product) {
- dispatch(addToCart(product))
-}
 
-// function addItemToCart(product: Product, userId: string | null = user.id) {
-//   dispatch({ type: 'ADD_TO_CART', payload: { product, userId: userId } })
-//  }
-
-console.log("CARRITO", cart)
 return (
     <Grid container spacing={1} sx={{p:4}}>
     {products.map((product) => (
@@ -75,15 +61,7 @@ return (
             <Typography variant="body2" color="textSecondary">
               ${product.price}
             </Typography>
-            <Button
-              onClick={() => addItemToCart(product)}
-              sx={{bgcolor:"black"}}
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
-              Agregar al carrito <ShoppingCartOutlinedIcon/>
-            </Button>
+            <AddToCartButtom product={product}/>
           </CardContent>
         </Card>
         </Box>

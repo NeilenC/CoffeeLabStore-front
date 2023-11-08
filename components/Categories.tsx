@@ -1,51 +1,65 @@
-import React,{ useState, useEffect} from 'react'
+import React,{ useState, useEffect, useRef} from 'react'
 import {Box, Button, Divider, Grid, MenuItem, Select, Typography} from '@mui/material'
 import { Category } from '@/commons/types.interface'
 import { useRouter } from 'next/router'
 
 const Categories = () => {
 const router =  useRouter()
-const [categories,setCategories] = useState([])
+const [categories,setCategories] = useState<Category[]>([])
 const [selectedCategory, setSelectedCategory] = useState("");
 const [selectedSubcategory, setSelectedSubcategory] = useState("");
 const [products, setProducts] = useState([]);
 const [subCategory, setSubcategory] = useState([])
 const [expandedCategory, setExpandedCategory] = useState("")
+const subcategoryRef = useRef<HTMLDivElement | null>(null);
+
 
 useEffect(()=> {
-  async function getCategories(): Promise<void> {
+  async function getCategories() {
     const response = await fetch('http://localhost:8000/categories', {method:"GET"})
-    const data = await response.json()
+    const dataPromise: Promise<Category[]> = response.json();
+        
+    const data = await dataPromise; 
+    
     setCategories(data)
   }
   getCategories()
 },[])
 
-const getSubCategory = async (categoryId:any) => {
-  const response = await fetch(`http://localhost:8000/subcategory/${categoryId}`, {
-    method: 'GET',
-  });
-  const data = await response.json();
-  if(response.ok) {
-    setSubcategory(data)
-    setExpandedCategory(categoryId)
+useEffect(() => {
+  function handleClickOutside(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target && subcategoryRef.current && !subcategoryRef.current.contains(target)) {
+      setExpandedCategory("");
+    }
   }
-  console.log("NO HAY CATEGORIAS")
-}
 
-// const handleCategoryClick = async (categoryId: string) => {
-//     const response = await fetch(`http://localhost:8000/products?categoryID=${categoryId}`, {
-//       method: 'GET',
-//     });
-//   const data = await response.json();
-//   setProducts(data);
-//   setSelectedCategory(categoryId);
-//   setExpandedCategory(categoryId)
-// };
+  document.addEventListener('click', handleClickOutside);
+
+  return () => {
+    document.removeEventListener('click', handleClickOutside);
+  };
+}, [subcategoryRef]);
+
+const getSubCategory = async (categoryId:any) => {
+  try{
+
+    const response = await fetch(`http://localhost:8000/subcategory/${categoryId}`, {
+      method: 'GET',
+    });
+    const data = await response.json();
+    if(response.ok) {
+      setSubcategory(data)
+      setExpandedCategory(categoryId)
+    }
+  }catch(e){
+    throw new Error
+  }
+}
 
 const handleSubcategoryChange = (subcategoryId: string) => {
   setSelectedSubcategory(subcategoryId);
-  router.push(`${selectedCategory}/${subcategoryId}`)
+  router.push(`/${selectedCategory}/${subcategoryId}`)
   // console.log(`categoria:${selectedCategory}/subcategoria:${subcategoryId}`)
 };
   return (
@@ -68,7 +82,7 @@ const handleSubcategoryChange = (subcategoryId: string) => {
               {category.name}
             </Typography>
             {isExpanded ? (
-               <Box sx={{position:'relative', zIndex:1, bgcolor:"white", p:1}}>
+               <Box ref={subcategoryRef} sx={{position:'relative', zIndex:1, bgcolor:"white", p:1}}>
                {subCategory.map((subcategory:any) => (
                 <Box key={subcategory._id} sx={{py:0.5}}>
 

@@ -6,12 +6,16 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import React from 'react'
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { UserState } from '@/commons/types.interface';
+import { CartState, UserState } from '@/commons/types.interface';
 import useUserData from '@/Hooks/useUserData';
 import { clearUserInfo } from '@/redux/userInfo';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import chemex from '../public/chemex.jpg'
+import Categories from './Categories';
 
 const Navbar = () => {
+  const cart = useSelector((state: CartState) => state.cart)
   useUserData()
   const user = useSelector((state: UserState) => state.user)
   const dispatch = useDispatch()
@@ -25,11 +29,21 @@ const Navbar = () => {
 
 
   return (
-    <AppBar position="static" sx={{bgcolor:"#000000", color:"white"}}>
+    <AppBar position="sticky">
+
+      <Box  sx={{bgcolor:"#000000", color:"white"}}>
       <Toolbar>
         <Grid container alignItems="center" sx={{}}>
           <Grid item xs={4}>
-            <Typography variant="h6">Logo</Typography>
+            <Link
+            href={'/'}>
+            <Image
+            src={chemex}
+            height={60}
+            width={70}
+            alt={'logo'}
+            />
+            </Link>
           </Grid>
           <Grid item xs={6}>
             <InputBase
@@ -54,12 +68,35 @@ const Navbar = () => {
           }
           </Grid>
           <Grid item xs={1}>
-          {/* <Link href={'/cart/${cartId}'}> */}
-            <Box sx={{cursor:'pointer'}}><ShoppingCartOutlinedIcon/></Box>
-          {/* </Link> */}
+            {/* <Link href={'/cart/${cartId}'}> */}
+            <Box sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              <ShoppingCartOutlinedIcon sx={{ fontSize: 24}} />
+              <Box sx={{ pb: 3.5}}>
+                <Box
+                  sx={{
+                    width: 17,
+                    height: 17,
+                    p: 0.5,
+                    bgcolor: "white",
+                    borderRadius: "50%", 
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Typography sx={{ fontSize: 9, color: "black", fontWeight: "bold"}}>
+                    {cart.cart.length}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+            {/* </Link> */}
           </Grid>
         </Grid>
+
       </Toolbar>
+      </Box>
+      <Categories/>
     </AppBar>
   );
 }

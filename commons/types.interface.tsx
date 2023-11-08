@@ -17,14 +17,14 @@ export type Product = {
   }
 
   export type Category = {
-    id: string,
+    _id: string,
     name: string,
     description: string
   }
 
   export type CartState = {
     // userId: string | null; 
-    cart: Product[];
+    cart: any;
   };
 
   export type AddToCartAction = {
