@@ -23,17 +23,13 @@ export type Product = {
   }
 
   export type CartState = {
-    // userId: string | null; 
     cart: any;
+    
   };
 
   export type AddToCartAction = {
     type: 'ADD_TO_CART';
     payload: Product;
-    // payload: {
-    //   product: Product;
-    //   userId: string | null; 
-    // };
   };
   
   export type RemoveFromCartAction = {

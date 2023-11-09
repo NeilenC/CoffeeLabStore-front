@@ -6,16 +6,15 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Button } from '@mui/material';
 
 
-const AddToCartButtom = ({product}: any) => {
+const AddToCartButtom = ({product, quantity}: any) => {
 
 
-    console.log("PRODUC SELEECCIONADO", product)
    const cart = useSelector((state: CartState) => state.cart)
    const dispatch = useDispatch()
 
    
-   function addItemToCart(product: Product) {
-       dispatch(addToCart(product))
+   function addItemToCart(product: Product, quantity:number) {
+       dispatch(addToCart(product, quantity))
     }
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const AddToCartButtom = ({product}: any) => {
 
   return (
     <Button
-              onClick={() => addItemToCart(product)}
+              onClick={() => addItemToCart(product, quantity)}
               sx={{ fontWeight:"bold", '&:hover': {color:"white", bgcolor:"black"}}}
               variant="contained"
               color="primary"

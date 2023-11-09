@@ -25,3 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
+
+.custom-link {
+  text-decoration: none; /* Elimina la decoración de enlace predeterminada */
+  color: grey; /* Hereda el color del texto actual */
+  font-size: '100%';
+}

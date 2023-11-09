@@ -61,7 +61,7 @@ return (
             <Typography variant="body2" color="textSecondary">
               ${product.price}
             </Typography>
-            <AddToCartButtom product={product}/>
+            <AddToCartButtom product={product} quantity={1}/>
           </CardContent>
         </Card>
         </Box>

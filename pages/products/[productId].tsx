@@ -10,14 +10,14 @@ const ProductDetail = () => {
   const router = useRouter();
   const { productId } = router.query;
   const [product, setProduct] = useState<Product | null>(null)
-  const [quantity, setQuantity] = useState(1); // Inicializamos la cantidad en 1
+  const [quantity, setQuantity] = useState(1); 
   // const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
   const [isImageHovered, setIsImageHovered] = useState(false);
 
 
   const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = parseInt(event.target.value, 10);
-    setQuantity(isNaN(newQuantity) ? 1 : newQuantity); // Asegurarse de que sea un número válido
+    setQuantity(isNaN(newQuantity) ? 1 : newQuantity); 
   };
 
 
@@ -93,7 +93,7 @@ const ProductDetail = () => {
             />
              </Box>
              <Box>
-              <AddToCartButtom product={product} />
+              <AddToCartButtom product={product} quantity={quantity} />
             </Box>
           </Grid>
         </Grid>

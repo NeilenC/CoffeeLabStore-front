@@ -1,9 +1,12 @@
 import { Product } from "@/commons/types.interface"
 import { AddToCartAction, RemoveFromCartAction } from "../commons/types.interface"
 
-export const addToCart = (product: Product): AddToCartAction => ({
+export const addToCart = (product: Product, quantity:number): AddToCartAction => ({
     type: 'ADD_TO_CART',
-    payload: product
+    payload: {
+        ...product,
+        quantity: quantity
+      }
 })
 
 export const removeFromCart = (productId: string): RemoveFromCartAction => ({

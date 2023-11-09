@@ -63,7 +63,7 @@ const handleSubcategoryChange = (subcategoryId: string) => {
   // console.log(`categoria:${selectedCategory}/subcategoria:${subcategoryId}`)
 };
   return (
-    <Box sx={{ height: "60px", borderBottom: "1px solid lightgrey", bgcolor: "white" }}>
+    <Box sx={{ height: "60px",bgcolor: "white" }}>
     <Grid container spacing={1} sx={{ m: "auto" }}>
       {categories.map((category:Category) => {
         const isExpanded = category._id === expandedCategory;
@@ -87,7 +87,6 @@ const handleSubcategoryChange = (subcategoryId: string) => {
                 <Box key={subcategory._id} sx={{py:0.5}}>
 
                  <Typography
-                  //  key={subcategory}
                    onClick={() => handleSubcategoryChange(subcategory._id)}
                    variant="body2"
                    sx={{ paddingLeft: 1, textAlign: 'left', '&:hover': {color:"grey"} }}

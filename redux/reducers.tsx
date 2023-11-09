@@ -1,5 +1,4 @@
 import { CartState, Product } from "@/commons/types.interface";
-import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: CartState = {
     // userId: null,
@@ -15,11 +14,13 @@ export const updateUserInfo = (userInfo: any) => {
 export const cartReducer = (state = initialState, action: any) => {
     switch (action.type) {
       case 'ADD_TO_CART':
-        if (state.cart.find(item => item._id === action.payload._id)) {
-          const cart = state.cart.filter(obj => obj._id !== action.payload._id);
-          const toUpdateObj = state.cart.find(obj => obj._id === action.payload._id) as Product;
-          const updatedObj = { ...action.payload, quantity: toUpdateObj.quantity + 1 };
-  
+        const quantityToAdd = action.payload.quantity || 1
+        if (state.cart.find((item: Product) => item._id === action.payload._id)) {
+          const cart = state.cart.filter((obj: any) => obj._id !== action.payload._id);
+          const toUpdateObj = state.cart.find((obj: any) => obj._id === action.payload._id) as Product;
+          const updatedObj = { ...action.payload, quantity: (toUpdateObj.quantity || 0) + quantityToAdd  };
+          
+          console.log("payload.quantity", quantityToAdd)
           if (updatedObj.quantity <= action.payload.stock) {
             return {
               ...state, cart: [...cart, updatedObj]
@@ -29,7 +30,7 @@ export const cartReducer = (state = initialState, action: any) => {
             return state; 
           }
         } else {
-          const productWithQuantity = { ...action.payload, quantity: 1 };
+          const productWithQuantity = { ...action.payload, quantity: quantityToAdd};
           return {
             ...state, cart: [...state.cart, productWithQuantity]
           };
@@ -38,7 +39,7 @@ export const cartReducer = (state = initialState, action: any) => {
       case 'REMOVE_FROM_CART':
         return {
           ...state,
-          cart: state.cart.filter(item => item._id !== action.payload)
+          cart: state.cart.filter((item: Product) => item._id !== action.payload)
         };
   
       default:

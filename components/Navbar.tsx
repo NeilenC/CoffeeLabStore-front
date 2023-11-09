@@ -14,6 +14,7 @@ import Image from 'next/image';
 import chemex from '../public/chemex.jpg'
 import Categories from './Categories';
 
+
 const Navbar = () => {
   const cart = useSelector((state: CartState) => state.cart)
   useUserData()
@@ -21,11 +22,16 @@ const Navbar = () => {
   const dispatch = useDispatch()
   const router = useRouter()
 
+  const handleCartClick = () => {
+    router.push('/cart');
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     dispatch(clearUserInfo());
     router.push('/login');
   };
+
 
 
   return (
@@ -59,17 +65,22 @@ const Navbar = () => {
           </Grid>
           <Grid item xs={1}>
             {!user?.id ?
-          (<Link href={'/login'}>
-            <Box  sx={{cursor:'pointer', color:"white"}}>LogIn <LoginOutlinedIcon/></Box>
-            </Link>) 
+          (
+            <Box  sx={{cursor:'pointer', color:"white"}}
+            onClick={()=> router.push('/login')}
+            >LogIn <LoginOutlinedIcon/></Box>
+            ) 
             : 
            ( <Box  sx={{cursor:'pointer', color:"white"}} onClick={handleLogout}>
            LogOut <LogOutOutlinedIcon/></Box>)
           }
           </Grid>
           <Grid item xs={1}>
-            {/* <Link href={'/cart/${cartId}'}> */}
-            <Box sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      
+            <Box
+             sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+             onClick={handleCartClick}
+             >
               <ShoppingCartOutlinedIcon sx={{ fontSize: 24}} />
               <Box sx={{ pb: 3.5}}>
                 <Box
@@ -90,7 +101,7 @@ const Navbar = () => {
                 </Box>
               </Box>
             </Box>
-            {/* </Link> */}
+       
           </Grid>
         </Grid>
 
