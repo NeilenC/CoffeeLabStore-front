@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import LogOutOutlinedIcon from '@mui/icons-material/LogOutOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { CartState, UserState } from '@/commons/types.interface';
@@ -21,6 +21,20 @@ const Navbar = () => {
   const user = useSelector((state: UserState) => state.user)
   const dispatch = useDispatch()
   const router = useRouter()
+  // const [token, setToken] = useState<string | null>(null)
+
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     const tokenLS = localStorage.getItem('token');
+  //     if (tokenLS) {
+  //       setToken(tokenLS);
+  //     } else {
+  //       setToken(null);
+  //     }
+  //   };
+  //   handleStorageChange()
+  // },[token])
+
 
   const handleCartClick = () => {
     router.push('/cart');
@@ -64,7 +78,7 @@ const Navbar = () => {
             />
           </Grid>
           <Grid item xs={1}>
-            {!user?.id ?
+            {!user ?
           (
             <Box  sx={{cursor:'pointer', color:"white"}}
             onClick={()=> router.push('/login')}

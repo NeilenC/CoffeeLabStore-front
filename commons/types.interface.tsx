@@ -24,23 +24,30 @@ export type Product = {
 
   export type CartState = {
     cart: any;
-    
+    userId?: string;
+    totalPrice?: number;
   };
 
   export type AddToCartAction = {
     type: 'ADD_TO_CART';
     payload: Product;
+    userId?: string
   };
   
   export type RemoveFromCartAction = {
     type: 'REMOVE_FROM_CART';
-    payload: string; 
+    payload: Product; 
   };
+
+export type AddTotalPriceAction = {
+  type: 'UPDATE_CART_TOTAL',
+  payload: number
+}
 
 
 export type UserState = {
   user: {
-    id: string;
+    _id: string;
     name: string;
     lastname: string;
     email: string;

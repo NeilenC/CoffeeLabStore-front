@@ -26,19 +26,11 @@ const LoginForm = () => {
         const { token, user } = data;
   
         localStorage.setItem('token', token);
-        localStorage.setItem('id', user.id);
+        localStorage.setItem("id", user._id);
 
         alert("Inicio de sesión exitoso");
 
-        dispatch(setUserInfo({ 
-           id: user._id,
-           name: user.name,
-           lastname: user.lastname,
-           email: user.email,
-           address: user.address,
-           phoneNumber: user.phoneNumber,
-           role: user.role
-            }));
+        // dispatch(setUserInfo(user));
 
         router.push('/')
         resetForm();

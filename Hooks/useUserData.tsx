@@ -5,33 +5,24 @@ import { UserState } from "@/commons/types.interface";
 
 export default function useUserData() {
   const dispatch = useDispatch();
-  const user = useSelector((state: UserState) => state.user);
-  const getUser = async () => {
-    
+
+  const getUser = async (id:any) => {
     try {
-        if(user.id) {
-        const response = await fetch(`http://localhost:8000/users/${user.id}`,{method:"GET"});
-        const data = await response.json()
-        dispatch(setUserInfo({ id: data._id,
-          name: data.name,
-          lastname: data.lastname,
-          email: data.email,
-          address: data.address,
-          phoneNumber: data.phoneNumber,
-          role: data.role
-        }));
-      } 
+      if (id) {
+        const response = await fetch(`http://localhost:8000/users/${id}`, { method: "GET" });
+        const data = await response.json();
+        dispatch(setUserInfo(data));
+      }
     } catch (e) {
       console.log("ERROR USUARIO", e);
-      throw e;
+
     }
   };
-
+  
   useEffect(() => {
-    // const id = JSON.parse(localStorage.getItem("id"));
-    // if (id) {
-    //   getUser(id);
-    // }
-    getUser()
+    const id = localStorage.getItem("id")
+    if (id) {
+      getUser(id);
+    }
   }, []);
 }

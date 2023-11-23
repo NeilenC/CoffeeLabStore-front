@@ -93,7 +93,7 @@ const ProductDetail = () => {
             />
              </Box>
              <Box>
-              <AddToCartButtom product={product} quantity={quantity} />
+              <AddToCartButtom product={product} quantity={1} />
             </Box>
           </Grid>
         </Grid>
