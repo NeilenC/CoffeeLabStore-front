@@ -19,7 +19,7 @@ const DetalleCompra = () => {
     const handleButtonClick = async () => {
       const productDetails = cart.cart.map((product: any) => ({
         productId: product._id,
-        quantity: product.quantity,
+        quantity: product.quantity
        }));
   
       try {
@@ -74,11 +74,12 @@ const DetalleCompra = () => {
               Total ${totalPrice}
             </Typography>
   
-          
-                 <Button sx={{color: 'black', mt: 3, bgcolor:"lightblue" , mx:"auto" }}
+          {/* {window.location.pathname == '/cart' ?  */}
+                <Button sx={{color: 'black', mt: 3, bgcolor:"lightblue" , mx:"auto" }}
                  onClick={handleButtonClick}>
                 Continuar compra
                 </Button>
+              {/* : null } */}
            </Box>
         </Box>
       )}

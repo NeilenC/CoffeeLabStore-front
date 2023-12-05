@@ -2,7 +2,10 @@ import { CartState, Product } from "@/commons/types.interface"
 import { AddToCartAction, RemoveFromCartAction } from "../commons/types.interface"
 import cart from "@/pages/cart"
 
-export const addToCart = (product: Product, quantity:number, userId: string, totalPrice: number
+
+//----------------------------------- CARRITO DE COMPRA ----------------------------------- 
+
+export const addToCart = (product: Product, quantity:number, userId: string
     ): AddToCartAction => ({
     type: 'ADD_TO_CART',
     payload: {
@@ -10,7 +13,6 @@ export const addToCart = (product: Product, quantity:number, userId: string, tot
         quantity: quantity
       },
     userId: userId,
-    totalPrice: totalPrice
 })
 
 export const incrementCartItem = (product: Product) => ({
@@ -28,4 +30,11 @@ export const removeFromCart = (product: Product): RemoveFromCartAction => ({
 export const decrementCartItem = (product: Product) => ({
     type: 'DECREMENT_CART_ITEM',
     payload: product
+})
+
+
+//----------------------------------- ORDEN DE COMPRA ----------------------------------- 
+export const createOrder = (cart: CartState) =>( {
+  type: 'CREATE_ORDER',
+  payload: cart
 })

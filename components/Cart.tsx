@@ -29,8 +29,8 @@ const CartItems = () => {
 
  
 return (
-  <Box display="flex" justifyContent="space-between" sx={{p:5, bgcolor:"lightgrey"}}>
-    <Box width="65%">
+  <Box display="flex" justifyContent="space-between" sx={{p:5,bgcolor:"lightgrey"}}>
+    <Box width="65%" sx={{ }}>
       <Grid container spacing={2} >
         {cart.cart.length ? (
           cart.cart.map((product: any) => (
@@ -86,7 +86,7 @@ return (
           ))
         ) : (
           <Box sx={{ bgcolor: 'black', width: '100%', m: 'auto', py: 5 }}>
-            <Box sx={{ color: 'white', fontWeight: 'bold', fontSize: '25px' }}>No hay productos en el carrito</Box>
+            <Box sx={{ color: 'white', fontWeight: 'bold', fontSize: '25px', m:"auto" }}>No hay productos en el carrito</Box>
           </Box>
         )}
       </Grid>

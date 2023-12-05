@@ -60,7 +60,6 @@ const getSubCategory = async (categoryId:any) => {
 const handleSubcategoryChange = (subcategoryId: string) => {
   setSelectedSubcategory(subcategoryId);
   router.push(`/${selectedCategory}/${subcategoryId}`)
-  // console.log(`categoria:${selectedCategory}/subcategoria:${subcategoryId}`)
 };
   return (
     <Box sx={{ height: "60px",bgcolor: "white" }}>

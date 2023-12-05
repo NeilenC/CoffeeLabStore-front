@@ -57,4 +57,30 @@ export type UserState = {
   };
 }
 
-  
+export type OrderState = {
+  shoppingData: shoppingData,
+  userData: userData,
+  paymentData: paymentData
+  totalCart: number,
+  trackingNumber: string
+}
+
+type userData = {
+  name: string,
+  lastName: string,
+  dni: number,
+  phoneNumber: number,
+  email: string
+}
+
+type paymentData = {
+  paymentMethod: string
+  cardNumber?: number
+}
+
+type shoppingData = {
+  address?: string,
+  apartment?: string,
+  directionNum: number,
+  localidad: string
+}

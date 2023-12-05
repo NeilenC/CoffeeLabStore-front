@@ -1,26 +1,28 @@
-import Image from 'next/image'
 import React from 'react'
 import { Inter } from 'next/font/google'
 import Products from '@/commons/Products'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
-import Categories from '@/components/Categories'
-import { useSelector } from 'react-redux'
-import { UserState } from '@/commons/types.interface'
-import { setUserInfo } from '@/redux/userInfo'
-import useUserData from '@/Hooks/useUserData'
+import cafe from '../public/cafe.png'
+import osloweb from '../public/osloweb.png'
+import trinity from '../public/trinity.png'
+import ImageCarousel from '@/commons/Carousel'
+import Map from '@/commons/deliveryMail'
 
 const inter = Inter({ subsets: ['latin'] })
 
+const images = [
+  { src: cafe, alt: 'imagen' },
+  { src: osloweb, alt: 'imagen'},
+  { src: trinity, alt: 'imagen'},
+];
 
 export default function Home() {
-  useUserData()
-  const user = useSelector((state: UserState) => state.user)
 
   return (
     <>
-    {/* <Categories/> */}
+    <ImageCarousel images={images}/>
     <Products/>
+    <Map/>
+
     </>
   )
 }

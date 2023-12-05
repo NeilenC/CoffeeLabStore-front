@@ -1,145 +1,65 @@
-import React, { useState, ChangeEvent } from 'react';
-import { Box, Button, TextField, Typography, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Typography, Button } from '@mui/material';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { CartState, UserState } from '@/commons/types.interface';
-import { useRouter } from 'next/router';
+import { OrderState, UserState } from '@/commons/types.interface';
 
-const Order = () => {
-  const user = useSelector((state: UserState) => state.user);
-  const cart = useSelector((state: CartState) => state.cart);
-  const [address, setAddress] = useState('');
-  const [apartment, setApartment] = useState<number | null>(null);
-  const [directionNum, setDirectionNum] = useState<number | null>(null);
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const router = useRouter();
+const Confirmation = () => {
+const user = useSelector((state:UserState) => state.user)
+const [order, setOrder] = useState<OrderState | null>(null); 
 
-  const handlePlaceOrder = async () => {
-    if (!address || !paymentMethod) {
-      console.error('La dirección y el método de pago son obligatorios.');
-      return;
-    }
-
-    const orderData = {
-      userId: user._id,
-      address,
-      apartment,
-      directionNum,
-      paymentMethod,
-      phoneNumber,
-      cart
-    };
-
+useEffect(() => {
+  const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/order/${user._id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(orderData),
-      });
+      const response = await fetch(`http://localhost:8000/order/${user._id}`, { method: 'GET' });
 
-      if (response.ok) {
-        console.log('Orden creada con éxito.');
-        router.push('/order/confirmation');
-      } else {
-        console.error('Error al crear la orden:', response.statusText);
+      if (!response.ok) {
+        throw new Error('Error');
       }
+
+      const orderData: OrderState = await response.json();
+
+      setOrder(orderData);
     } catch (error) {
-      console.error('Error al comunicarse con el backend:', error);
+      console.log('Error fetching data:');
     }
   };
 
-  const handleDirectionNumChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Intenta convertir el valor a un número, o establece null si no se puede convertir
-    setDirectionNum(value === '' ? null : Number(value));
-  };
+  fetchData();
 
-  const handleApartmentChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Intenta convertir el valor a un número, o establece null si no se puede convertir
-    setApartment(value === '' ? null : Number(value));
-  };
+}, [user._id]);
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection:"column",
-        alignItems: 'center',
-        padding: '16px',
-        backgroundColor: 'white',
-        m: "auto",
-        mt:10,
-        px:80
-      }}
-    >
-   
-      <Typography variant="h5" gutterBottom>
-        Detalles de Envío
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      padding: '16px',
+    }}>
+      <Typography variant="h4" sx={{  marginBottom: '50px', textAlign: 'center',}}>
+        ¡Gracias por tu pedido! Tu compra ha sido confirmada.
       </Typography>
-          {/* Contenedor de Grid para los campos de dirección */}
-          <Grid container spacing={2}  sx={{width:"61%"}}>
-        <Grid item xs={8} md={4}>
-          <TextField
-            label="Calle"
-            fullWidth
-            style={{ marginBottom: '16px' }}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </Grid>
-        <Grid item xs={2} md={4}>
-          <TextField
-            label="Número"
-            fullWidth
-            style={{ marginBottom: '16px'}}
-            onChange={handleDirectionNumChange}
-          />
-        </Grid>
-        <Grid item xs={5} md={4}>
-          <TextField
-            label="Departamento (opcional)"
-            fullWidth
-            style={{ marginBottom: '16px' }}
-            onChange={handleApartmentChange}
-          />
-        </Grid>
-      </Grid>
-
-      {/* Otros campos de texto */}
-      <TextField
-        label="Método de Pago"
-        // fullWidth
-        style={{ marginBottom: '16px' , width:"60%" }}
-        value={paymentMethod}
-        onChange={(e) => setPaymentMethod(e.target.value)}
-      />
-      <TextField
-        label="Número de Teléfono"
-        // fullWidth
-        style={{ marginBottom: '16px' , width:"60%" }}
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-      />
-      <Button
-        style={{
-          marginTop: '16px',
-          backgroundColor: 'white',
-          color: 'black',
-          // '&:hover': {
-          //   backgroundColor: 'black',
-          //   color: 'white',
-          // },
-        }}
-        onClick={handlePlaceOrder}
-        // fullWidth
-      >
-        Confirmar compra
-      </Button>
-      </Box>
+       {order ? (
+        <Box>
+          <Typography variant='h6'>Detalles</Typography>
+          <Typography variant='body2'>Llegará a la dirección: {order.shoppingData?.address}  {order.shoppingData?.directionNum} {order.shoppingData.apartment}</Typography>
+          <Typography variant='body2'>Código de seguimiento: {order.trackingNumber}</Typography>
+        </Box>
+      ) : (
+        <p>Loading...</p>
+      )} 
+      <Box sx={{ display: 'flex', gap: '16px',py:4}}>
+        
+        <Link href="/order/historial">
+          <Button variant="outlined" color="primary" sx={{ color:"black"}}>
+            Ver Historial de Pedidos
+          </Button>
+        </Link>
+      </Box> 
+    </Box>
   );
 };
 
-export default Order;
-
+export default Confirmation;
