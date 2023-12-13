@@ -1,4 +1,4 @@
-import { AppBar, Grid, IconButton, InputBase, Toolbar, Typography, Box } from '@mui/material';
+import { AppBar, Grid, IconButton, InputBase, Toolbar, Typography, Box, Collapse } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import LogOutOutlinedIcon from '@mui/icons-material/LogOutOutlined';
@@ -13,7 +13,9 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import chemex from '../public/chemex.jpg'
 import Categories from './Categories';
-
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import Search from './Search';
+import theme from '../styles/theme'
 
 const Navbar = () => {
   const cart = useSelector((state: CartState) => state.cart)
@@ -21,19 +23,14 @@ const Navbar = () => {
   const user = useSelector((state: UserState) => state.user)
   const dispatch = useDispatch()
   const router = useRouter()
-  // const [token, setToken] = useState<string | null>(null)
+  const [expanded, setExpanded] = useState(false);
 
-  // useEffect(() => {
-  //   const handleStorageChange = () => {
-  //     const tokenLS = localStorage.getItem('token');
-  //     if (tokenLS) {
-  //       setToken(tokenLS);
-  //     } else {
-  //       setToken(null);
-  //     }
-  //   };
-  //   handleStorageChange()
-  // },[token])
+  const handleToggle = () => {
+    setExpanded(!expanded);
+    setTimeout(() => {
+      setExpanded(false);
+    }, 3000);
+  };
 
 
   const handleCartClick = () => {
@@ -46,38 +43,36 @@ const Navbar = () => {
     router.push('/login');
   };
 
+  const goToUserData = () => {
+    router.push('/userData')
+  }
 
+  // #3E2723 marroncito oscuro
+  // F5F5DC Beige 
+  // DAA520 amarillo tostado
+  // 8B735B marron tostado claro 
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" >
 
-      <Box  sx={{bgcolor:"#000000", color:"white"}}>
+      <Box  sx={{bgcolor: theme.palette.primary.main, color:"white"}}>
       <Toolbar>
         <Grid container alignItems="center" sx={{}}>
-          <Grid item xs={4}>
-            <Link
+          <Grid item xs={3.5}>
+          <Link
             href={'/'}>
-            <Image
+            {/* <Image
             src={chemex}
             height={60}
             width={70}
             alt={'logo'}
-            />
-            </Link>
+            /> */}
+            </Link>  Logo
           </Grid>
-          <Grid item xs={6}>
-            <InputBase
-            sx={{bgcolor:"white", width:"380px", px:1.5, borderRadius:"8px", border:"1px solid lightgrey"}}
-              placeholder="Buscar..."
-              inputProps={{ 'aria-label': 'Buscar' }}
-              endAdornment={
-                <IconButton aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-              }
-            />
+          <Grid item xs={4}>
+           <Search/>
           </Grid>
-          <Grid item xs={1}>
+          <Grid item xs={1.5}>
             {!user ?
           (
             <Box  sx={{cursor:'pointer', color:"white"}}
@@ -86,9 +81,24 @@ const Navbar = () => {
             ) 
             : 
            ( <Box  sx={{cursor:'pointer', color:"white"}} onClick={handleLogout}>
-           LogOut <LogOutOutlinedIcon/></Box>)
+           Logout <LogOutOutlinedIcon/></Box>)
           }
           </Grid>
+
+          <Grid item xs={2}>
+      {user ? (
+        <Box sx={{ cursor: 'pointer' }}>
+          <Typography onClick={handleToggle}>
+            <PersonOutlineOutlinedIcon /> Hola {user?.name}!
+          </Typography>
+          <Collapse in={expanded}>
+            {/* Aquí colocas el contenido que deseas mostrar cuando se expanda */}
+            <Typography  sx={{ml:3}} onClick={goToUserData}>Ver tus datos</Typography>
+          </Collapse>
+        </Box>
+      ) : null}
+    </Grid>
+
           <Grid item xs={1}>
       
             <Box

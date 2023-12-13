@@ -12,7 +12,7 @@ export type Product = {
 
   export type SubCategory = {
     name: string,
-    id: string,
+    _id: string,
     category: string
   }
 

@@ -6,6 +6,8 @@ import osloweb from '../public/osloweb.png'
 import trinity from '../public/trinity.png'
 import ImageCarousel from '@/commons/Carousel'
 import Map from '@/commons/deliveryMail'
+import Footer from '@/components/Footer'
+import Cafeteras from '@/components/Cafeteras'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,9 +22,10 @@ export default function Home() {
   return (
     <>
     <ImageCarousel images={images}/>
+    <Cafeteras/>
     <Products/>
     <Map/>
-
+    <Footer/>
     </>
   )
 }

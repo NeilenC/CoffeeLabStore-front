@@ -75,7 +75,7 @@ const DetalleCompra = () => {
             </Typography>
   
           {/* {window.location.pathname == '/cart' ?  */}
-                <Button sx={{color: 'black', mt: 3, bgcolor:"lightblue" , mx:"auto" }}
+                <Button sx={{color: 'black', mt: 3, mx:"auto" }}
                  onClick={handleButtonClick}>
                 Continuar compra
                 </Button>

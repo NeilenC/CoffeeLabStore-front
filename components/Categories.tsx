@@ -12,6 +12,7 @@ const [products, setProducts] = useState([]);
 const [subCategory, setSubcategory] = useState([])
 const [expandedCategory, setExpandedCategory] = useState("")
 const subcategoryRef = useRef<HTMLDivElement | null>(null);
+const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
 
 
 useEffect(()=> {
@@ -38,8 +39,26 @@ useEffect(() => {
 
   return () => {
     document.removeEventListener('click', handleClickOutside);
+    if (timerId) {
+      clearTimeout(timerId);
+    }
   };
-}, [subcategoryRef]);
+}, [subcategoryRef, timerId]);
+
+const handleMouseEnter = () => {
+  if (timerId) {
+    clearTimeout(timerId);
+  }
+};
+
+const handleMouseLeave = () => {
+  if (expandedCategory) {
+    const id = setTimeout(() => {
+      setExpandedCategory("");
+    }, 500); 
+    setTimerId(id);
+  }
+};
 
 const getSubCategory = async (categoryId:any) => {
   try{
@@ -81,7 +100,11 @@ const handleSubcategoryChange = (subcategoryId: string) => {
               {category.name}
             </Typography>
             {isExpanded ? (
-               <Box ref={subcategoryRef} sx={{position:'relative', zIndex:1, bgcolor:"white", p:1}}>
+               <Box ref={subcategoryRef} 
+               className={expandedCategory ? 'fadeOut' : ''}
+               sx={{position:'relative', zIndex:1, bgcolor:"white", p:1}}
+               onMouseEnter={handleMouseEnter}
+               onMouseLeave={handleMouseLeave}>
                {subCategory.map((subcategory:any) => (
                 <Box key={subcategory._id} sx={{py:0.5}}>
 

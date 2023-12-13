@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CartState, Product } from '@/commons/types.interface'
 import Link from 'next/link'
 import Image from 'next/image'
-import { decrementCartItem, incrementCartItem } from '@/redux/actions'
+import { decrementCartItem, incrementCartItem, removeFromCart } from '@/redux/actions'
 import useUserData from '@/Hooks/useUserData'
 import { useRouter } from 'next/router'
 import DetalleCompra from '@/commons/DetalleCompra'
@@ -27,9 +27,14 @@ const CartItems = () => {
   dispatch(decrementCartItem(product))
  }
 
+ function deleteFromCart(product:Product) {
+  dispatch(removeFromCart(product))
+ }
+
  
 return (
-  <Box display="flex" justifyContent="space-between" sx={{p:5,bgcolor:"lightgrey"}}>
+  <Box sx={{bgcolor:"#eeeeee", height:"85vh"}}>
+   <Box display="flex" justifyContent="space-between" sx={{p:5}}>
     <Box width="65%" sx={{ }}>
       <Grid container spacing={2} >
         {cart.cart.length ? (
@@ -40,7 +45,7 @@ return (
                   <Link href={`/products/${product._id}`}>
 
                     <Image
-                      src={product.imageURL}
+                      src={product.imageURL[0]}
                       width={220}
                       height={220}
                       alt={product.name}
@@ -61,7 +66,17 @@ return (
                     <Typography variant="body1" color="textSecondary">
                       Cantidad seleccionada: {product.quantity}
                     </Typography>
-                 
+                  <Grid container spacing={2} sx={{pt:2, color:"black"}}>
+                    <Grid item xs={6}>
+                    <Button  
+                    sx={{color:"black"}}
+                    onClick={() => (deleteFromCart(product._id))}
+                    >
+                      eliminar
+                      </Button>
+                    </Grid>
+                    {/* ESPACIO POR SI QUIERO AGREGAR OTRO GRID CON BOTON  */}
+                  </Grid>
                   </CardContent>
                 </Box>
                 <Grid container sx={{flexDirection:"row", m:"auto"}}>
@@ -85,16 +100,24 @@ return (
             </Grid>
           ))
         ) : (
-          <Box sx={{ bgcolor: 'black', width: '100%', m: 'auto', py: 5 }}>
-            <Box sx={{ color: 'white', fontWeight: 'bold', fontSize: '25px', m:"auto" }}>No hay productos en el carrito</Box>
-          </Box>
+          <Box sx={{ display: "flex",  width: "50%", ml:"65%",mt: 3 }}>
+  <Box sx={{ bgcolor: 'black', width: '100%', p: 8 }}>
+    <Box sx={{ color: 'white', fontWeight: 'bold', fontSize: '25px', px: 5 }}>
+      No hay productos en el carrito
+    </Box>
+    <Box sx={{ml:"25%", pt:3,}}>
+    <Button color='warning'>Ir a inicio</Button>
+    </Box>
+  </Box>
+</Box>
+
         )}
       </Grid>
     </Box>
 
     {/* DETALLES DE COMPRA */}
     <DetalleCompra/>
- 
+    </Box>
   </Box>
 );
 

@@ -6,22 +6,22 @@ import { useMemo } from 'react';
 import Footer from '@/components/Footer';
 import store from '@/redux/store';
 import { Provider } from 'react-redux'
-
+import theme from '../styles/theme'
 
 export default function App({ Component, pageProps }: AppProps) {
   
   
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          primary: {
-            main: '#f0f0f0', 
-          },
-        },
-      }),
-      [],
-      );
+  // const theme = useMemo(
+  //   () =>
+  //     createTheme({
+  //       palette: {
+  //         primary: {
+  //           main: '#f0f0f0', 
+  //         },
+  //       },
+  //     }),
+  //     [],
+  //     );
       
       
         useEffect(() => {
@@ -34,8 +34,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
         
   return (
-      <Provider  store={store}>
+   <Provider  store={store}>
     <ThemeProvider theme={theme}>
+   
       <CssBaseline />
      <Navbar/>
      <Component {...pageProps} />

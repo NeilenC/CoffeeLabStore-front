@@ -1,7 +1,8 @@
 import React from 'react';
-import { AppBar, Container, Grid, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Container, Grid, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-
+import CallIcon from '@mui/icons-material/Call';
+import EmailIcon from '@mui/icons-material/Email';
 const FooterAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: 'white',
@@ -15,11 +16,14 @@ const ContainerWrapper = styled(Container)(({ theme }) => ({
 const Footer = () => {
   return (
     <FooterAppBar position="static">
+      <Box sx={{bgcolor:"black", heigth:"50%"}}>
+
       <ContainerWrapper>
-        <Grid container spacing={2} sx={{color:"black"}}>
+        <Grid container spacing={2} sx={{color:"white", m:"auto"}}>
           <Grid item xs={12} sm={6} >
             <Typography variant="h6">Información de contacto</Typography>
-            {/* Agrega aquí la información de contacto */}
+            <Typography variant="body2" sx={{'&:hover':{color:"#DAA520"}}}><CallIcon/>+54 221 6918419</Typography> 
+            <Typography variant="body2" sx={{'&:hover':{color:"#DAA520"}}}><EmailIcon/> neilen.monlezun@gmail.com</Typography> 
           </Grid>
           <Grid item xs={12} sm={6}>
             <Typography variant="h6">Enlaces útiles</Typography>
@@ -27,6 +31,8 @@ const Footer = () => {
           </Grid>
         </Grid>
       </ContainerWrapper>
+      </Box>
+
     </FooterAppBar>
   );
 };

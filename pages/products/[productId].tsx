@@ -11,7 +11,6 @@ const ProductDetail = () => {
   const { productId } = router.query;
   const [product, setProduct] = useState<Product | null>(null)
   const [quantity, setQuantity] = useState(1); 
-  // const [cart, setCart] = useState<{ product: Product; quantity: number }[]>([]);
   const [isImageHovered, setIsImageHovered] = useState(false);
 
 
@@ -68,7 +67,7 @@ const ProductDetail = () => {
             }}
           >
             <Image
-              src={product.imageURL}
+              src={product.imageURL[0]}
               width={600}
               height={650}
               alt={product.name}
@@ -93,7 +92,7 @@ const ProductDetail = () => {
             />
              </Box>
              <Box>
-              <AddToCartButtom product={product} quantity={1} />
+              <AddToCartButtom product={product} quantity={quantity} />
             </Box>
           </Grid>
         </Grid>
