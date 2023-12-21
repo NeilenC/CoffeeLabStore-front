@@ -1,63 +1,70 @@
-import React from 'react';
-import { Button, Container, CssBaseline, TextField, Typography, Box, Grid } from '@mui/material';
-import { Formik, Form, Field, FormikHelpers } from 'formik'; // Import FormikHelpers
+import React from "react";
+import {
+  Button,
+  Container,
+  CssBaseline,
+  TextField,
+  Typography,
+  Box,
+  Grid,
+} from "@mui/material";
+import { Formik, Form, Field, FormikHelpers } from "formik"; // Import FormikHelpers
+import { useRouter } from "next/router";
 
 const RegistrationForm = () => {
+  const router = useRouter();
   const initialValues = {
-    name: '',
-    lastName: '',
-    email: '',
-    address: '',
-    phoneNumber: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    lastName: "",
+    email: "",
+    address: "",
+    phoneNumber: "",
+    password: "",
+    confirmPassword: "",
   };
 
   const handleSubmit = async (
     values: any, // Provide a type for values if not using TypeScript's type inference
-    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues> // Use FormikHelpers
+    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>, // Use FormikHelpers
   ) => {
     try {
-      const response = await fetch('http://localhost:8000/auth/register', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8000/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
 
       if (response.ok) {
-        alert("REGISTRO EXITOSO");
-        console.log('Registro exitoso');
         resetForm();
+        router.push("/login");
       } else {
-        console.error('Error en el registro');
+        alert("Hubo un error, por favor vuelva a intentar");
+        console.error("Error en el registro");
       }
     } catch (error) {
-      console.error('Error en la solicitud:', error);
+      console.error("Error en la solicitud:", error);
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{}}>
+    <Container component="main" maxWidth="xs" sx={{ height: "66vh" }}>
       <CssBaseline />
-      <Box sx={{ pt: "100px" }}>
+      <Box sx={{ pt: 7 }}>
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-      <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" sx={{ m: 2 }}>
             Registro
           </Typography>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-          >
+          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
             {({ isSubmitting }) => (
               <Form noValidate>
                 <Grid container spacing={2}>
@@ -97,18 +104,7 @@ const RegistrationForm = () => {
                       autoComplete="email"
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="address"
-                      label="Dirección"
-                      name="address"
-                      autoComplete="address"
-                    />
-                  </Grid>
+
                   <Grid item xs={12}>
                     <Field
                       as={TextField}
@@ -121,7 +117,7 @@ const RegistrationForm = () => {
                       autoComplete="phoneNumber"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <Field
                       as={TextField}
                       variant="outlined"
@@ -134,14 +130,14 @@ const RegistrationForm = () => {
                       autoComplete="new-password"
                     />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={6}>
                     <Field
                       as={TextField}
                       variant="outlined"
                       required
                       fullWidth
                       name="confirmPassword"
-                      label="Confirmar contraseña"
+                      label="Repetir contraseña"
                       type="password"
                       id="confirmPassword"
                       autoComplete="new-password"
@@ -152,11 +148,20 @@ const RegistrationForm = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  color='warning'
-                  sx={{ mt: 3, mb: 2 , color:"black", bgcolor:"yellow"}}
+                  sx={{ mt: 3, mb: 2, color: "black" }}
                   disabled={isSubmitting}
                 >
                   Registrarse
+                </Button>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{ color: "black" }}
+                  onClick={() => {
+                    router.push("/login");
+                  }}
+                >
+                  login
                 </Button>
               </Form>
             )}

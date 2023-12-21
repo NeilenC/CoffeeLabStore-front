@@ -17,6 +17,12 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "commons/deliveryMail"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "next.config.js",
+    "commons/deliveryMail"
+  ],
   "exclude": ["node_modules"]
 }

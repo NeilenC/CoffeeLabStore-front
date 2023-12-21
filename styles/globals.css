@@ -25,13 +25,12 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
-@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Rethink+Sans&display=swap");
 
 .custom-link {
   text-decoration: none; /* Elimina la decoración de enlace predeterminada */
   color: grey; /* Hereda el color del texto actual */
-  font-size: '100%';
+  font-size: "100%";
 }
 
 @keyframes fadeOut {
@@ -46,5 +45,3 @@ body {
 .fadeOut {
   animation: fadeOut 0.5s ease; /* Puedes ajustar la duración y el tipo de animación aquí */
 }
-
-

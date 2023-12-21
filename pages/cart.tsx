@@ -1,13 +1,8 @@
-import React from 'react'
-import CartItems from '@/components/Cart'
-
+import React from "react";
+import CartItems from "@/components/Cart";
 
 const cart = () => {
+  return <CartItems />;
+};
 
-  console.log("CART", cart)
-  return (
-    <CartItems/>
-)
-}
-
-export default cart
+export default cart;

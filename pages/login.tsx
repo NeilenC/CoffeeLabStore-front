@@ -1,45 +1,54 @@
-import React from 'react';
-import { Button, Container, CssBaseline, TextField, Typography, Box } from '@mui/material';
-import { Formik, Form, Field, FormikHelpers} from 'formik';
-import { useDispatch } from 'react-redux';
-import {  setUserInfo } from '@/redux/userInfo';
-import { useRouter } from 'next/router';
-
+import React from "react";
+import {
+  Button,
+  Container,
+  CssBaseline,
+  TextField,
+  Typography,
+  Box,
+} from "@mui/material";
+import { Formik, Form, Field, FormikHelpers } from "formik";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/redux/userInfo";
+import { useRouter } from "next/router";
+import theme from "@/styles/theme";
 
 const LoginForm = () => {
-  const dispatch = useDispatch()
-  const router = useRouter()
+  const dispatch = useDispatch();
+  const router = useRouter();
 
-
-  const handleSubmit = async (values:any, { setSubmitting, resetForm }: FormikHelpers<any> ) => {
+  const handleSubmit = async (
+    values: any,
+    { setSubmitting, resetForm }: FormikHelpers<any>,
+  ) => {
     try {
-      const response = await fetch('http://localhost:8000/auth/login', {
-        method: 'POST',
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
       if (response.ok) {
         const data = await response.json();
-  
+
         const { token, user } = data;
-  
-        localStorage.setItem('token', token);
+
+        localStorage.setItem("token", token);
         localStorage.setItem("id", user._id);
 
         alert("Inicio de sesión exitoso");
 
         // dispatch(setUserInfo(user));
 
-        router.push('/')
+        router.push("/");
         resetForm();
       } else {
         alert("ERROR");
-        console.error('Error en el inicio de sesión');
+        console.error("Error en el inicio de sesión");
       }
     } catch (error) {
-      console.error('Error en la solicitud:', error);
+      console.error("Error en la solicitud:", error);
     } finally {
       setSubmitting(false);
       resetForm();
@@ -47,14 +56,14 @@ const LoginForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs" sx={{ height: "57vh" }}>
       <CssBaseline />
       <Box
         sx={{
-          marginTop: 8,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          marginTop: 10,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Typography component="h1" variant="h5">
@@ -62,8 +71,8 @@ const LoginForm = () => {
         </Typography>
         <Formik
           initialValues={{
-            email: '',
-            password: '',
+            email: "",
+            password: "",
           }}
           onSubmit={handleSubmit}
         >
@@ -92,6 +101,25 @@ const LoginForm = () => {
                 id="password"
                 autoComplete="current-password"
               />
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography variant="body1">¿No tenés cuenta?</Typography>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    ml: 1,
+                    "&:hover": {
+                      color: theme.palette.primary.main,
+                      cursor: "pointer",
+                    },
+                  }}
+                  onClick={() => {
+                    router.push("/register");
+                  }}
+                >
+                  Registrate acá
+                </Typography>
+              </Box>
+
               <Button
                 type="submit"
                 fullWidth

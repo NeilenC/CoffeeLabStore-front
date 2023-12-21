@@ -6,21 +6,22 @@ import { UserState } from "@/commons/types.interface";
 export default function useUserData() {
   const dispatch = useDispatch();
 
-  const getUser = async (id:any) => {
+  const getUser = async (id: any) => {
     try {
       if (id) {
-        const response = await fetch(`http://localhost:8000/users/${id}`, { method: "GET" });
+        const response = await fetch(`http://localhost:8000/users/${id}`, {
+          method: "GET",
+        });
         const data = await response.json();
         dispatch(setUserInfo(data));
       }
     } catch (e) {
       console.log("ERROR USUARIO", e);
-
     }
   };
-  
+
   useEffect(() => {
-    const id = localStorage.getItem("id")
+    const id = localStorage.getItem("id");
     if (id) {
       getUser(id);
     }
