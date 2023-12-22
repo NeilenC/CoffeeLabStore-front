@@ -56,13 +56,13 @@ const Cafeteras = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: "#eeeeee", px: "25%", pt: 2, pb: 7 }}>
-      <Box sx={{ justifyContent: "center", textAlign: "center", p: 5 }}>
+    <Box sx={{ bgcolor: "#eeeeee", px: "28%", py: 8, pb: 7}}>
+      <Box sx={{ justifyContent: "center", textAlign: "center", pb: 5 }}>
         <Typography sx={{ fontWeight: "bold", margin: "auto" }}>
           Encontrá tu cafetera ideal acá
         </Typography>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{ display: "flex", justifyContent: "center", pb: 2  }}>
         <Grid container spacing={2}>
           {cafeteras.map(({ img, alt, description }) => (
             <Box

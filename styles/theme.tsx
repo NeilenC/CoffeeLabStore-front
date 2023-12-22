@@ -17,7 +17,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: " Rethink Sans, sans-serif;",
+    fontFamily: " Rethink Sans, sans-serif",
     h1: {
       fontSize: "2.5rem",
       fontWeight: 700,
@@ -27,11 +27,15 @@ const theme = createTheme({
       fontWeight: 700,
       color: "#556B2F",
     },
+    h3: {
+      fontFamily: "'Lobster', 'sans-serif",
+      fontSize: "2.5rem",
+
+    },
     body1: {
       fontSize: "1rem",
       fontWeight: 700,
     },
-    // Puedes personalizar más estilos de texto según tus necesidades
   },
 });
 

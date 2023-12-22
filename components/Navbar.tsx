@@ -19,13 +19,11 @@ import { CartState, UserState } from "@/commons/types.interface";
 import useUserData from "@/Hooks/useUserData";
 import { clearUserInfo } from "@/redux/userInfo";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import chemex from "../public/chemex.jpg";
 import Categories from "./Categories";
-import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import Search from "./Search";
 import theme from "../styles/theme";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import chemexVector from '../public/chemexVector.jpg'
 
 
 const Navbar = () => {
@@ -62,22 +60,27 @@ const Navbar = () => {
   // DAA520 amarillo tostado
   // 8B735B marron tostado claro
 
+  useEffect(() => {
+    if (router.pathname === '/cart') {
+      setExpanded(false);
+    }
+  }, [router.pathname]);
+
   return (
+    <Box >
+ { router.pathname !== '/cart' ? (
     <AppBar position="sticky">
       <Box sx={{ bgcolor: theme.palette.primary.main, color: "white" }}>
         <Toolbar>
           <Grid container alignItems="center" sx={{}}>
-            <Grid item xs={3.5}>
+            <Box  sx={{ maxWidth:"30%"}} >
               <Link href={"/"}>
-                {/* <Image
-            src={chemex}
-            height={60}
-            width={70}
-            alt={'logo'}
-            /> */}
-              </Link>{" "}
-              Logo
-            </Grid>
+              <Box sx={{display:"flex"}}>
+                <Box component="img"  src='/chemexvector.png' alt="logo" sx={{width:"13%", height:"10%"}} />
+                <Box component="img"  src='/logo.png' alt="logo" sx={{width:"30%", height:"10%", my:"auto"}} />
+              </Box>
+              </Link>
+            </Box>
             <Grid item xs={4}  >
               <Search />
             </Grid>
@@ -156,6 +159,19 @@ const Navbar = () => {
       </Box>
       <Categories />
     </AppBar>
+  ) : 
+  <Box sx={{height:"80px", bgcolor:"white"}}>
+
+    <Link href={"/"}>
+    <Box sx={{display:"flex", ml:2}}>
+
+      <Box component="img"  src='/chemexvector.png' alt="logo" sx={{width:"4%", my:"auto", mt:1}} />
+      <Box component="img"  src='/logo.png' alt="logo" sx={{width:"10%", height:"9%", mt:3}} />
+    </Box>
+    </Link>
+  </Box> 
+  }
+    </Box>
   );
 };
 

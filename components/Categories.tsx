@@ -21,6 +21,8 @@ const Categories = () => {
   const [expandedCategory, setExpandedCategory] = useState("");
   const subcategoryRef = useRef<HTMLDivElement | null>(null);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const [isMouseOverCategory, setIsMouseOverCategory] = useState(false);
+  const [isMouseOverSubcategory, setIsMouseOverSubcategory] = useState(false);
 
   useEffect(() => {
     async function getCategories() {
@@ -36,42 +38,74 @@ const Categories = () => {
     getCategories();
   }, []);
 
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      const target = event.target as HTMLElement;
-      if (
-        target &&
-        subcategoryRef.current &&
-        !subcategoryRef.current.contains(target)
-      ) {
-        setExpandedCategory("");
-      }
+
+  const handleMouseEnterCategory = (categoryId: string) => {
+    getSubCategory(categoryId);
+    setSelectedCategory(categoryId);
+    setIsMouseOverCategory(true);
+  };
+
+  const handleMouseLeaveCategory = () => {
+    if (!isMouseOverSubcategory) {
+      setIsMouseOverCategory(false);
+      setExpandedCategory("");
     }
+  };
 
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-      if (timerId) {
-        clearTimeout(timerId);
-      }
-    };
-  }, [subcategoryRef, timerId]);
-
-  const handleMouseEnter = () => {
+  const handleMouseEnterSubcategory = () => {
+    setIsMouseOverSubcategory(true);
     if (timerId) {
       clearTimeout(timerId);
     }
   };
 
-  const handleMouseLeave = () => {
-    if (expandedCategory) {
+  const handleMouseLeaveSubcategory = () => {
+    setIsMouseOverSubcategory(false);
+    if (isMouseOverCategory) {
       const id = setTimeout(() => {
         setExpandedCategory("");
       }, 500);
       setTimerId(id);
     }
   };
+
+
+  // useEffect(() => {
+  //   function handleClickOutside(event: MouseEvent) {
+  //     const target = event.target as HTMLElement;
+  //     if (
+  //       target &&
+  //       subcategoryRef.current &&
+  //       !subcategoryRef.current.contains(target)
+  //     ) {
+  //       setExpandedCategory("");
+  //     }
+  //   }
+
+  //   document.addEventListener("click", handleClickOutside);
+
+  //   return () => {
+  //     document.removeEventListener("click", handleClickOutside);
+  //     if (timerId) {
+  //       clearTimeout(timerId);
+  //     }
+  //   };
+  // }, [subcategoryRef, timerId]);
+
+  // const handleMouseEnter = () => {
+  //   if (timerId) {
+  //     clearTimeout(timerId);
+  //   }
+  // };
+
+  // const handleMouseLeave = () => {
+  //   if (expandedCategory) {
+  //     const id = setTimeout(() => {
+  //       setExpandedCategory("");
+  //     }, 500);
+  //     setTimerId(id);
+  //   }
+  // };
 
   const getSubCategory = async (categoryId: any) => {
     try {
@@ -100,24 +134,27 @@ const Categories = () => {
         {categories.map((category: Category) => {
           const isExpanded = category._id === expandedCategory;
           return (
-            <Grid key={category._id} item xs={2} md={1} sx={{ mx: "auto" }}>
-              <Typography
-                variant="h6"
-                sx={{
-                  color:
-                    category._id === selectedCategory && isExpanded
-                      ? "grey"
-                      : "black",
-                  cursor: "pointer",
-                  p: 1,
-                  fontWeight: "bold",
-                }}
-                onClick={() => {
-                  isExpanded
-                    ? setExpandedCategory("")
-                    : getSubCategory(category._id),
-                    setSelectedCategory(category._id);
-                }}
+            <Grid key={category._id} item xs={2} md={1} sx={{ mx: "auto" }}
+            onMouseEnter={() => handleMouseEnterCategory(category._id)}
+            onMouseLeave={handleMouseLeaveCategory}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color:
+                  category._id === selectedCategory && isExpanded
+                    ? "grey"
+                    : "black",
+                cursor: "pointer",
+                p: 1,
+                fontWeight: "bold",
+              }}
+              onClick={() => {
+                isExpanded
+                  ? setExpandedCategory("")
+                  : getSubCategory(category._id),
+                  setSelectedCategory(category._id);
+              }}
               >
                 {category.name}
               </Typography>
@@ -135,8 +172,8 @@ const Categories = () => {
                     width: "250px",
                     columnGap: "30px",
                   }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={handleMouseEnterSubcategory}
+                  onMouseLeave={handleMouseLeaveSubcategory}
                 >
                   {subCategory.map((subcategory: any) => (
                   

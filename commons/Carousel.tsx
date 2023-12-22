@@ -17,7 +17,7 @@ const ImageCarousel = ({ images }: any) => {
     >
       {images.map((image: any, index: any) => (
         <Box key={index} sx={{}}>
-          <Image src={image.src} alt={image.alt} width={900} height={400} />
+          <Image src={image.src} alt={image.alt} width={900} height={600} />
         </Box>
       ))}
     </Carousel>

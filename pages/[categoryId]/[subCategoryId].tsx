@@ -12,12 +12,15 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddToCartButtom from "@/commons/AddToCartButtom";
 import oslo1 from "../../public/oslo1.png";
 import theme from "@/styles/theme";
 import { getCategory, getProductsByCategory, getSubCategory } from "@/Hooks/functions";
 import ProductsCard from "@/commons/ProductsCard";
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+
 
 function CategoryDetail() {
   const router = useRouter();
@@ -28,25 +31,27 @@ function CategoryDetail() {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 8;
+  const totalPages = Math.ceil(products.length / productsPerPage);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct,
-  );
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   useEffect(() => {
-    getSubCategory({categoryId, setSubcategory, subCategory})
+    getSubCategory({ categoryId, setSubcategory, subCategory });
   }, [categoryId]);
 
   useEffect(() => {
-    getProductsByCategory({categoryId, subCategoryId, setProducts , products})
-  }, [products]);
+    getProductsByCategory({ categoryId, subCategoryId, setProducts, products });
+  }, [categoryId, subCategoryId]);
 
   useEffect(() => {
-    getCategory({categoryId, setCategory, category});
+    getCategory({ categoryId, setCategory, category });
   }, [categoryId]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <Box sx={{ display: "flex", px: 4, py: 2, height: "100%" }}>
@@ -88,13 +93,43 @@ function CategoryDetail() {
       </Box>
       <Grid container spacing={3} sx={{ display: "flex", pt: 3, m: "auto" }}>
         <Box sx={{}}>
-          {selectedSubCategory == "Oslo" ? (
+          {selectedSubCategory === "Oslo" ? (
             <Image alt="imageOslo" src={oslo1} height={100} width={1000} />
           ) : null}
         </Box>
-{/* // MAP DE LOS PRODUCTOS  */}
+        {/* MAP DE LOS PRODUCTOS */}
+        
         {products.length ? (
-          <ProductsCard  products={currentProducts}/>
+          <Box sx={{m:"auto"}}>
+          <ProductsCard products={currentProducts} />
+          {/* PAGINACION */}
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+            <Button
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(currentPage - 1)}
+            >
+              <KeyboardDoubleArrowLeftIcon />
+            </Button>
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <Button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                sx={{
+                  fontWeight: currentPage === index + 1 ? 'bold' : 'normal',
+                }}
+              >
+                {index + 1}
+              </Button>
+            ))}
+            <Button
+              disabled={indexOfLastProduct >= products.length}
+              onClick={() => handlePageChange(currentPage + 1)}
+            >
+              <KeyboardDoubleArrowRightIcon />
+            </Button>
+          </Box>
+        </Box>
+        
         ) : (
           <Grid
             container

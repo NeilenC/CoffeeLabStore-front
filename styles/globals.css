@@ -25,7 +25,6 @@ body {
     )
     rgb(var(--background-start-rgb));
 } */
-@import url("https://fonts.googleapis.com/css2?family=Rethink+Sans&display=swap");
 
 .custom-link {
   text-decoration: none; /* Elimina la decoración de enlace predeterminada */
@@ -43,5 +42,10 @@ body {
 }
 
 .fadeOut {
-  animation: fadeOut 0.5s ease; /* Puedes ajustar la duración y el tipo de animación aquí */
+  height: 0;
+  overflow: hidden;
+  transition: height 0.5s ease-out; /* Ajusta la duración y la función de temporización según tus preferencias */
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Rethink+Sans&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Rethink+Sans&display=swap')

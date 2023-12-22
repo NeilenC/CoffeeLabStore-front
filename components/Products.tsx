@@ -22,10 +22,7 @@ const Products = () => {
   }, []);
 
   return (
-    <Box sx={{ p: 6 }}>
       <ProductsCard products={products} />
-    </Box>
-
   );
 };
 
