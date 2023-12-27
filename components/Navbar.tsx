@@ -81,29 +81,32 @@ const Navbar = () => {
               </Box>
               </Link>
             </Box>
-            <Grid item xs={4}  >
+            <Grid item xs={3}  >
               <Search />
             </Grid>
            
 
             <Grid item  sx={{ ml:"15%"}}>
               {user ? (
-                <Box sx={{ cursor: "pointer" }}>
-                  <Typography onClick={handleToggle}>
-                   Hola {user?.name}!<KeyboardArrowDownIcon/>
-                  </Typography>
-                  <Collapse in={expanded}>
-                    <Typography onClick={goToUserData}>
-                      Ver tus datos
-                    </Typography>
-                  </Collapse>
-                </Box>
+                <Box
+                sx={{
+                  cursor: 'pointer',
+                  padding: '10px',
+                  margin: '10px',
+                }}
+              >
+                <Typography onClick={handleToggle} sx={{ display: 'flex', alignItems: 'center' }}>
+                  Hola {user?.name}!
+                  <KeyboardArrowDownIcon />
+                </Typography>
+                <Collapse in={expanded} sx={{ marginLeft: '16px' }}>
+                  <Typography onClick={goToUserData}>Ver tus datos</Typography>
+                </Collapse>
+              </Box>
               ) : null}
             </Grid>
 
-
-
-            <Grid item xs={0.5}  sx={{ml:2}}>
+            <Grid item xs={1}  sx={{ml:2}}>
               <Box
                 sx={{
                   cursor: "pointer",
@@ -114,7 +117,7 @@ const Navbar = () => {
                 onClick={handleCartClick}
               >
                 <ShoppingCartOutlinedIcon sx={{ fontSize: 24 }} />
-                <Box sx={{ pb: 3.5 }}>
+                <Box sx={{ pb: 3 }}>
                   <Box
                     sx={{
                       width: 17,
@@ -137,27 +140,39 @@ const Navbar = () => {
               </Box>
             </Grid>
 
-            <Grid item xs={0.7} sx={{ml:6}}>
-              {!user ? (
-                <Box
-                  sx={{ cursor: "pointer", color: "white" }}
-                  onClick={() => router.push("/login")}
-                >
-                  LogIn <LoginOutlinedIcon />
-                </Box>
-              ) : (
-                <Box
-                  sx={{ cursor: "pointer", color: "white" }}
-                  onClick={handleLogout}
-                >
-                  Logout <LogOutOutlinedIcon />
-                </Box>
-              )}
-            </Grid>
+            <Grid item xs={0.7} sx={{ ml: 6 }}>
+      {!user ? (
+        <Box
+          sx={{
+            cursor: 'pointer',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+          onClick={() => router.push('/login')}
+        >
+          LogIn <LoginOutlinedIcon />
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            cursor: 'pointer',
+            color: 'white',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+          onClick={handleLogout}
+        >
+          Logout &nbsp; <LogOutOutlinedIcon />
+        </Box>
+      )}
+    </Grid>
           </Grid>
         </Toolbar>
       </Box>
-      <Categories />
+
+      {/* ---------------------- COMPONENTE DE CATEGORÍAS ---------------------- */}
+         <Categories />
     </AppBar>
   ) : 
   <Box sx={{height:"80px", bgcolor:"white"}}>

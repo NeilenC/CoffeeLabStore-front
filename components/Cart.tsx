@@ -44,7 +44,7 @@ const CartItems = () => {
   }
 
   return (
-    <Box sx={{ bgcolor: "#eeeeee" }}>
+    <Box sx={{ bgcolor: "whitesmoke" , p:5}}>
       <Box display="flex" justifyContent="space-between" sx={{ p: 5 }}>
         <Box width="65%" sx={{}}>
           <Grid container spacing={2}>

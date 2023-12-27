@@ -27,7 +27,7 @@ const ProductsCard = ({products = []}:any) => {
           <Card sx={{ display: "flex", flexDirection: "column", maxWidth: 350, p: 2, m: "auto" }}>
             <Link href={`/products/${product._id}`}>
               <Box sx={{ mx: "auto", height: 320, overflow: 'auto' }}>
-                <Box component={'img'} src={product.imageURL[0]} sx={{ width: "95%", bgcolor: "pink" }} />
+                <Box component={'img'} src={product.imageURL[0]} sx={{ width: "95%" }} />
               </Box>
             </Link>
             <CardContent sx={{ p: 0 }}>

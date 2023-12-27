@@ -12,42 +12,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Product } from "@/commons/types.interface";
 import theme from "@/styles/theme";
 import { useRouter } from "next/router";
+import { searchProducts } from "@/functions";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [showResults, setShowResults] = useState(true); 
   const router = useRouter();
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/products/search/${searchTerm}`,
-          {
-            method: "GET",
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data) && data.length > 0) {
-          setSearchResults(data);
-        } else {
-          setSearchResults([]);
-        }
-      } catch (error) {
-        console.error("Error al realizar la búsqueda:", error);
-      }
-    };
-
     if (searchTerm.trim() !== "") {
-      fetchData();
+      searchProducts({ searchTerm, setSearchResults });
     } else {
       setSearchResults([]);
     }
@@ -58,6 +35,7 @@ const Search = () => {
       router.push(`/products/${productId}`);
       setSearchResults([]);
       setSearchTerm("");
+      setShowResults(false); 
     }
   }
 
@@ -67,27 +45,42 @@ const Search = () => {
       if (
         searchContainerRef.current &&
         !searchContainerRef.current.contains(target) &&
-        searchTerm
+        searchTerm &&
+        showResults
       ) {
         setSearchResults([]);
+        setShowResults(false);
       }
     }
-
+  
     document.addEventListener("click", handleClickOutside);
-
+  
     return () => {
       document.removeEventListener("click", handleClickOutside);
       if (timerId) {
         clearTimeout(timerId);
       }
     };
-  }, [searchContainerRef, searchTerm, timerId]);
+  }, [searchContainerRef, searchTerm, showResults, timerId]);
 
   const handleMouseEnter = () => {
     if (timerId) {
       clearTimeout(timerId);
     }
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      searchProducts({ searchTerm, setSearchResults });
+      router.push(`/search/${searchTerm}`);
+      setShowResults(false); 
+      setSearchTerm("");
+
+    } else {
+      setShowResults(true); 
+    }
+  };
+console.log("SEARCHER", searchResults)
 
   return (
     <Grid item xs={5} ref={searchContainerRef}>
@@ -106,6 +99,7 @@ const Search = () => {
         value={searchTerm}
         inputProps={{ "aria-label": "Buscar" }}
         onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
         endAdornment={
           <IconButton aria-label="search">
             <SearchIcon />
@@ -122,11 +116,14 @@ const Search = () => {
             position: "absolute",
             top: "100%",
             zIndex: 1,
+            visibility: searchResults.length > 0 && searchTerm.trim() !== "" ? "visible" : "hidden",
+            height: searchResults.length > 0 && searchTerm.trim() !== "" ? "auto" : "0",
+            transition: "height 0.3s",
           }}
           onMouseEnter={handleMouseEnter}
         >
-          <List sx={{ bgcolor: theme.palette.primary.main }}>
-            {searchResults?.map((product) => (
+            {showResults && searchResults?.map((product) => (
+            <List sx={{ bgcolor: theme.palette.primary.main }}>
               <Grid container spacing={1} key={product._id} sx={{ p: 1 }}>
                 <Grid
                   item
@@ -139,8 +136,8 @@ const Search = () => {
                   {product.name}{" "}
                 </Grid>
               </Grid>
-            ))}
           </List>
+            ))}
         </Box>
       )}
     </Grid>

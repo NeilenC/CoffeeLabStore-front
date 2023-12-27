@@ -1,4 +1,4 @@
-import { Product } from "@/commons/types.interface";
+import { Category, Product, SubCategory } from "@/commons/types.interface";
 
 
 //OBTENER TODOS LOS PRODUCTOS 
@@ -72,6 +72,66 @@ export const getSubCategory = async ({categoryId, setSubcategory, subCategory}: 
     setCategory(data.name);
     return category;
   }
+
+  //------------------------ FUNCION OBTENER CATEGORIAS ------------------------
+
+  export const getCategories = async ({setCategories}: any) => {
+    const response = await fetch("http://localhost:8000/categories", {
+      method: "GET",
+    });
+    const dataPromise: Promise<Category[]> = response.json();
+
+    const data = await dataPromise;
+
+    setCategories(data);
+  }
+
+  //------------------------ FUNCION OBTENER SUBCATEGORIAS ------------------------
+ export const getSubCategories = async ({selectedCategory, setSubcategory}: any) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/subcategory/${selectedCategory}`,
+        {
+          method: "GET",
+        },
+      );
+      const dataPromise: Promise<SubCategory[]> = response.json();
+      const data = await dataPromise;
+
+      if (response.ok) {
+        setSubcategory(data);
+      }
+    } catch (e) {
+      throw new Error();
+    }
+  };
+  // ------------------------ FUNCION PARA BUSCADOR ------------------------
+
+ export const searchProducts = async ({searchTerm,setSearchResults}: any) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/products/search/${searchTerm}`,
+        {
+          method: "GET",
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data) && data.length > 0) {
+        setSearchResults(data);
+      } else {
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error("Error al realizar la búsqueda:", error);
+    }
+  };
+
 
   // import {
   //   AppBar,

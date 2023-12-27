@@ -9,7 +9,7 @@ import { Product } from "@/commons/types.interface";
 import { UserState } from "@/commons/types.interface";
 import useUserData from "@/Hooks/useUserData";
 import ProductsCard from "@/commons/ProductsCard";
-import { getProducts } from "@/Hooks/functions";
+import { getProducts } from "@/functions";
 
 const Products = () => {
   useUserData();

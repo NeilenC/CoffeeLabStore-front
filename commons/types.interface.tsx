@@ -57,6 +57,8 @@ export type UserState = {
 };
 
 export type OrderState = {
+  id: string,
+  createdAt: string;
   shoppingData: shoppingData;
   userData: userData;
   paymentData: paymentData;

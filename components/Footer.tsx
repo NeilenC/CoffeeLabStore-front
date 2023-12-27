@@ -23,28 +23,34 @@ const ContainerWrapper = styled(Container)(({ theme }) => ({
 const Footer = () => {
   return (
     <FooterAppBar position="static">
-      <Box sx={{ bgcolor: "black", heigth: "50%" }}>
+      <Box sx={{ bgcolor: "black", height: "50%" }}>
         <ContainerWrapper>
-          <Grid container spacing={2} sx={{ color: "white", m: "auto" }}>
+          <Grid container spacing={2} sx={{ color: "white", margin: "auto" }}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6">Información de contacto</Typography>
-              <Typography
-                variant="body2"
-                sx={{ "&:hover": { color: "#DAA520" } }}
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  "&:hover": { color: "#DAA520" }
+                }}
               >
-                <CallIcon />
-                +54 221 6918419
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{ "&:hover": { color: "#DAA520" } }}
+                <CallIcon  sx={{fontSize:"20px"}}/>
+                <Typography variant="body2" > &nbsp; +54 221 6918419</Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  "&:hover": { color: "#DAA520" }
+                }}
               >
-                <EmailIcon /> coffeelab@store.com
-              </Typography>
+                <EmailIcon  sx={{fontSize:"20px"}}/>
+                <Typography variant="body2"sx={{py:1}} > &nbsp; coffeelab@store.com</Typography>
+              </Box>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Typography variant="h6">Enlaces útiles</Typography>
-              {/* Agrega aquí los enlaces útiles */}
+              {/* <Typography variant="h6">Enlaces útiles</Typography> */}
             </Grid>
           </Grid>
         </ContainerWrapper>

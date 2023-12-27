@@ -3,16 +3,17 @@ import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { OrderState, UserState } from "../../commons/types.interface";
 
-const historial = () => {
+const Historial = () => {
   const user = useSelector((state: UserState) => state.user);
-  const [orders, setOrders] = useState<OrderState | null>(null);
-  const [cartId, setCartId] = useState("");
+  const [orders, setOrders] = useState<OrderState[] | null>([]);
+  const [cartIds, setCartIds] = useState<string[]>([]);
+  const [cartData, setCartData] = useState<any[]>([]); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/order/${user._id}`,
+          `http://localhost:8000/order/get-orders/${user._id}`,
           { method: "GET" },
         );
 
@@ -24,10 +25,12 @@ const historial = () => {
 
         setOrders(orderData);
 
-        const cartId = orderData.cartId[0]._id;
-        setCartId(cartId);
+        if (orderData.cartId && orderData.cartId.length > 0) {
+          const allCartIds = orderData.cartId.map((cart: any) => cart._id);
+          setCartIds(allCartIds);
+        }
       } catch (error) {
-        console.log("Error fetching data:");
+        console.log("Error fetching data:", error);
       }
     };
 
@@ -37,26 +40,58 @@ const historial = () => {
   useEffect(() => {
     const getCart = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/cart/${cartId}`, {
-          method: "GET",
+        const cartRequests = cartIds.map(async (cartId) => {
+          const response = await fetch(
+            `http://localhost:8000/cart/${cartId}`,
+            {
+              method: "GET",
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Error");
+          }
+
+          return response.json();
         });
 
-        if (!response.ok) {
-          throw new Error("Error");
-        }
+        const cartData = await Promise.all(cartRequests);
 
-        const cartData = await response.json();
-
-        console.log("CARTDATA", cartData);
+        console.log("cartData:", cartData);
+        setCartData(cartData);
       } catch (error) {
-        console.log("Error fetching data:");
+        console.log("Error fetching cart data:", error);
       }
     };
 
-    getCart();
-  }, [user._id]);
+    if (cartIds.length > 0) {
+      getCart();
+    }
+  }, [cartIds, user._id]);
+  console.log("cartData:", cartData);
 
-  return <Box>hola</Box>;
+  return (
+    <Box>
+      {orders && cartData ? (
+        orders.map((order: OrderState, index: number) => (
+          <Box key={index}>
+            <p>Orden {index + 1}</p>
+            <p>Fecha de Creación: {order.createdAt}</p>
+            <p>Total de la Orden: {order.totalCart}</p>
+            <p>Detalles del Carrito:</p>
+            {cartData[index] && (
+              <Box>
+                <p>Nombre del Producto: {cartData[index].nombre}</p>
+                <p>Cantidad: {cartData[index].product}</p>
+              </Box>
+            )}
+          </Box>
+        ))
+      ) : (
+        <p>No hay órdenes disponibles.</p>
+      )}
+    </Box>
+  );
 };
 
-export default historial;
+export default Historial;

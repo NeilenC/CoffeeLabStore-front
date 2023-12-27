@@ -16,7 +16,7 @@ import React, { useEffect, useState } from "react";
 import AddToCartButtom from "@/commons/AddToCartButtom";
 import oslo1 from "../../public/oslo1.png";
 import theme from "@/styles/theme";
-import { getCategory, getProductsByCategory, getSubCategory } from "@/Hooks/functions";
+import { getCategory, getProductsByCategory, getSubCategory } from "@/functions";
 import ProductsCard from "@/commons/ProductsCard";
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -54,7 +54,7 @@ function CategoryDetail() {
   };
 
   return (
-    <Box sx={{ display: "flex", px: 4, py: 2, height: "100%" }}>
+    <Box sx={{ display: "flex", px: 4, py: 2 , bgcolor:"white"}}>
       <Box sx={{ width: "20%" }}>
         <Typography
           variant="h5"
@@ -95,14 +95,19 @@ function CategoryDetail() {
         <Box sx={{}}>
           {selectedSubCategory === "Oslo" ? (
             <Image alt="imageOslo" src={oslo1} height={100} width={1000} />
+            // <Box component={'img'} src={'/oslo1.png'}  alt="imageOslo" sx={{height:"200px", width: "95%"}} />
+
           ) : null}
         </Box>
         {/* MAP DE LOS PRODUCTOS */}
         
         {products.length ? (
-          <Box sx={{m:"auto"}}>
+          <Box>
+
+          <Box sx={{m:"auto", bgcolor:"whitesmoke"}}>
           <ProductsCard products={currentProducts} />
           {/* PAGINACION */}
+        </Box>
           <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
             <Button
               disabled={currentPage === 1}
@@ -129,6 +134,7 @@ function CategoryDetail() {
             </Button>
           </Box>
         </Box>
+        
         
         ) : (
           <Grid

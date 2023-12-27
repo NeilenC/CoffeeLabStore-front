@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Category, SubCategory } from "@/commons/types.interface";
+import { getCategories, getSubCategories } from "@/functions";
 
 const ProductForm = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -31,6 +32,7 @@ const ProductForm = () => {
     stock: "",
     category: { id: "", name: "" },
     subcategory: { id: "", name: "" },
+    keys: [],
   });
 
   const handleChange = (e: any) => {
@@ -66,6 +68,12 @@ const ProductForm = () => {
           name: selectedSubcategory ? selectedSubcategory.name : "",
         },
       }));
+      
+    } else if (name === "keys") {
+      setProductData((prevData) => ({
+        ...prevData,
+        keys: value.split(/\s+/),
+      }));
     } else {
       setProductData((prevData) => ({
         ...prevData,
@@ -73,6 +81,8 @@ const ProductForm = () => {
       }));
     }
   };
+
+
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -108,42 +118,17 @@ const ProductForm = () => {
   //------------------------ FUNCION OBTENER CATEGORIAS ------------------------
 
   useEffect(() => {
-    async function getCategories() {
-      const response = await fetch("http://localhost:8000/categories", {
-        method: "GET",
-      });
-      const dataPromise: Promise<Category[]> = response.json();
-
-      const data = await dataPromise;
-
-      setCategories(data);
-    }
-    getCategories();
+    getCategories({setCategories});
   }, []);
 
   //------------------------ FUNCION OBTENER SUBCATEGORIAS ------------------------
 
   useEffect(() => {
-    const getSubCategory = async (selectedCategory: any) => {
-      try {
-        const response = await fetch(
-          `http://localhost:8000/subcategory/${selectedCategory}`,
-          {
-            method: "GET",
-          },
-        );
-        const dataPromise: Promise<SubCategory[]> = response.json();
-        const data = await dataPromise;
-
-        if (response.ok) {
-          setSubcategory(data);
-        }
-      } catch (e) {
-        throw new Error();
-      }
-    };
-    getSubCategory(selectedCategory.id);
+   const category = selectedCategory.id
+    getSubCategories({selectedCategory: category, setSubcategory});
   }, [selectedCategory]);
+
+
 
   return (
     <Box sx={{ p: 10, display: "flex" }}>
@@ -267,6 +252,17 @@ const ProductForm = () => {
               </MenuItem>
             ))}
           </Select>
+          <Grid item xs={12}>
+            <TextField
+              label="Palabras clave (separadas por espacio)"
+              name="keys"
+              value={Array.isArray(productData.keys)
+                ? productData.keys.join(" ")
+                : productData.keys}
+              onChange={handleChange}
+              fullWidth
+            />
+          </Grid>
         </Grid>
         <Grid item xs={12}>
           <Button variant="contained" type="submit" onClick={createProduct}>

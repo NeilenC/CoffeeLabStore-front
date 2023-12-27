@@ -7,7 +7,7 @@ import ImageCarousel from "@/commons/Carousel";
 import Footer from "@/components/Footer";
 import Cafeteras from "@/components/Cafeteras";
 import ProductsCard from "@/commons/ProductsCard";
-import { getProducts } from "@/Hooks/functions";
+import { getProducts } from "@/functions";
 import { Product } from "@/commons/types.interface";
 
 const inter = Inter({ subsets: ["latin"] });

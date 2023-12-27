@@ -38,13 +38,12 @@ const Confirmation = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
-        padding: "16px",
+        pt:15
       }}
     >
       <Typography
         variant="h4"
-        sx={{ marginBottom: "50px", textAlign: "center" }}
+        sx={{ marginBottom: "40px", textAlign: "center" }}
       >
         ¡Gracias por tu pedido! Tu compra ha sido confirmada.
       </Typography>
