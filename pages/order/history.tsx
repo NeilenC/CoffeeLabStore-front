@@ -3,80 +3,76 @@ import { Box } from "@mui/material";
 import { useSelector } from "react-redux";
 import { OrderState, UserState } from "../../commons/types.interface";
 
+
+
 const Historial = () => {
   const user = useSelector((state: UserState) => state.user);
-  const [orders, setOrders] = useState<OrderState[] | null>([]);
-  const [cartIds, setCartIds] = useState<string[]>([]);
-  const [cartData, setCartData] = useState<any[]>([]); 
+  const [orders, setOrders] = useState<OrderState[]>([]);
+  const [cartData, setCartData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const getCartData = async (cartIds: any) => {
+    try {
+      const cartRequests = cartIds.map(async (cartId: any) => {
+        const response = await fetch(`http://localhost:8000/cart/${cartId}`, {
+          method: 'GET',
+        });
+
+        if (!response.ok) {
+          throw new Error('Error');
+        }
+
+        return response.json();
+      });
+
+      return Promise.all(cartRequests);
+    } catch (error) {
+      console.error('Error fetching cart data:', error);
+      return [];
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
           `http://localhost:8000/order/get-orders/${user._id}`,
-          { method: "GET" },
+          { method: 'GET' }
         );
 
         if (!response.ok) {
-          throw new Error("Error");
+          throw new Error('Error');
         }
 
-        const orderData = await response.json();
+        const orderData: OrderState[] = await response.json();
 
         setOrders(orderData);
 
-        if (orderData.cartId && orderData.cartId.length > 0) {
-          const allCartIds = orderData.cartId.map((cart: any) => cart._id);
-          setCartIds(allCartIds);
+        const cartIds = orderData
+          .map((order: any) => order.cartId?._id)
+          .filter(Boolean);
+
+        if (cartIds.length > 0) {
+          const cartData = await getCartData(cartIds);
+          setCartData(cartData);
         }
       } catch (error) {
-        console.log("Error fetching data:", error);
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [user._id]);
 
-  useEffect(() => {
-    const getCart = async () => {
-      try {
-        const cartRequests = cartIds.map(async (cartId) => {
-          const response = await fetch(
-            `http://localhost:8000/cart/${cartId}`,
-            {
-              method: "GET",
-            }
-          );
-
-          if (!response.ok) {
-            throw new Error("Error");
-          }
-
-          return response.json();
-        });
-
-        const cartData = await Promise.all(cartRequests);
-
-        console.log("cartData:", cartData);
-        setCartData(cartData);
-      } catch (error) {
-        console.log("Error fetching cart data:", error);
-      }
-    };
-
-    if (cartIds.length > 0) {
-      getCart();
-    }
-  }, [cartIds, user._id]);
-  console.log("cartData:", cartData);
-
   return (
-    <Box>
-      {orders && cartData ? (
-        orders.map((order: OrderState, index: number) => (
-          <Box key={index}>
+    <Box sx={{ m: 10 }}>
+      {orders.length > 0 && cartData.length > 0 ? (
+        orders.map((order, index) => (
+          <Box key={index} sx={{ marginBottom: 4 }}>
             <p>Orden {index + 1}</p>
-            <p>Fecha de Creación: {order.createdAt}</p>
+            <p>Fecha de Creación: {new Date(order.createdAt).toLocaleString()}</p>
             <p>Total de la Orden: {order.totalCart}</p>
             <p>Detalles del Carrito:</p>
             {cartData[index] && (

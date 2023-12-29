@@ -48,7 +48,7 @@ const Section1 = ({
   }, [user, setName, setLastName, setDni, setPhoneNumber, setEmail]);
 
   return (
-    <Box>
+    <Box >
       <Typography variant="h5" gutterBottom>
         Datos Personales
       </Typography>
@@ -95,6 +95,7 @@ const Section1 = ({
           />
         </Grid>
       </Grid>
+      <Box sx={{pt:2}}>
       <Button
         onClick={() => {
           handleNextSection();
@@ -104,6 +105,7 @@ const Section1 = ({
       >
         Siguiente
       </Button>
+      </Box>
     </Box>
   );
 };

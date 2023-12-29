@@ -8,6 +8,7 @@ import {
   TextField,
   Button,
   Box,
+  Grid,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useSelector } from "react-redux";
@@ -77,7 +78,7 @@ const Section3 = ({
   return (
     <Box>
       <Box
-        sx={{ color: "black", cursor: "pointer", py: 2 }}
+        sx={{ color: "black", py: 2 }}
         onClick={handleGoBack}
       >
         <ArrowBackIcon />
@@ -100,31 +101,40 @@ const Section3 = ({
 
       {paymentMethod === "tarjeta debito" ||
       paymentMethod === "tarjeta credito" ? (
-        <Box>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+
           <TextField
             label="Número de Tarjeta"
             fullWidth
             style={{ marginBottom: "16px" }}
             value={cardNumber}
             onChange={(e) => setCardNumber(e.target.value)}
-          />
+            />
+            </Grid>
+            <Grid item xs={6}>
+
           <TextField
             label="Código de Seguridad"
             fullWidth
             style={{ marginBottom: "16px" }}
             value={cardSecurityCode}
             onChange={(e) => setCardSecurityCode(e.target.value)}
-          />
+            />
+            </Grid>
+            <Grid item xs={6}>
+
           <TextField
             label="Fecha de Vencimiento"
             fullWidth
             placeholder="MM/YYYY"
             style={{ marginBottom: "16px" }}
             value={formattedCardExpirationDate}
-            // onChange={(e) => setFormattedCardExpirationDate(e.target.value)}
-            onChange={(e) => handleCardExpirationDateChange(e)}
-          />
-        </Box>
+            onChange={(e) => setFormattedCardExpirationDate(e.target.value)}
+            // onChange={(e) => handleCardExpirationDateChange(e)}
+            />
+            </Grid>
+        </Grid>
       ) : null}
 
       {paymentMethod === "efectivo" ? (
@@ -144,7 +154,7 @@ const Section3 = ({
         Confirmar
       </Button>
     </Box>
-  );
-};
+  )
+}
 
-export default Section3;
+export default Section3

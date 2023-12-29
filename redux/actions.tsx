@@ -35,6 +35,11 @@ export const decrementCartItem = (product: Product) => ({
   payload: product,
 });
 
+export const clearCart = () => {
+  return {
+    type: 'CLEAR_CART',
+  };
+};
 //----------------------------------- ORDEN DE COMPRA -----------------------------------
 export const createOrder = (cart: CartState) => ({
   type: "CREATE_ORDER",

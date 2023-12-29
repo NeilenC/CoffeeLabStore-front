@@ -30,7 +30,7 @@ function CategoryDetail() {
   const [subCategory, setSubcategory] = useState<SubCategory[]>([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 8;
+  const productsPerPage = 9;
   const totalPages = Math.ceil(products.length / productsPerPage);
 
   const indexOfLastProduct = currentPage * productsPerPage;

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { Category, SubCategory } from "@/commons/types.interface";
 import { getCategories, getSubCategories } from "@/functions";
+import toast from "react-hot-toast";
 
 const ProductForm = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -27,7 +28,7 @@ const ProductForm = () => {
   const [productData, setProductData] = useState({
     name: "",
     description: "",
-    imageURL: "",
+    imageURL: [],
     price: "",
     stock: "",
     category: { id: "", name: "" },
@@ -37,7 +38,7 @@ const ProductForm = () => {
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    console.log("NAME VLAUE", name, value);
+
     if (name === "category") {
       const selectedCategory = categories.find(
         (category) => category._id === value,
@@ -74,7 +75,12 @@ const ProductForm = () => {
         ...prevData,
         keys: value.split(/\s+/),
       }));
-    } else {
+    }  else if (name === "imageURL") {
+      setProductData((prevData) => ({
+        ...prevData,
+        [name]: Array.isArray(value) ? value : value.split(/\s+/),
+      }));
+    }  else {
       setProductData((prevData) => ({
         ...prevData,
         [name]: value,
@@ -95,6 +101,23 @@ const ProductForm = () => {
     }
   };
 
+  //------------------------ RESETEAR FORMULARIO ------------------------
+
+  const resetForm = () => {
+    setSelectedCategory({ id: "", name: "" });
+    setSelectedSubcategory({ id: "", name: "" });
+    setProductData({
+      name: "",
+      description: "",
+      imageURL: [],
+      price: "",
+      stock: "",
+      category: { id: "", name: "" },
+      subcategory: { id: "", name: "" },
+      keys: [],
+    });
+  };
+
   //------------------------ FUNCION CREAR PRODUCTO ------------------------
   const createProduct = async () => {
     try {
@@ -106,9 +129,11 @@ const ProductForm = () => {
         body: JSON.stringify(productData),
       });
       if (response.ok) {
-        console.log("Producto creado exitosamente");
+        toast.success('Producto creado exitosamente');
+        resetForm()
+      
       } else {
-        console.error("Error al crear el producto", response);
+        toast.error("Error al crear el producto")
       }
     } catch (error) {
       console.error("Error de red:", error);
@@ -161,7 +186,9 @@ const ProductForm = () => {
           <TextField
             label="URL de la imagen"
             name="imageURL"
-            value={productData.imageURL}
+            value={Array.isArray(productData.imageURL)
+              ? productData.imageURL.join(" ")
+              : productData.imageURL}
             onChange={handleChange}
             required
             fullWidth

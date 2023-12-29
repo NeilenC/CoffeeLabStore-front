@@ -26,6 +26,7 @@ const DeliveryHome = () => {
   const [apartment, setApartment] = useState("");
   const [directionNum, setDirectionNum] = useState("");
   const [codigo, setCodigo] = useState<number | null>(null);
+  const [provincia, setProvincia] = useState("")
   const [localidad, setLocalidad] = useState("");
 
   // Datos de la sección 3 (Metodo de Pago)
@@ -84,6 +85,7 @@ const DeliveryHome = () => {
           apartment,
           directionNum,
           codigo,
+          provincia,
           localidad,
         },
         paymentData: {
@@ -100,9 +102,16 @@ const DeliveryHome = () => {
 
   return (
     <Box
-      sx={{ display: "flex", direction: "column", bgcolor: "#F5f5f5f5", p: 10 }}
+      sx={{ 
+        display: "flex",
+        direction: "column",
+        bgcolor: "#F5f5f5f5",
+        p: 9,
+        maxWidth:"70%",
+        m:"auto",
+      }}
     >
-      <Box sx={{ m: "auto" }}>
+      <Box >
         {/* <LockIcon/>  */}
         <Box sx={{ mb: 3 }}>
           <Box
@@ -144,6 +153,7 @@ const DeliveryHome = () => {
               codigo={codigo}
               setCodigo={setCodigo}
               localidad={localidad}
+              setProvincia={setProvincia}
               setLocalidad={setLocalidad}
               handleNextSection={handleNextSection}
               handleGoBack={handleGoBack}
@@ -163,7 +173,7 @@ const DeliveryHome = () => {
               setCardExpirationDate={setCardExpirationDate}
               handlePlaceOrder={handlePlaceOrder}
               handleGoBack={handleGoBack}
-            />
+              />
           )}
         </Box>
       </Box>

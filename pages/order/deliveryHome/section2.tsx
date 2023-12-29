@@ -14,6 +14,8 @@ const Section2 = ({
   setDirectionNum,
   codigo,
   setCodigo,
+  provincia,
+  setProvincia,
   localidad,
   setLocalidad,
   handleNextSection,
@@ -26,6 +28,7 @@ const Section2 = ({
       apartment,
       directionNum,
       codigo,
+      provincia,
       localidad,
     };
     localStorage.setItem("shippingData", JSON.stringify(shippingData));
@@ -43,6 +46,7 @@ const Section2 = ({
       setDirectionNum(shippingData.directionNum || "");
       setCodigo(shippingData.codigo || "");
       setLocalidad(shippingData.localidad || "");
+
     }
   }, []);
 
@@ -92,6 +96,15 @@ const Section2 = ({
             fullWidth
             style={{ marginBottom: "16px" }}
             onChange={(e) => setCodigo(parseInt(e.target.value, 10))}
+          />
+        </Grid>
+        <Grid item xs={5} md={4}>
+          <TextField
+            label="Provincia"
+            value={provincia}
+            fullWidth
+            style={{ marginBottom: "16px" }}
+            onChange={(e) => setProvincia(e.target.value)}
           />
         </Grid>
         <Grid item xs={5} md={4}>

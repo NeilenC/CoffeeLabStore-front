@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { OrderState, UserState } from "@/commons/types.interface";
+import { cartReducer } from "@/redux/CartReducer";
+import { clearCart } from "@/redux/actions";
 
 const Confirmation = () => {
   const user = useSelector((state: UserState) => state.user);
   const [order, setOrder] = useState<OrderState | null>(null);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,8 +24,11 @@ const Confirmation = () => {
         }
 
         const orderData: OrderState = await response.json();
-
         setOrder(orderData);
+
+        dispatch(clearCart())
+
+
       } catch (error) {
         console.log("Error fetching data:");
       }

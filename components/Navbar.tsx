@@ -38,7 +38,7 @@ const Navbar = () => {
     setExpanded(!expanded);
     setTimeout(() => {
       setExpanded(false);
-    }, 3000);
+    }, 5000);
   };
 
   const handleCartClick = () => {
@@ -99,8 +99,8 @@ const Navbar = () => {
                   Hola {user?.name}!
                   <KeyboardArrowDownIcon />
                 </Typography>
-                <Collapse in={expanded} sx={{ marginLeft: '16px' }}>
-                  <Typography onClick={goToUserData}>Ver tus datos</Typography>
+                <Collapse in={expanded} >
+                  <Typography onClick={goToUserData} >Ver tus datos</Typography>
                 </Collapse>
               </Box>
               ) : null}
