@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Box, Typography, TextField, Button, Grid } from "@mui/material";
+import { Box, Typography, TextField, Button, Grid, InputLabel } from "@mui/material";
 import { useSelector } from "react-redux";
 import { UserState } from "@/commons/types.interface";
+import { useRouter } from "next/router";
 
+import Swal from 'sweetalert2';
+import theme from "@/styles/theme";
 type EditUserDataFormProps = {
   initialData: {
-    name: string;
-    lastname: string;
-    email: string;
-    phoneNumber: string;
-    password: string;
-    address: string;
-    apartment: string;
-    directionNum: string;
-    codigo: string;
-    localidad: string;
+    email: "";
+    phoneNumber: "";
+    password: "";
   };
-  onSave: (updatedData: any) => void;
-  onCancel: () => void;
 };
 
 const EditUserDataForm: React.FC<EditUserDataFormProps> = ({
   initialData,
-  onSave,
-  onCancel,
 }) => {
   const [formData, setFormData] = useState(initialData);
-
+  const router = useRouter()
   const handleChange = (fieldName: string, value: string) => {
+    console.log("fieldName", fieldName)
+    console.log("value", value)
     setFormData((prevData) => ({
       ...prevData,
       [fieldName]: value,
@@ -35,26 +29,6 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({
   };
   const user = useSelector((state: UserState) => state.user);
 
-  //  const userData = localStorage.getItem('shippingData')
-
-  useEffect(() => {
-    const userData = localStorage.getItem("shippingData");
-
-    console.log("userData", userData);
-    if (userData) {
-      const shippingData = JSON.parse(userData);
-
-      shippingData.address = formData?.address;
-      shippingData.apartment = formData?.apartment;
-      shippingData.directionNum = formData?.directionNum;
-      shippingData.codigo = formData?.codigo;
-      shippingData.localidad = formData?.localidad;
-
-      localStorage.setItem("shippingData", JSON.stringify(shippingData));
-    } else {
-      console.log("No se encontraron datos en el localStorage");
-    }
-  }, []);
 
   // ---------------------- PUT PARA MODIFICAR LOS DATOS ----------------------
 
@@ -71,87 +45,56 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({
           password: formData?.password,
         }),
       });
-
-      if (!response.ok) {
-        console.error("Error al actualizar los datos del usuario");
-        return;
+  
+      if (response.ok) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cambios realizados con éxito',
+          confirmButtonColor: theme.palette.primary.main,
+        });
+        setFormData(initialData);
+        
       }
-      onSave(formData);
     } catch (error) {
       console.error("Error en la solicitud PUT:", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Hubo un error al procesar la solicitud',
+        confirmButtonColor: theme.palette.error.main,
+      });
     }
   };
 
+  console.log("formData", formData)
+  console.log("initialData", initialData)
+
   return (
-    <Box sx={{ height: "100%" }}>
-      <Grid container spacing={2} sx={{ width: "60%", p: 5, m: "auto" }}>
+    <Box>
+      <Grid container spacing={2} sx={{ width: "35%", p: 5, m: "auto" }}>
         <Grid item xs={12}>
-          <Typography variant="h5" sx={{ ml: "38%", py: 2 }}>
+          <Typography variant="h5" sx={{ }}>
             MODIFICAR DATOS
           </Typography>
         </Grid>
-        <Grid item xs={6} sx={{}}>
+        <Grid item xs={12} sx={{}}>
+          <InputLabel> Email </InputLabel>
           <TextField
-            label="Email"
             value={formData?.email}
             onChange={(e) => handleChange("email", e.target.value)}
             fullWidth
           />
         </Grid>
-        <Grid item sx={{}} xs={6}>
+        <Grid item xs={12} sx={{}}>
+          <InputLabel> Teléfono </InputLabel>
           <TextField
-            label="Teléfono"
             value={formData?.phoneNumber}
             onChange={(e) => handleChange("phoneNumber", e.target.value)}
             fullWidth
           />
         </Grid>
-
-        <Grid item sx={{}} xs={6}>
+        <Grid item  xs={12} sx={{pb:3}}>
+        <InputLabel> Contraseña </InputLabel>
           <TextField
-            label="Dirección"
-            value={formData?.address}
-            onChange={(e) => handleChange("address", e.target.value)}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item sx={{}} xs={6}>
-          <TextField
-            label="Detarpamento"
-            value={formData?.apartment}
-            onChange={(e) => handleChange("apartment", e.target.value)}
-            fullWidth
-          />
-        </Grid>
-
-        <Grid item sx={{}} xs={6}>
-          <TextField
-            label="Número de dirección"
-            value={formData?.directionNum}
-            onChange={(e) => handleChange("directionNum", e.target.value)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item sx={{}} xs={6}>
-          <TextField
-            label="Código postal"
-            value={formData?.codigo}
-            onChange={(e) => handleChange("codigo", e.target.value)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item sx={{}} xs={6}>
-          <TextField
-            label="Localidad"
-            value={formData?.localidad}
-            onChange={(e) => handleChange("localidad", e.target.value)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item sx={{ pb: 3 }} xs={6}>
-          <TextField
-            label="password"
             value={formData?.password}
             onChange={(e) => handleChange("password", e.target.value)}
             fullWidth
@@ -172,7 +115,7 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({
           <Button
             fullWidth
             variant="outlined"
-            onClick={onCancel}
+            onClick={() => {router.push('/')}}
             sx={{ p: 1.78 }}
           >
             Cancelar

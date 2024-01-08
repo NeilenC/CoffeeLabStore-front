@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,
   Button,
@@ -10,47 +10,39 @@ import {
 } from "@mui/material";
 import { Category } from "@/commons/types.interface";
 import { useRouter } from "next/router";
+import { getCategories } from "@/functions";
 
 const Categories = () => {
   const router = useRouter();
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
-  const [products, setProducts] = useState([]);
   const [subCategory, setSubcategory] = useState([]);
   const [expandedCategory, setExpandedCategory] = useState("");
   const subcategoryRef = useRef<HTMLDivElement | null>(null);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [isMouseOverCategory, setIsMouseOverCategory] = useState(false);
   const [isMouseOverSubcategory, setIsMouseOverSubcategory] = useState(false);
+  const [isClosingCategory, setIsClosingCategory] = useState(false);
 
   useEffect(() => {
-    async function getCategories() {
-      const response = await fetch("http://localhost:8000/categories", {
-        method: "GET",
-      });
-      const dataPromise: Promise<Category[]> = response.json();
-
-      const data = await dataPromise;
-
-      setCategories(data);
-    }
-    getCategories();
+    getCategories({setCategories});
   }, []);
 
 
-  const handleMouseEnterCategory = (categoryId: string) => {
+  const handleMouseEnterCategory = useCallback((categoryId: string) => {
     getSubCategory(categoryId);
     setSelectedCategory(categoryId);
     setIsMouseOverCategory(true);
-  };
+    setIsClosingCategory(false); 
+  }, []);
 
-  const handleMouseLeaveCategory = () => {
+  const handleMouseLeaveCategory = useCallback(() => {
     if (!isMouseOverSubcategory) {
       setIsMouseOverCategory(false);
-      setExpandedCategory("");
+      setIsClosingCategory(true); 
     }
-  };
+  }, [isMouseOverSubcategory]);
 
   const handleMouseEnterSubcategory = () => {
     setIsMouseOverSubcategory(true);
@@ -68,44 +60,6 @@ const Categories = () => {
       setTimerId(id);
     }
   };
-
-
-  // useEffect(() => {
-  //   function handleClickOutside(event: MouseEvent) {
-  //     const target = event.target as HTMLElement;
-  //     if (
-  //       target &&
-  //       subcategoryRef.current &&
-  //       !subcategoryRef.current.contains(target)
-  //     ) {
-  //       setExpandedCategory("");
-  //     }
-  //   }
-
-  //   document.addEventListener("click", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleClickOutside);
-  //     if (timerId) {
-  //       clearTimeout(timerId);
-  //     }
-  //   };
-  // }, [subcategoryRef, timerId]);
-
-  // const handleMouseEnter = () => {
-  //   if (timerId) {
-  //     clearTimeout(timerId);
-  //   }
-  // };
-
-  // const handleMouseLeave = () => {
-  //   if (expandedCategory) {
-  //     const id = setTimeout(() => {
-  //       setExpandedCategory("");
-  //     }, 500);
-  //     setTimerId(id);
-  //   }
-  // };
 
   const getSubCategory = async (categoryId: any) => {
     try {
@@ -129,6 +83,29 @@ const Categories = () => {
     setSelectedSubcategory(subcategoryId);
     router.push(`/${selectedCategory}/${subcategoryId}`);
   };
+
+  const handleCategoryChange = async (categoryId: string) => {
+    setSelectedCategory(categoryId)
+    router.push(`/${selectedCategory}/${null}`)
+
+  }
+
+  useEffect(() => {
+    let timerId: NodeJS.Timeout;
+
+    if (isClosingCategory) {
+      timerId = setTimeout(() => {
+        setExpandedCategory("");
+      }, 500);
+    }
+
+    return () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
+  }, [isClosingCategory]);
+  
   return (
       <Grid container sx={{ bgcolor: "white", height: 50 }}>
         {categories.map((category: Category) => {
@@ -154,6 +131,7 @@ const Categories = () => {
                   ? setExpandedCategory("")
                   : getSubCategory(category._id),
                   setSelectedCategory(category._id);
+                  handleCategoryChange(category._id)
               }}
               >
                 {category.name}

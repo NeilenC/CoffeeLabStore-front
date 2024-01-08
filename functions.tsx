@@ -22,7 +22,7 @@ export const getProducts = async({setProducts, products}:any) => {
 
 
 // CATEGORIAS
-export async function getProductsByCategory({categoryId, subCategoryId,setProducts, products}: any) {
+export async function getProductsBySubCategory({categoryId, subCategoryId,setProducts, products}: any) {
     try {
       if (categoryId) {
         const response = await fetch(
@@ -43,6 +43,27 @@ export async function getProductsByCategory({categoryId, subCategoryId,setProduc
     }
   }
 
+
+  export async function getProductsByCategory({categoryId, setProducts, products}: any) {
+
+
+      try {
+        if (categoryId) {
+          const response = await fetch(`http://localhost:8000/products/byCategory/${categoryId}`,{ method: "GET" },)
+          const dataPromise: Promise<Product[]> = response.json();
+          
+          const data = await dataPromise;
+          
+          if (data) {
+            setProducts(data);
+            return products
+          }
+        }
+      } catch (e) {
+        console.log("error", e);
+      }
+}
+
 export const getSubCategory = async ({categoryId, setSubcategory, subCategory}: any) => {
     try {
       const response = await fetch(
@@ -61,6 +82,8 @@ export const getSubCategory = async ({categoryId, setSubcategory, subCategory}: 
       throw new Error();
     }
   };
+
+
 
   export const getCategory = async ({categoryId, setCategory, category}: any) => {
     const categories = await fetch(
@@ -132,183 +155,170 @@ export const getSubCategory = async ({categoryId, setSubcategory, subCategory}: 
     }
   };
 
-
+  // import { Category, Product, SubCategory } from "@/commons/types.interface";
   // import {
-  //   AppBar,
-  //   Grid,
-  //   IconButton,
-  //   InputBase,
-  //   Toolbar,
-  //   Typography,
   //   Box,
-  //   Collapse,
+  //   Grid,
+  //   Card,
+  //   CardContent,
+  //   Typography,
+  //   Button,
+  //   Pagination,
   // } from "@mui/material";
-  // import SearchIcon from "@mui/icons-material/Search";
-  // import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-  // import LogOutOutlinedIcon from "@mui/icons-material/LogOutOutlined";
   // import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-  // import React, { useEffect, useState } from "react";
+  // import Image from "next/image";
   // import Link from "next/link";
-  // import { useDispatch, useSelector } from "react-redux";
-  // import { CartState, UserState } from "@/commons/types.interface";
-  // import useUserData from "@/Hooks/useUserData";
-  // import { clearUserInfo } from "@/redux/userInfo";
   // import { useRouter } from "next/router";
-  // import Categories from "./Categories";
-  // import Search from "./Search";
-  // import theme from "../styles/theme";
-  // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-  // // import chemexVector from '../public/chemexVector.jpg'
+  // import React, { useEffect, useState } from "react";
+  // import AddToCartButtom from "@/commons/AddToCartButtom";
+  // import oslo1 from "../../public/oslo1.png";
+  // import theme from "@/styles/theme";
+  // import { getCategory, getProductsByCategory, getProductsBySubCategory, getSubCategory } from "@/functions";
+  // import ProductsCard from "@/commons/ProductsCard";
+  // import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+  // import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
   
   
-  // const Navbar = () => {
-  //   const cart = useSelector((state: CartState) => state.cart);
-  //   useUserData();
-  //   const user = useSelector((state: UserState) => state.user);
-  //   const dispatch = useDispatch();
+  // function CategoryDetail() {
   //   const router = useRouter();
-  //   const [expanded, setExpanded] = useState(false);
-  
-  //   const handleToggle = () => {
-  //     setExpanded(!expanded);
-  //     setTimeout(() => {
-  //       setExpanded(false);
-  //     }, 3000);
-  //   };
-  
-  //   const handleCartClick = () => {
-  //     router.push("/cart");
-  //   };
-  
-  //   const handleLogout = () => {
-  //     localStorage.removeItem("token");
-  //     dispatch(clearUserInfo());
-  //     router.push("/login");
-  //   };
-  
-  //   const goToUserData = () => {
-  //     router.push("/userData");
-  //   };
-  
-  //   // #3E2723 marroncito oscuro
-  //   // F5F5DC Beige
-  //   // DAA520 amarillo tostado
-  //   // 8B735B marron tostado claro
+  //   const { categoryId, subCategoryId } = router.query;
+  //   const [products, setProducts] = useState<Product[]>([]);
+  //   const [category, setCategory] = useState("");
+  //   const [subCategory, setSubcategory] = useState<SubCategory[]>([]);
+  //   const [selectedSubCategory, setSelectedSubCategory] = useState("");
+  //   const [currentPage, setCurrentPage] = useState(1);
+  //   const productsPerPage = 9;
+  //   const totalPages = Math.ceil(products.length / productsPerPage);
+  //   const indexOfLastProduct = currentPage * productsPerPage;
+  //   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  //   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
   
   //   useEffect(() => {
-  //     if (router.pathname === '/cart') {
-  //       setExpanded(false);
+  //     getSubCategory({ categoryId, setSubcategory, subCategory });
+  //   }, [categoryId]);
+  
+  //   useEffect(() => {
+  //     getProductsBySubCategory({ categoryId, subCategoryId, setProducts, products });
+  //   }, [categoryId, subCategoryId]);
+    
+  //   useEffect(() => {
+  //     getProductsByCategory({ categoryId, setProducts, products})
+  //   },[categoryId])
+  
+  //   useEffect(() => {
+  //     if(subCategoryId === null ){
+  //       getCategory({ categoryId, setCategory, category });
   //     }
-  //   }, [router.pathname]);
+  //   }, [categoryId]);
+  
+  //   const handlePageChange = (newPage: number) => {
+  //     setCurrentPage(newPage);
+  //   };
   
   //   return (
-  //     <Box>
-  //  { router.pathname !== '/cart' ? (
-  //     <AppBar position="sticky">
-  //       <Box sx={{ bgcolor: theme.palette.primary.main, color: "white" }}>
-  //         <Toolbar>
-  //           <Grid container alignItems="center" sx={{}}>
-  //             <Box  sx={{ maxWidth:"30%"}} >
-  //               <Link href={"/"}>
-  //               <Box sx={{display:"flex"}}>
-  //                 <Box component="img"  src='/chemexvector.png' alt="logo" sx={{width:"13%", height:"10%"}} />
-  //                 <Box component="img"  src='/logo.png' alt="logo" sx={{width:"30%", height:"10%", my:"auto"}} />
-  //               </Box>
-  //               </Link>
-  //             </Box>
-  //             <Grid item xs={4}  >
-  //               <Search />
-  //             </Grid>
-             
-  
-  //             <Grid item  sx={{ ml:"15%"}}>
-  //               {user ? (
-  //                 <Box sx={{ cursor: "pointer" }}>
-  //                   <Typography onClick={handleToggle}>
-  //                    Hola {user?.name}!<KeyboardArrowDownIcon/>
-  //                   </Typography>
-  //                   <Collapse in={expanded}>
-  //                     <Typography onClick={goToUserData}>
-  //                       Ver tus datos
-  //                     </Typography>
-  //                   </Collapse>
-  //                 </Box>
-  //               ) : null}
-  //             </Grid>
-  
-  
-  
-  //             <Grid item xs={0.5}  sx={{ml:2}}>
-  //               <Box
-  //                 sx={{
+  //     <Box sx={{ display: "flex", px: 4, py: 2 , bgcolor:"white"}}>
+  //       <Box sx={{ width: "20%" }}>
+  //         <Typography
+  //           variant="h5"
+  //           sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
+  //         >
+  //           {category}
+  //         </Typography>
+  //         <Grid container spacing={2} sx={{ ml: 2 }}>
+  //           {subCategory.map((subcategory) => (
+  //             <Grid
+  //               item
+  //               xs={12}
+  //               key={subcategory._id}
+  //               sx={{
+  //                 "&:hover": {
+  //                   color: theme.palette.text.secondary,
   //                   cursor: "pointer",
-  //                   display: "flex",
-  //                   alignItems: "center",
-  //                   justifyContent: "center",
-  //                 }}
-  //                 onClick={handleCartClick}
-  //               >
-  //                 <ShoppingCartOutlinedIcon sx={{ fontSize: 24 }} />
-  //                 <Box sx={{ pb: 3.5 }}>
-  //                   <Box
-  //                     sx={{
-  //                       width: 17,
-  //                       height: 17,
-  //                       p: 0.5,
-  //                       bgcolor: "white",
-  //                       borderRadius: "50%",
-  //                       display: "flex",
-  //                       alignItems: "center",
-  //                       justifyContent: "center",
-  //                     }}
-  //                   >
-  //                     <Typography
-  //                       sx={{ fontSize: 9, color: "black", fontWeight: "bold" }}
-  //                     >
-  //                       {cart.cart.length}
-  //                     </Typography>
-  //                   </Box>
-  //                 </Box>
-  //               </Box>
+  //                 },
+  //                 color:
+  //                   selectedSubCategory === subcategory.name
+  //                     ? "#DAA520"
+  //                     : "inherit",
+  //               }}
+  //               onClick={() => {
+  //                 router.push(`/${categoryId}/${subcategory._id}`),
+  //                   setSelectedSubCategory(subcategory.name);
+  //               }}
+  //             >
+                       
+  //                <Typography sx={{ fontWeight: "bold" }}>
+  //                 {/* {selec} */}
+  //               </Typography>
+  //               <Typography sx={{ fontWeight: "bold" }}>
+  //                 {subcategory.name}
+  //               </Typography>
   //             </Grid>
+  //           ))}
+  //         </Grid>
+  //       </Box>
+  //       <Grid container spacing={3} sx={{ display: "flex", pt: 3, m: "auto" }}>
+  //         <Box sx={{}}>
+  //           {selectedSubCategory === "Oslo" ? (
+  //             <Image alt="imageOslo" src={oslo1} height={100} width={1000} />
+  //             // <Box component={'img'} src={'/oslo1.png'}  alt="imageOslo" sx={{height:"200px", width: "95%"}} />
   
-  //             <Grid item xs={0.7} sx={{ml:6}}>
-  //               {!user ? (
-  //                 <Box
-  //                   sx={{ cursor: "pointer", color: "white" }}
-  //                   onClick={() => router.push("/login")}
-  //                 >
-  //                   LogIn <LoginOutlinedIcon />
-  //                 </Box>
-  //               ) : (
-  //                 <Box
-  //                   sx={{ cursor: "pointer", color: "white" }}
-  //                   onClick={handleLogout}
-  //                 >
-  //                   Logout <LogOutOutlinedIcon />
-  //                 </Box>
-  //               )}
+  //           ) : null}
+  //         </Box>
+  //         {/* MAP DE LOS PRODUCTOS */}
+          
+  //         {products.length ? (
+  //           <Box>
+  
+  //           <Box sx={{m:"auto", bgcolor:"whitesmoke"}}>
+  //           <ProductsCard products={currentProducts} />
+  //           {/* PAGINACION */}
+  //         </Box>
+  //           <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+  //             <Button
+  //               disabled={currentPage === 1}
+  //               onClick={() => handlePageChange(currentPage - 1)}
+  //             >
+  //               <KeyboardDoubleArrowLeftIcon />
+  //             </Button>
+  //             {Array.from({ length: totalPages }).map((_, index) => (
+  //               <Button
+  //                 key={index}
+  //                 onClick={() => handlePageChange(index + 1)}
+  //                 sx={{
+  //                   fontWeight: currentPage === index + 1 ? 'bold' : 'normal',
+  //                 }}
+  //               >
+  //                 {index + 1}
+  //               </Button>
+  //             ))}
+  //             <Button
+  //               disabled={indexOfLastProduct >= products.length}
+  //               onClick={() => handlePageChange(currentPage + 1)}
+  //             >
+  //               <KeyboardDoubleArrowRightIcon />
+  //             </Button>
+  //           </Box>
+  //         </Box>
+          
+          
+  //         ) : (
+  //           <Grid
+  //             container
+  //             key="no-products-message"
+  //             sx={{ width: "50%", m: "auto" }}
+  //           >
+  //             <Grid item xs={5} sm={5}>
+  //               <Typography variant="h6"> Lo sentimos!</Typography>
+  //               <Typography variant="body1">
+  //                 No hay productos para esta categoría.{" "}
+  //               </Typography>
   //             </Grid>
   //           </Grid>
-  //         </Toolbar>
-  //       </Box>
-  //       <Categories />
-  //     </AppBar>
-  //   ) : 
-  //   <Box sx={{height:"80px", bgcolor:"white"}}>
-  
-  //     <Link href={"/"}>
-  //     <Box sx={{display:"flex", ml:2}}>
-  
-  //       <Box component="img"  src='/chemexvector.png' alt="logo" sx={{width:"4%", my:"auto", mt:1}} />
-  //       <Box component="img"  src='/logo.png' alt="logo" sx={{width:"10%", height:"9%", mt:3}} />
-  //     </Box>
-  //     </Link>
-  //   </Box> 
-  //   }
+  //         )}
+  //       </Grid>
   //     </Box>
   //   );
-  // };
+  // }
   
-  // export default Navbar;
+  // export default CategoryDetail;
   

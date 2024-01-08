@@ -80,7 +80,6 @@ const Search = () => {
       setShowResults(true); 
     }
   };
-console.log("SEARCHER", searchResults)
 
   return (
     <Grid item xs={5} ref={searchContainerRef}>

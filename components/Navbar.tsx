@@ -24,6 +24,8 @@ import Search from "./Search";
 import theme from "../styles/theme";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import chemexVector from '../public/chemexVector.jpg'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 
 
 const Navbar = () => {
@@ -54,7 +56,9 @@ const Navbar = () => {
   const goToUserData = () => {
     router.push("/userData");
   };
-
+  const goToUserFavorites = () => {
+    router.push("/favorites");
+  };
   // #3E2723 marroncito oscuro
   // F5F5DC Beige
   // DAA520 amarillo tostado
@@ -72,8 +76,8 @@ const Navbar = () => {
     <AppBar position="sticky">
       <Box sx={{ bgcolor: theme.palette.primary.main, color: "white" }}>
         <Toolbar>
-          <Grid container alignItems="center" sx={{}}>
-            <Box  sx={{ maxWidth:"30%"}} >
+          <Grid container alignItems="center">
+            <Box  sx={{ maxWidth:"28%"}} >
               <Link href={"/"}>
               <Box sx={{display:"flex"}}>
                 <Box component="img"  src='/chemexvector.png' alt="logo" sx={{width:"13%", height:"10%"}} />
@@ -86,27 +90,43 @@ const Navbar = () => {
             </Grid>
            
 
-            <Grid item  sx={{ ml:"15%"}}>
-              {user ? (
-                <Box
-                sx={{
-                  cursor: 'pointer',
-                  padding: '10px',
-                  margin: '10px',
-                }}
-              >
-                <Typography onClick={handleToggle} sx={{ display: 'flex', alignItems: 'center' }}>
-                  Hola {user?.name}!
-                  <KeyboardArrowDownIcon />
-                </Typography>
-                <Collapse in={expanded} >
-                  <Typography onClick={goToUserData} >Ver tus datos</Typography>
-                </Collapse>
-              </Box>
-              ) : null}
-            </Grid>
+            <Grid item sx={{ ml: "15%", position: 'relative' }}>
+  {user ? (
+    <Box
+      sx={{
+        cursor: 'pointer',
+        padding: '10px',
+        margin: '10px',
+      }}
+    >
+      <Typography onClick={handleToggle} sx={{ display: 'flex', alignItems: 'center' }}>
+        Hola {user?.name}!
+        <KeyboardArrowDownIcon />
+      </Typography>
+      {expanded && (
+        <Box
+          sx={{
+            position: 'absolute',
+            zIndex: 1,
+            backgroundColor: 'white',  // Puedes ajustar el color de fondo según tu diseño
+            color:"white",
+            width: "100%",
+            p:2,
+            pb:1,
+            bgcolor: theme.palette.primary.main
+          }}
+        >
+          <Typography onClick={goToUserData} variant="body2" sx={{pb:1}}>Tus datos</Typography>
+          <Typography onClick={goToUserFavorites} variant="body2" > 
+           {/* <BookmarkBorderOutlinedIcon sx={{fontSize:"15px"}} />  */}
+           Favoritos </Typography>
+        </Box>
+      )}
+    </Box>
+  ) : null}
+</Grid>
 
-            <Grid item xs={1}  sx={{ml:2}}>
+            <Grid item xs={1}  sx={{ml:2 }}>
               <Box
                 sx={{
                   cursor: "pointer",
@@ -140,7 +160,7 @@ const Navbar = () => {
               </Box>
             </Grid>
 
-            <Grid item xs={0.7} sx={{ ml: 6 }}>
+            <Grid item xs={1} sx={{ ml: 2 }}>
       {!user ? (
         <Box
           sx={{

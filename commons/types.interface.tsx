@@ -8,6 +8,7 @@ export type Product = {
   category: Category;
   subcategory: SubCategory;
   quantity: number;
+  isFavorite: boolean
 };
 
 export type SubCategory = {

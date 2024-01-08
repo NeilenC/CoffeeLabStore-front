@@ -13,10 +13,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import AddToCartButtom from "@/commons/AddToCartButtom";
+import AddToCartButtom from "@/commons/AddToCartButton";
 import oslo1 from "../../public/oslo1.png";
 import theme from "@/styles/theme";
-import { getCategory, getProductsByCategory, getSubCategory } from "@/functions";
+import { getCategory, getProductsByCategory, getProductsBySubCategory, getSubCategory } from "@/functions";
 import ProductsCard from "@/commons/ProductsCard";
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -42,8 +42,15 @@ function CategoryDetail() {
   }, [categoryId]);
 
   useEffect(() => {
-    getProductsByCategory({ categoryId, subCategoryId, setProducts, products });
+    if(subCategoryId !== null) {
+      getProductsBySubCategory({ categoryId, subCategoryId, setProducts, products });
+    }
   }, [categoryId, subCategoryId]);
+  
+  useEffect(() => {
+      getProductsByCategory({ categoryId, setProducts, products });
+  }, [categoryId]);
+
 
   useEffect(() => {
     getCategory({ categoryId, setCategory, category });
@@ -53,6 +60,7 @@ function CategoryDetail() {
     setCurrentPage(newPage);
   };
 
+
   return (
     <Box sx={{ display: "flex", px: 4, py: 2 , bgcolor:"white"}}>
       <Box sx={{ width: "20%" }}>
@@ -60,7 +68,7 @@ function CategoryDetail() {
           variant="h5"
           sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
         >
-          {category}
+          {category} 
         </Typography>
         <Grid container spacing={2} sx={{ ml: 2 }}>
           {subCategory.map((subcategory) => (
@@ -84,17 +92,18 @@ function CategoryDetail() {
               }}
             >
               <Typography sx={{ fontWeight: "bold" }}>
-                {" "}
-                {subcategory.name}{" "}
+                {subcategory.name}
               </Typography>
             </Grid>
           ))}
         </Grid>
       </Box>
       <Grid container spacing={3} sx={{ display: "flex", pt: 3, m: "auto" }}>
-        <Box sx={{}}>
+        <Box  sx={{}}>
           {selectedSubCategory === "Oslo" ? (
-            <Image alt="imageOslo" src={oslo1} height={100} width={1000} />
+            <Box>
+            <Image alt="imageOslo" src={oslo1} height={150} width={1300} />
+              </Box>
             // <Box component={'img'} src={'/oslo1.png'}  alt="imageOslo" sx={{height:"200px", width: "95%"}} />
 
           ) : null}
@@ -142,7 +151,7 @@ function CategoryDetail() {
             key="no-products-message"
             sx={{ width: "50%", m: "auto" }}
           >
-            <Grid item xs={5} sm={5} spacing={3}>
+            <Grid item xs={5} sm={5}>
               <Typography variant="h6"> Lo sentimos!</Typography>
               <Typography variant="body1">
                 No hay productos para esta categoría.{" "}

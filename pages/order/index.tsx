@@ -9,7 +9,6 @@ import {
   FormControlLabel,
   Divider,
 } from "@mui/material";
-// import DetalleCompra from '@/commons/DetalleCompra';
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { CartState } from "@/commons/types.interface";

@@ -14,10 +14,17 @@ const ImageCarousel = ({ images }: any) => {
       autoPlay={false}
       interval={5000}
       stopOnHover={false}
+      // sx={{ maxWidth: "100%", margin: "auto" }} 
     >
       {images.map((image: any, index: any) => (
-        <Box key={index} sx={{}}>
-          <Image src={image.src} alt={image.alt} width={900} height={700} />
+        <Box key={index} sx={{ maxWidth: "100%", height: "auto" }}>
+          <Image
+            src={image.src}
+            alt={image.alt}
+            width={900} 
+            height={700} 
+            layout="responsive"
+          />
         </Box>
       ))}
     </Carousel>

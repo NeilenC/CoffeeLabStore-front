@@ -13,7 +13,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Product } from "@/commons/types.interface";
-import AddToCartButtom from "@/commons/AddToCartButtom";
+import AddToCartButtom from "@/commons/AddToCartButton";
+import BuyButton from "@/commons/BuyButton";
 
 const ProductDetail = () => {
 
@@ -135,6 +136,7 @@ const ProductDetail = () => {
             <Box>
               <AddToCartButtom product={product} quantity={quantity} />
             </Box>
+           <BuyButton product={product} quantity={quantity}/>
           </Grid>
         </Grid>
       ) : (

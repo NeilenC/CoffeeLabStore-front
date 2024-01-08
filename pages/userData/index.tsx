@@ -43,7 +43,7 @@ const UserData = () => {
         }}
       >
         <Typography variant="h4" sx={{ marginBottom: 2 }}>
-          Datos del Usuario
+          Datos personales
         </Typography>
         <Divider sx={{ marginBottom: 2 }} />
         <Grid container spacing={2} justifyContent="center">

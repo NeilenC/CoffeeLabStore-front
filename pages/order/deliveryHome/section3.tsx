@@ -130,8 +130,9 @@ const Section3 = ({
             placeholder="MM/YYYY"
             style={{ marginBottom: "16px" }}
             value={formattedCardExpirationDate}
-            onChange={(e) => setFormattedCardExpirationDate(e.target.value)}
-            // onChange={(e) => handleCardExpirationDateChange(e)}
+            // onChange={(e) => setFormattedCardExpirationDate(e.target.value)}
+            // onChange={(e) => handleCardExpirationDateChange(e.target.value)}
+            onChange={(e) => setCardExpirationDate(e.target.value)}
             />
             </Grid>
         </Grid>
