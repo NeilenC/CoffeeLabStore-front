@@ -4,6 +4,8 @@ import { CartState, Product, UserState } from "./types.interface";
 import { addToCart, removeFromCart } from "@/redux/actions";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Button } from "@mui/material";
+import Swal from "sweetalert2";
+import theme from "@/styles/theme";
 
 const AddToCartButtom = ({ product, quantity }: any) => {
   const cart = useSelector((state: CartState) => state.cart);
@@ -13,6 +15,11 @@ const AddToCartButtom = ({ product, quantity }: any) => {
 
   function addItemToCart(product: Product, quantity: number, userId: string) {
     dispatch(addToCart(product, quantity, userId));
+    Swal.fire({
+      icon: 'success',
+      title: 'Producto agregadoal carrito',
+      confirmButtonColor: theme.palette.primary.main,
+    });
   }
 
   return (

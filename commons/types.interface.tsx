@@ -8,7 +8,10 @@ export type Product = {
   category: Category;
   subcategory: SubCategory;
   quantity: number;
-  isFavorite: boolean
+  isFavorite: boolean;
+  productPreferences: {
+    grind: string
+  }
 };
 
 export type SubCategory = {
@@ -22,6 +25,8 @@ export type Category = {
   name: string;
   description: string;
 };
+
+
 
 export type CartState = {
   cart: any;

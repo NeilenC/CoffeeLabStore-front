@@ -72,20 +72,27 @@ const CartItems = () => {
                     {/* Detalles del producto */}
                     <Box sx={{ width: "50%", pl: 2, m: "auto" }}>
                       <CardContent>
-                        <Typography variant="h6" color="initial" sx={{ py: 1 }}>
+                        <Typography variant="h6" color="initial" sx={{ pb:2 }}>
                           {product.name}
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body2"  sx={{ pb:0.5 }} >
                           Precio por unidad: ${product.price}
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body2" sx={{ pb:0.5 }} >
                           Cantidad seleccionada: {product.quantity}
                         </Typography>
+
+                        {product.category.name === "Café" ? 
+                          <Typography variant="body2"> Molido para: {product.productPreferences?.grind}</Typography>
+                        :null
+                        }
+
                         <Grid
                           container
                           spacing={2}
                           sx={{ pt: 2, color: "black" }}
                         >
+                          
                           <Grid item xs={6}>
                             <Button
                               sx={{ color: "black" }}
@@ -109,10 +116,10 @@ const CartItems = () => {
                       </Grid>
                       <Grid item xs={5}>
                         <Button
-                          sx={{ color: "black" }}
+                          sx={{ color: "black", ml:3  }}
                           onClick={() => decrementItem(product)}
                         >
-                          <Box sx={{ fontSize: "25px" }}>-</Box>
+                          <Box sx={{ fontSize: "25px"}}>-</Box>
                         </Button>
                       </Grid>
                       <Grid item xs={2}>

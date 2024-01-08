@@ -4,26 +4,47 @@ import {
   CardMedia,
   CircularProgress,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { ChangeEvent } from 'react';
 import { Product } from "@/commons/types.interface";
 import AddToCartButtom from "@/commons/AddToCartButton";
 import BuyButton from "@/commons/BuyButton";
+
+const initialProductState: Product = {
+  _id: '',
+  name: '',
+  imageURL: [''],
+  price: 0,
+  stock: 0,
+  description: '',
+  category: { _id: '', name: '', description: '' },
+  subcategory: { _id: '', name: '', category: '' },
+  quantity: 0,
+  isFavorite: false,
+  productPreferences: {
+    grind: '', 
+  },
+};
 
 const ProductDetail = () => {
 
   const router = useRouter();
   const { productId } = router.query;
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<Product | null>(initialProductState);
   const [quantity, setQuantity] = useState(1);
   const [isImageHovered, setIsImageHovered] = useState(false);
   const [actualImage, setActualImage] = useState<string | null>(null);
+  const [selectedGrind, setSelectedGrind] = useState<string>('Grano-default');
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const itemsPerPage = 3;
 
@@ -33,6 +54,26 @@ const ProductDetail = () => {
     setQuantity(isNaN(newQuantity) ? 1 : newQuantity);
   };
 
+  const handleGrindChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    const selectedValue = event.target.value as string;
+    setSelectedGrind(selectedValue);
+  
+    // Actualizar el estado del producto con la molienda seleccionada
+    if (product !== null) {
+      setProduct((prevProduct: Product | null) => ({
+        ...prevProduct!,
+        productPreferences: {
+          ...prevProduct!.productPreferences,
+          grind: selectedValue,
+        },
+      }));
+      
+    }
+  };
+  
+
+  console.log("MOLIENTA", selectedGrind)
+  
   useEffect(() => {
     async function fetchProductDetails() {
       try {
@@ -68,7 +109,7 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    if (product && product.imageURL.length > 0) {
+    if (product && product.imageURL?.length > 0) {
       setActualImage(product.imageURL[0]);
       setSelectedImageIndex(0);
     }
@@ -77,6 +118,8 @@ const ProductDetail = () => {
   const handleClickImage = (image: any) => {
     setActualImage(image)
   }
+
+  console.log("produc", product)
 
   return (
     <Box sx={{ p: 5, display: "flex", height: "100%" }}>
@@ -123,7 +166,8 @@ const ProductDetail = () => {
               Descripción: {product.description}
             </Typography>
             <Typography variant="body1">Disponibles: {product.stock}</Typography>
-            <Box sx={{ py: 3 }}>
+            <Box sx={{display:"flex"}}>
+            <Box sx={{ p: 2 }}>
               <TextField
                 type="number"
                 label="Cantidad"
@@ -133,6 +177,27 @@ const ProductDetail = () => {
                 inputProps={{ min: 1, max: product.stock }}
               />
             </Box>
+            {product.category.name === "Café" ? 
+            <FormControl sx={{ p: 2, minWidth: 200 }}>
+               <Select
+                    labelId="grind-label"
+                    id="grind"
+                    value={selectedGrind}
+                    onChange={handleGrindChange}
+                  >
+               
+                <MenuItem value="Grano-default">Grano</MenuItem>
+                <MenuItem value="Método turco">Método turco</MenuItem>
+                <MenuItem value="Espresso">Espresso</MenuItem>
+                <MenuItem value="Aeropress">Aeropress</MenuItem>
+                <MenuItem value="V-60">V-60</MenuItem>
+                <MenuItem value="Chemex">Chemex</MenuItem>
+                <MenuItem value="Cafetéra eléctrica">Cafetéra eléctrica</MenuItem>
+                <MenuItem value="Prensa francesa">Prensa francesa</MenuItem>
+              </Select>
+            </FormControl>
+              : null }
+              </Box>
             <Box>
               <AddToCartButtom product={product} quantity={quantity} />
             </Box>

@@ -16,22 +16,23 @@ export const cartReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "ADD_TO_CART":
       const quantityToAdd = action.payload.quantity || 1;
-      if (state.cart.find((item: Product) => item._id === action.payload._id)) {
-        const cart = state.cart.filter(
-          (obj: any) => obj._id !== action.payload._id,
-        );
-        const toUpdateObj = state.cart.find(
-          (obj: any) => obj._id === action.payload._id,
-        ) as Product;
-        const updatedObj = {
-          ...action.payload,
-          quantity: (toUpdateObj.quantity || 0) + quantityToAdd,
-        };
-
-        if (updatedObj.quantity <= action.payload.stock) {
+      const existingProductIndex = state.cart.findIndex(
+        (item: Product) => item._id === action.payload._id && item.productPreferences.grind === action.payload.productPreferences.grind
+      );
+    
+      if (existingProductIndex !== -1) {
+        const cart = [...state.cart];
+        const existingProduct = cart[existingProductIndex];
+        const updatedQuantity = existingProduct.quantity + quantityToAdd;
+    
+        if (updatedQuantity <= action.payload.stock) {
+          cart[existingProductIndex] = {
+            ...existingProduct,
+            quantity: updatedQuantity,
+          };
           return {
             ...state,
-            cart: [...cart, updatedObj],
+            cart: cart,
           };
         } else {
           console.error("La cantidad supera el stock disponible");
@@ -48,7 +49,7 @@ export const cartReducer = (state = initialState, action: any) => {
           userId: action.userId,
         };
       }
-
+    
     case "INCREMENT_CART_ITEM":
       const updatedCart = state.cart.map((item: Product) => {
         if (item._id === action.payload._id) {

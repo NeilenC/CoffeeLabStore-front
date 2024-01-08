@@ -28,13 +28,16 @@ const theme = createTheme({
       color: "#556B2F",
     },
     h3: {
-      fontFamily: "'Lobster', 'sans-serif",
-      fontSize: "2.5rem",
-
+      fontFamily: " Rethink Sans, sans-serif",
+      fontSize: "2rem",
     },
     body1: {
       fontSize: "1rem",
       fontWeight: 700,
+    },
+    body2: {
+      fontSize: "1rem",
+      fontWeight: 500,
     },
   },
 });

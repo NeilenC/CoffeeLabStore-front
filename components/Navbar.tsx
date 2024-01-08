@@ -195,16 +195,25 @@ const Navbar = () => {
          <Categories />
     </AppBar>
   ) : 
-  <Box sx={{height:"80px", bgcolor:"white"}}>
+  <Grid container sx={{ height: "80px", bgcolor: "white", alignItems: "center" }}>
 
+  <Grid item xs={9}>
     <Link href={"/"}>
-    <Box sx={{display:"flex", ml:2}}>
+      <Box sx={{ display: "flex"}}>
 
-      <Box component="img"  src='/chemexvector.png' alt="logo" sx={{width:"4%", my:"auto", mt:1}} />
-      <Box component="img"  src='/logo.png' alt="logo" sx={{width:"10%", height:"9%", mt:3}} />
-    </Box>
+      <Box component="img" src='/chemexvector.png' alt="logo" sx={{ width: "5%", mt: 1 }} />
+      <Box component="img" src='/logo.png' alt="logo" sx={{ width: "13%", height: "45%", my:"auto"  }} />
+      </Box>
     </Link>
-  </Box> 
+  </Grid>
+
+  <Grid item xs={3} sx={{ ml: "auto", p:1, bgcolor: theme.palette.primary.main , color:"black", cursor:"pointer"}}
+  onClick={goToUserFavorites}>
+   <Typography variant="h6">Favoritos <FavoriteBorderIcon sx={{ fontSize:"1.2rem", pt:0.5, }}/></Typography>  
+  </Grid>
+</Grid>
+
+
   }
     </Box>
   );

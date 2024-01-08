@@ -59,11 +59,13 @@ useEffect(() => {
   
 
   return (
-    <Box sx={{p:10}}>
-    <Typography variant='h5' sx={{ml:"16px"}}> Tus favoritos </Typography>
-    <ProductsCard products={products}/>
+<Box sx={{ py: 10 }}>
+  <Box sx={{ display: 'flex', justifyContent: 'center', pb:4 }}>
+    <Typography variant='h3'>Tus favoritos</Typography>
+  </Box>
+  <ProductsCard products={products}/>
+</Box>
 
-        </Box>
   )
 }
 

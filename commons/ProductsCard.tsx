@@ -72,7 +72,18 @@ const ProductsCard = ({products = []}:any) => {
     }
   };
   
+  useEffect(() => {
+   
+    const favoritesFromStorageString = localStorage.getItem('favorites');
+    const favoritesFromStorage = favoritesFromStorageString ? JSON.parse(favoritesFromStorageString) : [];
 
+    const updatedProductsList = products.map((product: Product) => ({
+      ...product,
+      isFavorite: favoritesFromStorage.includes(product._id),
+    }));
+
+    setVisibleProductsList(updatedProductsList);
+  }, [products]);
 
 
   return (
@@ -85,7 +96,7 @@ const ProductsCard = ({products = []}:any) => {
           <Box
             component="img"
             src={product.imageURL[0]}
-            sx={{ width: '100%', height: '90%', objectFit: 'cover' }}
+            sx={{ width: '100%', height: '98%', objectFit: 'cover' }}
           />
         </Box>
       </Link>
