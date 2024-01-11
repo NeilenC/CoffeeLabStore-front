@@ -5,12 +5,7 @@ const initialState: CartState = {
   cart: [],
 };
 
-export const updateUserInfo = (userInfo: any) => {
-  return {
-    type: "UPDATE_USER_INFO",
-    payload: userInfo,
-  };
-};
+
 
 export const cartReducer = (state = initialState, action: any) => {
   switch (action.type) {
@@ -58,11 +53,7 @@ export const cartReducer = (state = initialState, action: any) => {
           if (newQuantity <= item.stock) {
             return { ...item, quantity: newQuantity };
           } else {
-            Swal.fire({
-              icon: "warning",
-              title: "¡Alerta!",
-              text: `La cantidad supera el stock disponible para el producto ${item.name}`,
-            });
+             console.log(`La cantidad supera el stock disponible para el producto ${item.name}`)
           }
         }
         return item;
@@ -122,10 +113,17 @@ export const cartReducer = (state = initialState, action: any) => {
   }
 };
 
-export const userInfo = () => {
-  return (dispatch: any) => {
-    dispatch(updateUserInfo(userInfo));
-  };
-};
+
+// export const updateUserInfo = (userInfo: any) => {
+//   return {
+//     type: "UPDATE_USER_INFO",
+//     payload: userInfo,
+//   };
+// };
+// export const userInfo = () => {
+//   return (dispatch: any) => {
+//     dispatch(updateUserInfo(userInfo));
+//   };
+// };
 
 //----------------------------------- ORDEN DE COMPRA -----------------------------------

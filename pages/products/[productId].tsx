@@ -72,8 +72,6 @@ const ProductDetail = () => {
   };
   
 
-  console.log("MOLIENTA", selectedGrind)
-  
   useEffect(() => {
     async function fetchProductDetails() {
       try {
@@ -119,7 +117,6 @@ const ProductDetail = () => {
     setActualImage(image)
   }
 
-  console.log("produc", product)
 
   return (
     <Box sx={{ p: 5, display: "flex", height: "100%" }}>
@@ -158,14 +155,22 @@ const ProductDetail = () => {
             ))}
               </Box>
           </Grid>
-          <Grid item xs={5} sx={{ my: "100px" }}>
+          <Grid item xs={5} sx={{ my: "60px" }}>
             <Typography variant="h4">{product.name}</Typography>
             <Divider sx={{ my: 3, color: "black" }} />
-            <Typography variant="body1">Precio: ${product.price}</Typography>
-            <Typography variant="body1">
-              Descripción: {product.description}
-            </Typography>
-            <Typography variant="body1">Disponibles: {product.stock}</Typography>
+            <Typography variant="body2" sx={{py:1}}>Precio: ${product.price}</Typography>
+            <Typography variant="body2" component="div">
+                Descripción:
+                <pre style={{ whiteSpace: 'pre-wrap' }}>
+                  {product.description}
+                </pre>
+              </Typography>
+
+            {product.stock > 0 ? 
+            <Typography variant="body2">Disponibles: {product.stock }</Typography>
+            :
+            <Typography variant="body2" sx={{pt:2, color: "red"}}> No hay stock disponible para este producto </Typography>
+             }
             <Box sx={{display:"flex"}}>
             <Box sx={{ p: 2 }}>
               <TextField
@@ -174,6 +179,7 @@ const ProductDetail = () => {
                 variant="outlined"
                 value={quantity}
                 onChange={handleQuantityChange}
+                disabled={product.stock <= 0}
                 inputProps={{ min: 1, max: product.stock }}
               />
             </Box>

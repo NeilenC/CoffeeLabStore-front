@@ -51,7 +51,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ height: "66vh" }}>
+    <Container component="main" maxWidth="xs" sx={{  pb:10 }}>
       <CssBaseline />
       <Box sx={{ pt: 7 }}>
         <Box

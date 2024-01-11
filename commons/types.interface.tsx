@@ -70,6 +70,7 @@ export type OrderState = {
   paymentData: paymentData;
   totalCart: number;
   trackingNumber: string;
+  cartId: string[]
 };
 
 type userData = {

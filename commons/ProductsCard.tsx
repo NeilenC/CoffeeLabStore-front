@@ -6,19 +6,19 @@ import { useRouter } from 'next/router';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Product, UserState } from './types.interface';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToFavorites, removeFromFavorites, resetState } from '@/redux/actions';
+import CartItems from '@/components/Cart';
 
 
 const ProductsCard = ({products = []}:any) => {
-
-  const [visibleProducts, setVisibleProducts] = useState(9);
+  const favoriteProducts = useSelector((state:any) => state.favorites)
+  const [visibleProducts, setVisibleProducts] = useState(8);
   const [visibleProductsList, setVisibleProductsList] = useState<Product[]>([]);
-  const user = useSelector((state:UserState) => state.user)
-  const router = useRouter()
-  const favoritesFromStorageString = localStorage.getItem('favorites');
-  const favoritesFromStorage = favoritesFromStorageString ? JSON.parse(favoritesFromStorageString) : [];
+  const [selectedAsFavorite, setSelectedAsFavorite ] = useState<string>("")
+  const dispatch = useDispatch()
 
-
+  
   useEffect(() => {
     if (window.location.pathname === '/') {
       setVisibleProductsList(products.slice(0, visibleProducts));
@@ -26,66 +26,31 @@ const ProductsCard = ({products = []}:any) => {
       setVisibleProductsList(products);
     }
   }, [visibleProducts, products]);
+  
 
+  const handleToggleFavorite = (productId: string) => {
 
-  const handleToggleFavorite = async (productId: string, isFavorite: boolean) => {
-    try {
-      const url = `http://localhost:8000/favorites/${user._id}/${isFavorite ? 'remove-from-favorites' : 'add-to-favorites'}`;
-  
-      const method = isFavorite ? 'DELETE' : 'POST';
-  
-      await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ productId }), 
-      });
-  
-      const updatedProductsList = visibleProductsList.map((product: Product) => {
-        if (product._id === productId) {
-          return { ...product, isFavorite: !isFavorite };
-        }
-        return product;
-      });
-  
-      setVisibleProductsList(updatedProductsList);
-      const index = favoritesFromStorage.indexOf(productId);
+    const selectedProduct = products.find((product: any) => product._id === productId);
 
+  
+    if (selectedProduct) {
+      const isFavorite = favoriteProducts.favorites.map((item: any)=> item._id).includes(productId);
       if (isFavorite) {
-        // Si el producto ya es favorito, quítalo de la lista
-        if (index !== -1) {
-          favoritesFromStorage.splice(index, 1);
-        }
+        dispatch(removeFromFavorites(productId));
       } else {
-        // Si el producto no es favorito, agrégalo a la lista
-        if (index === -1) {
-          favoritesFromStorage.push(productId);
-        }
+
+        dispatch(addToFavorites(selectedProduct));
       }
-    
-      // Actualiza el estado en el localStorage
-      localStorage.setItem('favorites', JSON.stringify(favoritesFromStorage));
-   
-    } catch (error) {
-      console.error('Error al agregar a favoritos', error);
     }
   };
+
   
   useEffect(() => {
-   
-    const favoritesFromStorageString = localStorage.getItem('favorites');
-    const favoritesFromStorage = favoritesFromStorageString ? JSON.parse(favoritesFromStorageString) : [];
+    handleToggleFavorite(selectedAsFavorite)
+  },[selectedAsFavorite, setSelectedAsFavorite])
+  
 
-    const updatedProductsList = products.map((product: Product) => ({
-      ...product,
-      isFavorite: favoritesFromStorage.includes(product._id),
-    }));
-
-    setVisibleProductsList(updatedProductsList);
-  }, [products]);
-
-
+ 
   return (
     <Grid container  sx={{ maxWidth: "1300px", m: "auto", pb:5 }}>
    {visibleProductsList.map((product: Product) => (
@@ -96,7 +61,7 @@ const ProductsCard = ({products = []}:any) => {
           <Box
             component="img"
             src={product.imageURL[0]}
-            sx={{ width: '100%', height: '98%', objectFit: 'cover' }}
+            sx={{ width: '100%', height: '98%'}}
           />
         </Box>
       </Link>
@@ -107,10 +72,11 @@ const ProductsCard = ({products = []}:any) => {
         <Box  color="black" sx={{ py: 1, display: 'flex',justifyContent: 'space-between' }}>
           <Typography variant="body1" sx={{ my:"auto"}}>${product.price}</Typography>
           <IconButton
-            color={product.isFavorite ? 'error' : 'default'}
-            onClick={() => handleToggleFavorite(product._id, product.isFavorite)}
+            color={product ? 'error' : 'default'}
+            onClick={() => setSelectedAsFavorite(product._id)}
           >
-            {product.isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            {favoriteProducts.favorites.map((item:any) => item._id).includes(product._id)  ? 
+             <FavoriteIcon /> : <FavoriteBorderIcon sx={{color:"grey"}}/>}
           </IconButton>
         </Box>
     
@@ -127,7 +93,7 @@ const ProductsCard = ({products = []}:any) => {
             <Box sx={{ display: "flex", justifyContent: "center", mt: 2, width: { xs: "100%", md: "100%" }, }}>
         <Button
           variant="contained"
-          onClick={() => setVisibleProducts((prev) => prev + 9)}
+          onClick={() => setVisibleProducts((prev) => prev + 8)}
           sx={{
             borderRadius: 8,
             color: "black",
@@ -144,3 +110,60 @@ const ProductsCard = ({products = []}:any) => {
 }
 
 export default ProductsCard
+
+
+ // const handleToggleFavorite = async (productId: string, isFavorite: boolean) => {
+  //   try {
+  //     const url = `http://localhost:8000/favorites/${user._id}/${isFavorite ? 'remove-from-favorites' : 'add-to-favorites'}`;
+  
+  //     const method = isFavorite ? 'DELETE' : 'POST';
+  
+  //     await fetch(url, {
+  //       method,
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ productId }), 
+  //     });
+  
+  //     const updatedProductsList = visibleProductsList.map((product: Product) => {
+  //       if (product._id === productId) {
+  //         return { ...product, isFavorite: !isFavorite };
+  //       }
+  //       return product;
+  //     });
+  
+  //     setVisibleProductsList(updatedProductsList);
+  //     const index = favoritesFromStorage.indexOf(productId);
+
+  //     if (isFavorite) {
+  //       if (index !== -1) {
+  //         favoritesFromStorage.splice(index, 1);
+  //       }
+  //     } else {
+  //       if (index === -1) {
+  //         favoritesFromStorage.push(productId);
+  //       }
+  //     }
+    
+  //     localStorage.setItem('favorites', JSON.stringify(favoritesFromStorage));
+   
+  //   } catch (error) {
+  //     console.error('Error al agregar a favoritos', error);
+  //   }
+  // };
+  
+  // useEffect(() => {
+   
+  //   const favoritesFromStorageString = localStorage.getItem('favorites');
+  //   const favoritesFromStorage = favoritesFromStorageString ? JSON.parse(favoritesFromStorageString) : [];
+
+  //   const updatedProductsList = products.map((product: Product) => ({
+  //     ...product,
+  //     isFavorite: favoritesFromStorage.includes(product._id),
+  //   }));
+  //   console.log("updatedProductsList", updatedProductsList)
+
+  //   setVisibleProductsList(updatedProductsList);
+  // }, [products]);
+

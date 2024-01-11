@@ -40,8 +40,24 @@ export const clearCart = () => {
     type: 'CLEAR_CART',
   };
 };
-//----------------------------------- ORDEN DE COMPRA -----------------------------------
-export const createOrder = (cart: CartState) => ({
-  type: "CREATE_ORDER",
-  payload: cart,
+
+
+//----------------------------------- CARRITO DE COMPRA -----------------------------------
+
+export const ADD_TO_FAVORITES = 'ADD_TO_FAVORITES';
+export const REMOVE_FROM_FAVORITES = 'REMOVE_FROM_FAVORITES';
+export const RESET_STATE = 'RESET_STATE';
+
+export const addToFavorites = (producto: Product) => ({
+  type: ADD_TO_FAVORITES,
+  payload: producto,
+});
+
+export const removeFromFavorites = (productoId: string) => ({
+  type: REMOVE_FROM_FAVORITES,
+  payload: productoId,
+});
+
+export const resetState = () => ({
+  type: RESET_STATE,
 });

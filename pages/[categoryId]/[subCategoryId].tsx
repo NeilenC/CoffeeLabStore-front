@@ -62,8 +62,8 @@ function CategoryDetail() {
 
 
   return (
-    <Box sx={{ display: "flex", px: 4, py: 2 , bgcolor:"white"}}>
-      <Box sx={{ width: "20%" }}>
+    <Box sx={{ display: "flex" , bgcolor:"white"}}>
+      <Box sx={{ width: "15%" }}>
         <Typography
           variant="h5"
           sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
@@ -111,9 +111,9 @@ function CategoryDetail() {
         {/* MAP DE LOS PRODUCTOS */}
         
         {products.length ? (
-          <Box>
+          <Box sx={{mr:1}}>
 
-          <Box sx={{m:"auto", bgcolor:"whitesmoke"}}>
+          <Box sx={{m:"auto", bgcolor:"whitesmoke" }}>
           <ProductsCard products={currentProducts} />
           {/* PAGINACION */}
         </Box>
