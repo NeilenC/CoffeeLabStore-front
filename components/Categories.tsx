@@ -87,7 +87,6 @@ const Categories = () => {
   const handleCategoryChange = async (categoryId: string) => {
     setSelectedCategory(categoryId)
     router.push(`/${selectedCategory}/${null}`)
-
   }
 
   useEffect(() => {

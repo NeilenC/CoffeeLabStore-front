@@ -7,17 +7,22 @@ const initialState = {
   };
   
   const favoritesReducer = (state = initialState, action:any) => {
+
+    console.log(" action.payload",  action.payload)
+
     switch (action.type) {
       case ADD_TO_FAVORITES:
         return {
           ...state,
-          favorites: [...state.favorites, action.payload],
+          favorites: [...state.favorites,  action.payload],
         };
   
       case  REMOVE_FROM_FAVORITES:
         return {
           ...state,
-          favorites: state.favorites.filter((product: Product | null) => product?._id !== action.payload),
+          favorites: state.favorites.filter((product: Product | null) => {
+            return product?._id !== action.payload;
+          }),
         };
 
         case RESET_STATE:

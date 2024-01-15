@@ -27,27 +27,33 @@ const ProductsCard = ({products = []}:any) => {
     }
   }, [visibleProducts, products]);
   
+  useEffect(() => {
+  const handleToggleFavorite = async (productId: string) => {
+    console.log('Toggle Favorite: ', productId);
+  try {
 
-  const handleToggleFavorite = (productId: string) => {
-
-    const selectedProduct = products.find((product: any) => product._id === productId);
-
-  
+    const selectedProduct = await products.find((product: any) => product._id === productId);
+    
     if (selectedProduct) {
-      const isFavorite = favoriteProducts.favorites.map((item: any)=> item._id).includes(productId);
+      const isFavorite = favoriteProducts.favorites.map((item: any) => item._id).includes(productId);
+      console.log('Is Favorite: ', isFavorite);
+  
       if (isFavorite) {
+        console.log('Removing from Favorites');
         dispatch(removeFromFavorites(productId));
       } else {
-
+        console.log('Adding to Favorites');
         dispatch(addToFavorites(selectedProduct));
+        // dispatch(resetState())
       }
     }
+  } catch(error) {
+    console.log(error)
+  }
   };
-
   
-  useEffect(() => {
-    handleToggleFavorite(selectedAsFavorite)
-  },[selectedAsFavorite, setSelectedAsFavorite])
+    handleToggleFavorite(selectedAsFavorite);
+  }, [selectedAsFavorite, setSelectedAsFavorite]);
   
 
  
@@ -75,9 +81,11 @@ const ProductsCard = ({products = []}:any) => {
             color={product ? 'error' : 'default'}
             onClick={() => setSelectedAsFavorite(product._id)}
           >
-            {favoriteProducts.favorites.map((item:any) => item._id).includes(product._id)  ? 
-             <FavoriteIcon /> : <FavoriteBorderIcon sx={{color:"grey"}}/>}
+            {favoriteProducts.favorites.map((item: any) => item._id).includes(product._id) ? 
+              <FavoriteIcon /> : <FavoriteBorderIcon sx={{color: "grey"}} />
+            }
           </IconButton>
+
         </Box>
     
         <AddToCartButtom product={product} quantity={1} />

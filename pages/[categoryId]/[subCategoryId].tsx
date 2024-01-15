@@ -42,15 +42,15 @@ function CategoryDetail() {
   }, [categoryId]);
 
   useEffect(() => {
+    getProductsByCategory({ categoryId, setProducts, products });
+  }, [categoryId]);
+  
+  useEffect(() => {
     if(subCategoryId !== null) {
       getProductsBySubCategory({ categoryId, subCategoryId, setProducts, products });
     }
   }, [categoryId, subCategoryId]);
   
-  useEffect(() => {
-      getProductsByCategory({ categoryId, setProducts, products });
-  }, [categoryId]);
-
 
   useEffect(() => {
     getCategory({ categoryId, setCategory, category });
@@ -60,6 +60,8 @@ function CategoryDetail() {
     setCurrentPage(newPage);
   };
 
+
+  console.log("products", products)
 
   return (
     <Box sx={{ display: "flex" , bgcolor:"white"}}>

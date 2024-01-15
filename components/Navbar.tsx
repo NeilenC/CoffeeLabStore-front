@@ -108,7 +108,7 @@ const Navbar = () => {
           sx={{
             position: 'absolute',
             zIndex: 1,
-            backgroundColor: 'white',  // Puedes ajustar el color de fondo según tu diseño
+            backgroundColor: 'white', 
             color:"white",
             width: "100%",
             p:2,
@@ -195,27 +195,25 @@ const Navbar = () => {
          <Categories />
     </AppBar>
   ) : 
-  <Grid container sx={{ height: "80px", bgcolor: "white", alignItems: "center" }}>
+    <Grid container sx={{ height: "80px", bgcolor: "white", alignItems: "center" }}>
 
-  <Grid item xs={9}>
-    <Link href={"/"}>
-      <Box sx={{ display: "flex"}}>
+    <Grid item xs={9}>
+      <Link href={"/"}>
+        <Box sx={{ display: "flex"}}>
 
-      <Box component="img" src='/chemexvector.png' alt="logo" sx={{ width: "5%", mt: 1 }} />
-      <Box component="img" src='/logo.png' alt="logo" sx={{ width: "13%", height: "45%", my:"auto"  }} />
-      </Box>
-    </Link>
+        <Box component="img" src='/chemexvector.png' alt="logo" sx={{ width: "5%", mt: 1 }} />
+        <Box component="img" src='/logo.png' alt="logo" sx={{ width: "13%", height: "45%", my:"auto"  }} />
+        </Box>
+      </Link>
+    </Grid>
+
+    <Grid item xs={3} sx={{ ml: "auto", p:1, bgcolor: theme.palette.primary.main , color:"black", cursor:"pointer"}}
+    onClick={goToUserFavorites}>
+    <Typography variant="h6">Favoritos <FavoriteBorderIcon sx={{ fontSize:"1.2rem", pt:0.5, }}/></Typography>  
+    </Grid>
   </Grid>
-
-  <Grid item xs={3} sx={{ ml: "auto", p:1, bgcolor: theme.palette.primary.main , color:"black", cursor:"pointer"}}
-  onClick={goToUserFavorites}>
-   <Typography variant="h6">Favoritos <FavoriteBorderIcon sx={{ fontSize:"1.2rem", pt:0.5, }}/></Typography>  
-  </Grid>
-</Grid>
-
-
   }
-    </Box>
+  </Box>
   );
 };
 

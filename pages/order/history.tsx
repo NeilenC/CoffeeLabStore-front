@@ -55,14 +55,14 @@ const Historial = () => {
         }
 
         const orderData: OrderState[] = await response.json();
+console.log("orderdAta", orderData)
+        // setOrders(orderData);
 
-        setOrders(orderData);
+        // const cartsIdArray =  orderData.map((cart)=> cart.cartId)
 
-        const cartsIdArray =  orderData.map((cart)=> cart.cartId)
+        // // const cartsIds =  cartsIdArray.map((item) => item[0]._id)
 
-        const cartsIds =  cartsIdArray.map((item) => item[0]._id)
-
-        setCartData(cartsIds)
+        // setCartData(cartsIdArray)
        
       } catch (error) {
         console.error('Error fetching data:', error);
