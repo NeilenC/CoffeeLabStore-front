@@ -9,7 +9,7 @@ import { clearCart } from "@/redux/actions";
 const Confirmation = () => {
   const user = useSelector((state: UserState) => state.user);
   const [order, setOrder] = useState<OrderState | null>(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,9 +26,7 @@ const Confirmation = () => {
         const orderData: OrderState = await response.json();
         setOrder(orderData);
 
-        dispatch(clearCart())
-
-
+        dispatch(clearCart());
       } catch (error) {
         console.log("Error fetching data:");
       }
@@ -44,7 +42,7 @@ const Confirmation = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        pt:15
+        pt: 15,
       }}
     >
       <Typography

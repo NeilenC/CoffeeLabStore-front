@@ -49,8 +49,8 @@ const Cafeteras = () => {
       sub.name.includes(cafeteraName.toLowerCase()),
     );
 
-    console.log("matchedSubCategory", matchedSubCategory)
-    
+    console.log("matchedSubCategory", matchedSubCategory);
+
     if (matchedSubCategory) {
       router.push(`/${matchedSubCategory.category}/${matchedSubCategory._id}`);
     } else {
@@ -59,8 +59,14 @@ const Cafeteras = () => {
   };
 
   return (
-    <Box sx={{ bgcolor: "#eeeeee", px: { xs: 2, sm: 4, md: "28%" }, py: { xs: 4, sm: 6, md: 8 },
-     pb: { xs: 4, sm: 6, md: 7 } }}>
+    <Box
+      sx={{
+        bgcolor: "#eeeeee",
+        px: { xs: 2, sm: 4, md: "28%" },
+        py: { xs: 4, sm: 6, md: 8 },
+        pb: { xs: 4, sm: 6, md: 7 },
+      }}
+    >
       <Box sx={{ justifyContent: "center", textAlign: "center", pb: 5 }}>
         <Typography sx={{ fontWeight: "bold", margin: "auto" }}>
           Encontrá tu cafetera ideal acá
@@ -80,7 +86,7 @@ const Cafeteras = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                width: { xs: "100%", sm: "60%", md: "calc(80% / 5)" }, 
+                width: { xs: "100%", sm: "60%", md: "calc(80% / 5)" },
               }}
             >
               <Image alt={alt} src={img} height={80} width={80} />
@@ -101,7 +107,6 @@ const Cafeteras = () => {
       </Box>
     </Box>
   );
-  
- }  
+};
 
-  export default Cafeteras
+export default Cafeteras;

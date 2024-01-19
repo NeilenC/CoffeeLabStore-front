@@ -37,16 +37,15 @@ export const decrementCartItem = (product: Product) => ({
 
 export const clearCart = () => {
   return {
-    type: 'CLEAR_CART',
+    type: "CLEAR_CART",
   };
 };
 
-
 //----------------------------------- CARRITO DE COMPRA -----------------------------------
 
-export const ADD_TO_FAVORITES = 'ADD_TO_FAVORITES';
-export const REMOVE_FROM_FAVORITES = 'REMOVE_FROM_FAVORITES';
-export const RESET_STATE = 'RESET_STATE';
+export const ADD_TO_FAVORITES = "ADD_TO_FAVORITES";
+export const REMOVE_FROM_FAVORITES = "REMOVE_FROM_FAVORITES";
+export const RESET_STATE = "RESET_STATE";
 
 export const addToFavorites = (producto: Product) => ({
   type: ADD_TO_FAVORITES,

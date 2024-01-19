@@ -77,10 +77,7 @@ const Section3 = ({
 
   return (
     <Box>
-      <Box
-        sx={{ color: "black", py: 2 }}
-        onClick={handleGoBack}
-      >
+      <Box sx={{ color: "black", py: 2 }} onClick={handleGoBack}>
         <ArrowBackIcon />
       </Box>
       <Typography variant="h5" gutterBottom>
@@ -103,38 +100,35 @@ const Section3 = ({
       paymentMethod === "tarjeta credito" ? (
         <Grid container spacing={2}>
           <Grid item xs={12}>
-
-          <TextField
-            label="Número de Tarjeta"
-            fullWidth
-            style={{ marginBottom: "16px" }}
-            value={cardNumber}
-            onChange={(e) => setCardNumber(e.target.value)}
+            <TextField
+              label="Número de Tarjeta"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              value={cardNumber}
+              onChange={(e) => setCardNumber(e.target.value)}
             />
-            </Grid>
-            <Grid item xs={6}>
-
-          <TextField
-            label="Código de Seguridad"
-            fullWidth
-            style={{ marginBottom: "16px" }}
-            value={cardSecurityCode}
-            onChange={(e) => setCardSecurityCode(e.target.value)}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Código de Seguridad"
+              fullWidth
+              style={{ marginBottom: "16px" }}
+              value={cardSecurityCode}
+              onChange={(e) => setCardSecurityCode(e.target.value)}
             />
-            </Grid>
-            <Grid item xs={6}>
-
-          <TextField
-            label="Fecha de Vencimiento"
-            fullWidth
-            placeholder="MM/YYYY"
-            style={{ marginBottom: "16px" }}
-            value={formattedCardExpirationDate}
-            // onChange={(e) => setFormattedCardExpirationDate(e.target.value)}
-            // onChange={(e) => handleCardExpirationDateChange(e.target.value)}
-            onChange={(e) => setCardExpirationDate(e.target.value)}
+          </Grid>
+          <Grid item xs={6}>
+            <TextField
+              label="Fecha de Vencimiento"
+              fullWidth
+              placeholder="MM/YYYY"
+              style={{ marginBottom: "16px" }}
+              value={formattedCardExpirationDate}
+              // onChange={(e) => setFormattedCardExpirationDate(e.target.value)}
+              // onChange={(e) => handleCardExpirationDateChange(e.target.value)}
+              onChange={(e) => setCardExpirationDate(e.target.value)}
             />
-            </Grid>
+          </Grid>
         </Grid>
       ) : null}
 
@@ -155,7 +149,7 @@ const Section3 = ({
         Confirmar
       </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default Section3
+export default Section3;

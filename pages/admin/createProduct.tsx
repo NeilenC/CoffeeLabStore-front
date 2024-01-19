@@ -69,26 +69,23 @@ const ProductForm = () => {
           name: selectedSubcategory ? selectedSubcategory.name : "",
         },
       }));
-      
     } else if (name === "keys") {
       setProductData((prevData) => ({
         ...prevData,
         keys: value.split(/\s+/),
       }));
-    }  else if (name === "imageURL") {
+    } else if (name === "imageURL") {
       setProductData((prevData) => ({
         ...prevData,
         [name]: Array.isArray(value) ? value : value.split(/\s+/),
       }));
-    }  else {
+    } else {
       setProductData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
     }
   };
-
-
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -129,11 +126,10 @@ const ProductForm = () => {
         body: JSON.stringify(productData),
       });
       if (response.ok) {
-        toast.success('Producto creado exitosamente');
-        resetForm()
-      
+        toast.success("Producto creado exitosamente");
+        resetForm();
       } else {
-        toast.error("Error al crear el producto")
+        toast.error("Error al crear el producto");
       }
     } catch (error) {
       console.error("Error de red:", error);
@@ -143,17 +139,15 @@ const ProductForm = () => {
   //------------------------ FUNCION OBTENER CATEGORIAS ------------------------
 
   useEffect(() => {
-    getCategories({setCategories});
+    getCategories({ setCategories });
   }, []);
 
   //------------------------ FUNCION OBTENER SUBCATEGORIAS ------------------------
 
   useEffect(() => {
-   const category = selectedCategory.id
-    getSubCategories({selectedCategory: category, setSubcategory});
+    const category = selectedCategory.id;
+    getSubCategories({ selectedCategory: category, setSubcategory });
   }, [selectedCategory]);
-
-
 
   return (
     <Box sx={{ p: 10, display: "flex" }}>
@@ -186,9 +180,11 @@ const ProductForm = () => {
           <TextField
             label="URL de la imagen"
             name="imageURL"
-            value={Array.isArray(productData.imageURL)
-              ? productData.imageURL.join(" ")
-              : productData.imageURL}
+            value={
+              Array.isArray(productData.imageURL)
+                ? productData.imageURL.join(" ")
+                : productData.imageURL
+            }
             onChange={handleChange}
             required
             fullWidth
@@ -283,9 +279,11 @@ const ProductForm = () => {
             <TextField
               label="Palabras clave (separadas por espacio)"
               name="keys"
-              value={Array.isArray(productData.keys)
-                ? productData.keys.join(" ")
-                : productData.keys}
+              value={
+                Array.isArray(productData.keys)
+                  ? productData.keys.join(" ")
+                  : productData.keys
+              }
               onChange={handleChange}
               fullWidth
             />

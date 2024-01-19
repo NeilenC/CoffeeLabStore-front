@@ -10,8 +10,8 @@ export type Product = {
   quantity: number;
   isFavorite: boolean;
   productPreferences: {
-    grind: string
-  }
+    grind: string;
+  };
 };
 
 export type SubCategory = {
@@ -25,8 +25,6 @@ export type Category = {
   name: string;
   description: string;
 };
-
-
 
 export type CartState = {
   cart: any;
@@ -63,14 +61,14 @@ export type UserState = {
 };
 
 export type OrderState = {
-  id: string,
+  id: string;
   createdAt: string;
   shoppingData: shoppingData;
   userData: userData;
   paymentData: paymentData;
   totalCart: number;
   trackingNumber: string;
-  cartId: string[]
+  cartId: string[];
 };
 
 type userData = {

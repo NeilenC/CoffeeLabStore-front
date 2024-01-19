@@ -25,7 +25,7 @@ const initialState = {
 
 const userReducer = createReducer(initialState, {
   [setUserInfo.type]: (state, action: { payload: UserInfo }) => {
-    return action.payload;
+    return ;
   },
   [clearUserInfo.type]: (state) => {
     return initialState;

@@ -16,11 +16,15 @@ import React, { useEffect, useState } from "react";
 import AddToCartButtom from "@/commons/AddToCartButton";
 import oslo1 from "../../public/oslo1.png";
 import theme from "@/styles/theme";
-import { getCategory, getProductsByCategory, getProductsBySubCategory, getSubCategory } from "@/functions";
+import {
+  getCategory,
+  getProductsByCategory,
+  getProductsBySubCategory,
+  getSubCategory,
+} from "@/functions";
 import ProductsCard from "@/commons/ProductsCard";
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-
+import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
+import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 
 function CategoryDetail() {
   const router = useRouter();
@@ -35,7 +39,10 @@ function CategoryDetail() {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct,
+  );
 
   useEffect(() => {
     getSubCategory({ categoryId, setSubcategory, subCategory });
@@ -44,13 +51,17 @@ function CategoryDetail() {
   useEffect(() => {
     getProductsByCategory({ categoryId, setProducts, products });
   }, [categoryId]);
-  
+
   useEffect(() => {
-    if(subCategoryId !== null) {
-      getProductsBySubCategory({ categoryId, subCategoryId, setProducts, products });
+    if (subCategoryId !== null) {
+      getProductsBySubCategory({
+        categoryId,
+        subCategoryId,
+        setProducts,
+        products,
+      });
     }
   }, [categoryId, subCategoryId]);
-  
 
   useEffect(() => {
     getCategory({ categoryId, setCategory, category });
@@ -60,17 +71,16 @@ function CategoryDetail() {
     setCurrentPage(newPage);
   };
 
-
-  console.log("products", products)
+  console.log("products", products);
 
   return (
-    <Box sx={{ display: "flex" , bgcolor:"white"}}>
+    <Box sx={{ display: "flex", bgcolor: "white" }}>
       <Box sx={{ width: "15%" }}>
         <Typography
           variant="h5"
           sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
         >
-          {category} 
+          {category}
         </Typography>
         <Grid container spacing={2} sx={{ ml: 2 }}>
           {subCategory.map((subcategory) => (
@@ -101,52 +111,49 @@ function CategoryDetail() {
         </Grid>
       </Box>
       <Grid container spacing={3} sx={{ display: "flex", pt: 3, m: "auto" }}>
-        <Box  sx={{}}>
+        <Box sx={{}}>
           {selectedSubCategory === "Oslo" ? (
             <Box>
-            <Image alt="imageOslo" src={oslo1} height={150} width={1300} />
-              </Box>
-            // <Box component={'img'} src={'/oslo1.png'}  alt="imageOslo" sx={{height:"200px", width: "95%"}} />
+              <Image alt="imageOslo" src={oslo1} height={150} width={1300} />
+            </Box>
+          ) : // <Box component={'img'} src={'/oslo1.png'}  alt="imageOslo" sx={{height:"200px", width: "95%"}} />
 
-          ) : null}
+          null}
         </Box>
         {/* MAP DE LOS PRODUCTOS */}
-        
-        {products.length ? (
-          <Box sx={{mr:1}}>
 
-          <Box sx={{m:"auto", bgcolor:"whitesmoke" }}>
-          <ProductsCard products={currentProducts} />
-          {/* PAGINACION */}
-        </Box>
-          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-            <Button
-              disabled={currentPage === 1}
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              <KeyboardDoubleArrowLeftIcon />
-            </Button>
-            {Array.from({ length: totalPages }).map((_, index) => (
+        {products.length ? (
+          <Box sx={{ mr: 1 }}>
+            <Box sx={{ m: "auto", bgcolor: "whitesmoke" }}>
+              <ProductsCard products={currentProducts} />
+              {/* PAGINACION */}
+            </Box>
+            <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
               <Button
-                key={index}
-                onClick={() => handlePageChange(index + 1)}
-                sx={{
-                  fontWeight: currentPage === index + 1 ? 'bold' : 'normal',
-                }}
+                disabled={currentPage === 1}
+                onClick={() => handlePageChange(currentPage - 1)}
               >
-                {index + 1}
+                <KeyboardDoubleArrowLeftIcon />
               </Button>
-            ))}
-            <Button
-              disabled={indexOfLastProduct >= products.length}
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              <KeyboardDoubleArrowRightIcon />
-            </Button>
+              {Array.from({ length: totalPages }).map((_, index) => (
+                <Button
+                  key={index}
+                  onClick={() => handlePageChange(index + 1)}
+                  sx={{
+                    fontWeight: currentPage === index + 1 ? "bold" : "normal",
+                  }}
+                >
+                  {index + 1}
+                </Button>
+              ))}
+              <Button
+                disabled={indexOfLastProduct >= products.length}
+                onClick={() => handlePageChange(currentPage + 1)}
+              >
+                <KeyboardDoubleArrowRightIcon />
+              </Button>
+            </Box>
           </Box>
-        </Box>
-        
-        
         ) : (
           <Grid
             container

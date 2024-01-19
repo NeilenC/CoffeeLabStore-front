@@ -14,18 +14,17 @@ const AddToCartButtom = ({ product, quantity }: any) => {
   const dispatch = useDispatch();
 
   function addItemToCart(product: Product, quantity: number, userId: string) {
-    if(product.stock > 0) {
-
+    if (product.stock > 0) {
       dispatch(addToCart(product, quantity, userId));
       Swal.fire({
-        icon: 'success',
-        title: 'Producto agregadoal carrito',
+        icon: "success",
+        title: "Producto agregadoal carrito",
         confirmButtonColor: theme.palette.primary.main,
       });
     } else {
       Swal.fire({
-        icon: 'error',
-        title: 'No se encuentra stock para este producto',
+        icon: "error",
+        title: "No se encuentra stock para este producto",
         confirmButtonColor: theme.palette.primary.main,
       });
     }

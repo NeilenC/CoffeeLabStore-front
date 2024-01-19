@@ -62,7 +62,7 @@ const DetalleCompra = () => {
   }, [cart]);
 
   return (
-    <Box sx={{ width: "40%" ,}}>
+    <Box sx={{ width: "40%" }}>
       <Box>
         {cart.cart.length > 0 && (
           <Box width="30%" sx={{ width: "50%", m: "auto" }}>
@@ -74,13 +74,15 @@ const DetalleCompra = () => {
                 ml: "auto",
                 mr: 4,
                 bgcolor: "white",
-                 boxShadow: "0px 1.5px 3px -1px rgba(0,0,0,0.4)"
+                boxShadow: "0px 1.5px 3px -1px rgba(0,0,0,0.4)",
               }}
             >
               <Typography variant="h6">Resumen de compra</Typography>
               <Divider />
 
-              <Typography  variant="body2" sx={{ py: 1 }}>Productos {totalQuantity}</Typography>
+              <Typography variant="body2" sx={{ py: 1 }}>
+                Productos {totalQuantity}
+              </Typography>
 
               <Typography variant="body2">Total ${totalPrice}</Typography>
 

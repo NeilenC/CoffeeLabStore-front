@@ -1,25 +1,25 @@
 import { CartState, Product } from "@/commons/types.interface";
-import Swal from "sweetalert2";
 
 const initialState: CartState = {
   cart: [],
 };
-
-
 
 export const cartReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case "ADD_TO_CART":
       const quantityToAdd = action.payload.quantity || 1;
       const existingProductIndex = state.cart.findIndex(
-        (item: Product) => item._id === action.payload._id && item.productPreferences.grind === action.payload.productPreferences.grind
+        (item: Product) =>
+          item._id === action.payload._id &&
+          item.productPreferences.grind ===
+            action.payload.productPreferences.grind,
       );
-    
+
       if (existingProductIndex !== -1) {
         const cart = [...state.cart];
         const existingProduct = cart[existingProductIndex];
         const updatedQuantity = existingProduct.quantity + quantityToAdd;
-    
+
         if (updatedQuantity <= action.payload.stock) {
           cart[existingProductIndex] = {
             ...existingProduct,
@@ -44,7 +44,7 @@ export const cartReducer = (state = initialState, action: any) => {
           userId: action.userId,
         };
       }
-    
+
     case "INCREMENT_CART_ITEM":
       const updatedCart = state.cart.map((item: Product) => {
         if (item._id === action.payload._id) {
@@ -53,7 +53,9 @@ export const cartReducer = (state = initialState, action: any) => {
           if (newQuantity <= item.stock) {
             return { ...item, quantity: newQuantity };
           } else {
-             console.log(`La cantidad supera el stock disponible para el producto ${item.name}`)
+            console.log(
+              `La cantidad supera el stock disponible para el producto ${item.name}`,
+            );
           }
         }
         return item;
@@ -112,7 +114,6 @@ export const cartReducer = (state = initialState, action: any) => {
       return state;
   }
 };
-
 
 // export const updateUserInfo = (userInfo: any) => {
 //   return {

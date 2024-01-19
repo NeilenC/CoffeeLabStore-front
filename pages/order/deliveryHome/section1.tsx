@@ -48,7 +48,7 @@ const Section1 = ({
   }, [user, setName, setLastName, setDni, setPhoneNumber, setEmail]);
 
   return (
-    <Box >
+    <Box>
       <Typography variant="h5" gutterBottom>
         Datos Personales
       </Typography>
@@ -95,16 +95,16 @@ const Section1 = ({
           />
         </Grid>
       </Grid>
-      <Box sx={{pt:2}}>
-      <Button
-        onClick={() => {
-          handleNextSection();
-          handleSaveToLocalStorage();
-        }}
-        sx={{ color: "black" }}
-      >
-        Siguiente
-      </Button>
+      <Box sx={{ pt: 2 }}>
+        <Button
+          onClick={() => {
+            handleNextSection();
+            handleSaveToLocalStorage();
+          }}
+          sx={{ color: "black" }}
+        >
+          Siguiente
+        </Button>
       </Box>
     </Box>
   );

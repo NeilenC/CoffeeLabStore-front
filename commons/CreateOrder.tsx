@@ -18,14 +18,12 @@ const CreateOrder = () => {
             method: "POST",
           },
         );
-
       } catch (error) {
         console.error("Error al enviar el carrito al backend", error);
       }
     };
 
     sendCartToBackend();
-
   }, []);
 
   return (

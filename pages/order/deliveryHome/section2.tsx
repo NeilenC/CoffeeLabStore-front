@@ -46,7 +46,6 @@ const Section2 = ({
       setDirectionNum(shippingData.directionNum || "");
       setCodigo(shippingData.codigo || "");
       setLocalidad(shippingData.localidad || "");
-
     }
   }, []);
 

@@ -30,23 +30,26 @@ const Footer = () => {
               <Typography variant="h6">Información de contacto</Typography>
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  "&:hover": { color: "#DAA520" }
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { color: "#DAA520" },
                 }}
               >
-                <CallIcon  sx={{fontSize:"20px"}}/>
-                <Typography variant="body2" > &nbsp; +54 221 6918419</Typography>
+                <CallIcon sx={{ fontSize: "20px" }} />
+                <Typography variant="body2"> &nbsp; +54 221 6918419</Typography>
               </Box>
               <Box
                 sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  "&:hover": { color: "#DAA520" }
+                  display: "flex",
+                  alignItems: "center",
+                  "&:hover": { color: "#DAA520" },
                 }}
               >
-                <EmailIcon  sx={{fontSize:"20px"}}/>
-                <Typography variant="body2"sx={{py:1}} > &nbsp; coffeelab@store.com</Typography>
+                <EmailIcon sx={{ fontSize: "20px" }} />
+                <Typography variant="body2" sx={{ py: 1 }}>
+                  {" "}
+                  &nbsp; coffeelab@store.com
+                </Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>

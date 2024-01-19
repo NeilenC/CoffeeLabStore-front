@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   Divider,
+  useMediaQuery,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { CartState, Product } from "@/commons/types.interface";
@@ -22,10 +23,11 @@ import { useRouter } from "next/router";
 import DetalleCompra from "@/commons/DetalleCompra";
 
 const CartItems = () => {
-  useUserData();
+  useUserData()
+  const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const cart = useSelector((state: CartState) => state.cart);
   const dispatch = useDispatch();
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -44,9 +46,9 @@ const CartItems = () => {
   }
 
   return (
-    <Box sx={{ bgcolor: "whitesmoke" , p:5}}>
-      <Box display="flex" justifyContent="space-between" sx={{ p: 5 }}>
-        <Box width="65%" sx={{}}>
+    <Box sx={{ bgcolor: "whitesmoke", p: 5 }}>
+       <Box display="flex" flexDirection={isSmallScreen ? "column" : "row"} sx={{ p: isSmallScreen ? 1:5 }}>
+       <Box width={isSmallScreen ? "100%" : "65%"} sx={{}}>
           <Grid container spacing={2}>
             {cart.cart.length ? (
               cart.cart.map((product: any) => (
@@ -72,27 +74,28 @@ const CartItems = () => {
                     {/* Detalles del producto */}
                     <Box sx={{ width: "50%", pl: 2, m: "auto" }}>
                       <CardContent>
-                        <Typography variant="h6" color="initial" sx={{ pb:2 }}>
+                        <Typography variant="h6" color="initial" sx={{ pb: 2 }}>
                           {product.name}
                         </Typography>
-                        <Typography variant="body2"  sx={{ pb:0.5 }} >
+                        <Typography variant="body2" sx={{ pb: 0.5 }}>
                           Precio por unidad: ${product.price}
                         </Typography>
-                        <Typography variant="body2" sx={{ pb:0.5 }} >
+                        <Typography variant="body2" sx={{ pb: 0.5 }}>
                           Cantidad seleccionada: {product.quantity}
                         </Typography>
 
-                        {product.category.name === "Café" ? 
-                          <Typography variant="body2"> Molido para: {product.productPreferences?.grind}</Typography>
-                        :null
-                        }
+                        {product.category.name === "Café" ? (
+                          <Typography variant="body2">
+                            {" "}
+                            Molido para: {product.productPreferences?.grind}
+                          </Typography>
+                        ) : null}
 
                         <Grid
                           container
                           spacing={2}
                           sx={{ pt: 2, color: "black" }}
                         >
-                          
                           <Grid item xs={6}>
                             <Button
                               sx={{ color: "black" }}
@@ -116,10 +119,10 @@ const CartItems = () => {
                       </Grid>
                       <Grid item xs={5}>
                         <Button
-                          sx={{ color: "black", ml:3  }}
+                          sx={{ color: "black", ml: 3 }}
                           onClick={() => decrementItem(product)}
                         >
-                          <Box sx={{ fontSize: "25px"}}>-</Box>
+                          <Box sx={{ fontSize: "25px" }}>-</Box>
                         </Button>
                       </Grid>
                       <Grid item xs={2}>
@@ -145,8 +148,14 @@ const CartItems = () => {
                     No hay productos en el carrito
                   </Box>
                   <Box sx={{ ml: "25%", pt: 3 }}>
-                    <Button color="warning"
-                    onClick={()=> {router.push('/')}}>Ir a inicio</Button>
+                    <Button
+                      color="warning"
+                      onClick={() => {
+                        router.push("/");
+                      }}
+                    >
+                      Ir a inicio
+                    </Button>
                   </Box>
                 </Box>
               </Box>

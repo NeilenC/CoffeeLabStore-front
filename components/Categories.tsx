@@ -26,21 +26,20 @@ const Categories = () => {
   const [isClosingCategory, setIsClosingCategory] = useState(false);
 
   useEffect(() => {
-    getCategories({setCategories});
+    getCategories({ setCategories });
   }, []);
-
 
   const handleMouseEnterCategory = useCallback((categoryId: string) => {
     getSubCategory(categoryId);
     setSelectedCategory(categoryId);
     setIsMouseOverCategory(true);
-    setIsClosingCategory(false); 
+    setIsClosingCategory(false);
   }, []);
 
   const handleMouseLeaveCategory = useCallback(() => {
     if (!isMouseOverSubcategory) {
       setIsMouseOverCategory(false);
-      setIsClosingCategory(true); 
+      setIsClosingCategory(true);
     }
   }, [isMouseOverSubcategory]);
 
@@ -85,9 +84,9 @@ const Categories = () => {
   };
 
   const handleCategoryChange = async (categoryId: string) => {
-    setSelectedCategory(categoryId)
-    router.push(`/${selectedCategory}/${null}`)
-  }
+    setSelectedCategory(categoryId);
+    router.push(`/${selectedCategory}/${null}`);
+  };
 
   useEffect(() => {
     let timerId: NodeJS.Timeout;
@@ -104,13 +103,18 @@ const Categories = () => {
       }
     };
   }, [isClosingCategory]);
-  
+
   return (
-      <Grid container sx={{ bgcolor: "white", height: 50 }}>
-        {categories.map((category: Category) => {
-          const isExpanded = category._id === expandedCategory;
-          return (
-            <Grid key={category._id} item xs={2} md={1} sx={{ mx: "auto" }}
+    <Grid container sx={{ bgcolor: "white", height: 50 }}>
+      {categories.map((category: Category) => {
+        const isExpanded = category._id === expandedCategory;
+        return (
+          <Grid
+            key={category._id}
+            item
+            xs={2}
+            md={1}
+            sx={{ mx: "auto" }}
             onMouseEnter={() => handleMouseEnterCategory(category._id)}
             onMouseLeave={handleMouseLeaveCategory}
           >
@@ -130,51 +134,50 @@ const Categories = () => {
                   ? setExpandedCategory("")
                   : getSubCategory(category._id),
                   setSelectedCategory(category._id);
-                  handleCategoryChange(category._id)
+                handleCategoryChange(category._id);
               }}
+            >
+              {category.name}
+            </Typography>
+            {isExpanded ? (
+              <Box
+                ref={subcategoryRef}
+                className={expandedCategory ? "fadeOut" : ""}
+                sx={{
+                  position: "relative",
+                  zIndex: 1,
+                  bgcolor: "white",
+                  py: 1,
+                  p: 1.5,
+                  columns: subCategory.length > 4 ? "2" : "1",
+                  width: "250px",
+                  columnGap: "30px",
+                }}
+                onMouseEnter={handleMouseEnterSubcategory}
+                onMouseLeave={handleMouseLeaveSubcategory}
               >
-                {category.name}
-              </Typography>
-              {isExpanded ? (
-                <Box
-                  ref={subcategoryRef}
-                  className={expandedCategory ? "fadeOut" : ""}
-                  sx={{
-                    position: "relative",
-                    zIndex: 1,
-                    bgcolor: "white",
-                    py: 1,
-                    p: 1.5, 
-                    columns: subCategory.length > 4 ? "2" : "1",
-                    width: "250px",
-                    columnGap: "30px",
-                  }}
-                  onMouseEnter={handleMouseEnterSubcategory}
-                  onMouseLeave={handleMouseLeaveSubcategory}
-                >
-                  {subCategory.map((subcategory: any) => (
-                  
-                    <Box key={subcategory._id} sx={{ py: 0.5 }}>
-                      <Typography
-                        onClick={() => handleSubcategoryChange(subcategory._id)}
-                        variant="body2"
-                        sx={{
-                          paddingLeft: 1,
-                          textAlign: "left",
-                          "&:hover": { color: "grey" },
-                        }}
-                      >
-                        {subcategory.name}
-                      </Typography>
-                      {/* <Divider sx={{width:"80%", ml:1}}/> */}
-                    </Box>
-                  ))}
-                </Box>
-              ) : null}
-            </Grid>
-          );
-        })}
-      </Grid>
+                {subCategory.map((subcategory: any) => (
+                  <Box key={subcategory._id} sx={{ py: 0.5 }}>
+                    <Typography
+                      onClick={() => handleSubcategoryChange(subcategory._id)}
+                      variant="body2"
+                      sx={{
+                        paddingLeft: 1,
+                        textAlign: "left",
+                        "&:hover": { color: "grey" },
+                      }}
+                    >
+                      {subcategory.name}
+                    </Typography>
+                    {/* <Divider sx={{width:"80%", ml:1}}/> */}
+                  </Box>
+                ))}
+              </Box>
+            ) : null}
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 

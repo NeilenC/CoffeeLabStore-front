@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemText,
   Box,
+  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Product } from "@/commons/types.interface";
@@ -17,10 +18,12 @@ import { searchProducts } from "@/functions";
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
-  const [showResults, setShowResults] = useState(true); 
+  const [showResults, setShowResults] = useState(true);
   const router = useRouter();
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  const isSmallScreen = useMediaQuery('(max-width: 800px)')
 
   useEffect(() => {
     if (searchTerm.trim() !== "") {
@@ -35,7 +38,7 @@ const Search = () => {
       router.push(`/products/${productId}`);
       setSearchResults([]);
       setSearchTerm("");
-      setShowResults(false); 
+      setShowResults(false);
     }
   }
 
@@ -52,9 +55,9 @@ const Search = () => {
         setShowResults(false);
       }
     }
-  
+
     document.addEventListener("click", handleClickOutside);
-  
+
     return () => {
       document.removeEventListener("click", handleClickOutside);
       if (timerId) {
@@ -73,28 +76,27 @@ const Search = () => {
     if (e.key === "Enter") {
       searchProducts({ searchTerm, setSearchResults });
       router.push(`/search/${searchTerm}`);
-      setShowResults(false); 
+      setShowResults(false);
       setSearchTerm("");
-
     } else {
-      setShowResults(true); 
+      setShowResults(true);
     }
   };
 
   return (
-    <Grid item xs={5} ref={searchContainerRef}>
+    <Grid item  xs={isSmallScreen ? 8 : 5} ref={searchContainerRef}>
       <InputBase
         sx={{
           bgcolor: "white",
           color: "black",
-          width: "380px",
+          width:  isSmallScreen || isMediumScreen ? "150px" : "380px",
           px: 1.5,
           borderRadius: "50px",
           border: "1px solid lightgrey",
           position: "relative",
           zIndex: 2,
         }}
-        placeholder="Buscar..."
+        placeholder="Buscar"
         value={searchTerm}
         inputProps={{ "aria-label": "Buscar" }}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -111,31 +113,38 @@ const Search = () => {
         <Box
           sx={{
             overflowY: "auto",
-            width: "370px",
+            width: isSmallScreen ? "200px" : "370px",
             position: "absolute",
             top: "100%",
             zIndex: 1,
-            visibility: searchResults.length > 0 && searchTerm.trim() !== "" ? "visible" : "hidden",
-            height: searchResults.length > 0 && searchTerm.trim() !== "" ? "auto" : "0",
+            visibility:
+              searchResults.length > 0 && searchTerm.trim() !== ""
+                ? "visible"
+                : "hidden",
+            height:
+              searchResults.length > 0 && searchTerm.trim() !== ""
+                ? "auto"
+                : "0",
             transition: "height 0.3s",
           }}
           onMouseEnter={handleMouseEnter}
         >
-            {showResults && searchResults?.map((product) => (
-            <List sx={{ bgcolor: theme.palette.primary.main }}>
-              <Grid container spacing={1} key={product._id} sx={{ p: 1 }}>
-                <Grid
-                  item
-                  sx={{
-                    "&:hover": { bgcolor: "#fac880", p: 0.5, pr: 2 },
-                    ml: 1,
-                  }}
-                  onClick={() => handleClickSearch(product._id)}
-                >
-                  {product.name}{" "}
+          {showResults &&
+            searchResults?.map((product) => (
+              <List sx={{ bgcolor: theme.palette.primary.main }}>
+                <Grid container spacing={1} key={product._id} sx={{ p: 1 }}>
+                  <Grid
+                    item
+                    sx={{
+                      "&:hover": { bgcolor: "#fac880", p: 0.5, pr: 2 },
+                      ml: 1,
+                    }}
+                    onClick={() => handleClickSearch(product._id)}
+                  >
+                    {product.name}{" "}
+                  </Grid>
                 </Grid>
-              </Grid>
-          </List>
+              </List>
             ))}
         </Box>
       )}
