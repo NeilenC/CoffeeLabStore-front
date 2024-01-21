@@ -63,6 +63,7 @@ export async function getProductsByCategory({
 
       if (data) {
         setProducts(data);
+        console.log("DATAAAA", data)
         return products;
       }
     }

@@ -9,6 +9,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
@@ -54,8 +55,8 @@ const ProductDetail = () => {
     setQuantity(isNaN(newQuantity) ? 1 : newQuantity);
   };
 
-  const handleGrindChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const selectedValue = event.target.value as string;
+  const handleGrindChange = (event: SelectChangeEvent<string>) => {
+    const selectedValue = event.target.value
     setSelectedGrind(selectedValue);
 
     // Actualizar el estado del producto con la molienda seleccionada

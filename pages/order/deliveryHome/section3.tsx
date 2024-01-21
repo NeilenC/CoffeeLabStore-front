@@ -76,7 +76,7 @@ const Section3 = ({
   };
 
   return (
-    <Box>
+    <Box >
       <Box sx={{ color: "black", py: 2 }} onClick={handleGoBack}>
         <ArrowBackIcon />
       </Box>

@@ -47,9 +47,9 @@ const CartItems = () => {
 
   return (
     <Box sx={{ bgcolor: "whitesmoke", p: 5 }}>
-       <Box display="flex" flexDirection={isSmallScreen ? "column" : "row"} sx={{ p: isSmallScreen ? 1:5 }}>
-       <Box width={isSmallScreen ? "100%" : "65%"} sx={{}}>
-          <Grid container spacing={2}>
+    <Box display="flex" flexDirection={isSmallScreen ? "column" : "row"} sx={{ p: isSmallScreen ? 1 : 5 }}>
+      <Box width={isSmallScreen ? "100%" : "65%"} sx={{}}>
+        <Grid container spacing={2}>
             {cart.cart.length ? (
               cart.cart.map((product: any) => (
                 <Grid item key={product._id} xs={12}>

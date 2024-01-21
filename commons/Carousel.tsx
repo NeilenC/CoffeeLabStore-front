@@ -6,6 +6,7 @@ import Image from "next/image";
 
 const ImageCarousel = ({ images }: any) => {
   return (
+    <Box sx={{ maxHeight:'100vh' }}>
     <Carousel
       showStatus={false}
       showIndicators={false}
@@ -16,17 +17,18 @@ const ImageCarousel = ({ images }: any) => {
       stopOnHover={false}
     >
       {images.map((image: any, index: any) => (
-        <Box key={index} sx={{ maxWidth: "100%", height: "auto" }}>
+        <Box key={index} sx={{ maxWidth: "100%" }}>
           <Image
             src={image.src}
             alt={image.alt}
-            width={900}
-            height={700}
+            // width={900}
+            // height={700}
             layout="responsive"
-          />
+            />
         </Box>
       ))}
     </Carousel>
+      </Box>
   );
 };
 

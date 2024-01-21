@@ -39,7 +39,7 @@ export default function Home() {
   );
 
   return (
-    <>
+    <Box>
       <ImageCarousel images={images} />
       <Cafeteras />
       <Typography variant="h5" sx={{ p: 5, textAlign: "center" }}>
@@ -59,6 +59,6 @@ export default function Home() {
         Otros que te pueden interesar{" "}
       </Typography>
       <ProductsCard products={otherProducts} />
-    </>
+    </Box>
   );
 }

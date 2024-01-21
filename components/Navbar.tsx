@@ -70,7 +70,7 @@ const Navbar = () => {
   }, [router.pathname]);
   console.log("username", user.name)
   return (
-    <Box>
+    <Box sx={{}}>
       {isSmallScreen ? (
           <>
              <MenuIcon

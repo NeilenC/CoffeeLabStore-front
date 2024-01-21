@@ -86,7 +86,7 @@ const ProductsCard = ({ products = [] }: any) => {
                 <Box
                   component="img"
                   src={product.imageURL[0]}
-                  sx={{ width: "100%", height: "98%" }}
+                  sx={{ width: "100%", height: "98%", overflow:"hidden  " }}
                 />
               </Box>
             </Link>

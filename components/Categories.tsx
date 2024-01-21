@@ -27,14 +27,15 @@ const Categories = () => {
 
   useEffect(() => {
     getCategories({ setCategories });
-  }, []);
+  }, [selectedCategory, categories]);
 
   const handleMouseEnterCategory = useCallback((categoryId: string) => {
     getSubCategory(categoryId);
     setSelectedCategory(categoryId);
     setIsMouseOverCategory(true);
     setIsClosingCategory(false);
-  }, []);
+
+  }, [selectedCategory]);
 
   const handleMouseLeaveCategory = useCallback(() => {
     if (!isMouseOverSubcategory) {
@@ -83,10 +84,18 @@ const Categories = () => {
     router.push(`/${selectedCategory}/${subcategoryId}`);
   };
 
-  const handleCategoryChange = async (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    router.push(`/${selectedCategory}/${null}`);
-  };
+  // const handleCategoryChange = async (categoryId: string) => {
+  //   setSelectedCategory(categoryId);
+  //   router.push(`/${selectedCategory}/${null}`);
+  // };
+
+
+    const handleCategoryChange = (categoryId: string) => {
+      setExpandedCategory("")
+      setSelectedCategory(categoryId)
+      router.push(`/${categoryId}`);
+    }
+
 
   useEffect(() => {
     let timerId: NodeJS.Timeout;
@@ -104,19 +113,21 @@ const Categories = () => {
     };
   }, [isClosingCategory]);
 
+
   return (
     <Grid container sx={{ bgcolor: "white", height: 50 }}>
       {categories.map((category: Category) => {
         const isExpanded = category._id === expandedCategory;
         return (
           <Grid
-            key={category._id}
             item
+            key={category._id}
             xs={2}
             md={1}
             sx={{ mx: "auto" }}
             onMouseEnter={() => handleMouseEnterCategory(category._id)}
             onMouseLeave={handleMouseLeaveCategory}
+            onClick={() => {handleCategoryChange(category._id)}}
           >
             <Typography
               variant="h6"
@@ -129,20 +140,12 @@ const Categories = () => {
                 p: 1,
                 fontWeight: "bold",
               }}
-              onClick={() => {
-                isExpanded
-                  ? setExpandedCategory("")
-                  : getSubCategory(category._id),
-                  setSelectedCategory(category._id);
-                handleCategoryChange(category._id);
-              }}
             >
               {category.name}
             </Typography>
             {isExpanded ? (
               <Box
                 ref={subcategoryRef}
-                className={expandedCategory ? "fadeOut" : ""}
                 sx={{
                   position: "relative",
                   zIndex: 1,

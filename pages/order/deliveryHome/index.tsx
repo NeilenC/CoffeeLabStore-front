@@ -104,14 +104,15 @@ const DeliveryHome = () => {
     <Box
       sx={{
         display: "flex",
-        direction: "column",
+        justifyContent: 'center',
+        m: 'auto',
         bgcolor: "#F5f5f5f5",
-        p: 9,
+        px: 9,
+        py:5,
         maxWidth: "70%",
-        m: "auto",
       }}
     >
-      <Box>
+      <Box >
         {/* <LockIcon/>  */}
         <Box sx={{ mb: 3 }}>
           <Box
