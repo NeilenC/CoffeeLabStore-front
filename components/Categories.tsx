@@ -157,7 +157,6 @@ const Categories = () => {
                         paddingLeft: 1,
                         textAlign: "left",
                         "&:hover": { color: "grey" },
-                        bgcolor:"pink"
                       }}
                       onClick={() => handleSubcategoryChange(category._id, subcategory._id)}
                     >

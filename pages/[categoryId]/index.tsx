@@ -47,9 +47,6 @@ function CategoryDetail() {
     getSubCategory({ categoryId, setSubcategory, subCategory });
   }, [categoryId]);
 
-  // useEffect(() => {
-  //   getProductsByCategory({ categoryId, setProducts, products });
-  // }, [categoryId]);
 
   useEffect(() => {
       getProductsByCategory({

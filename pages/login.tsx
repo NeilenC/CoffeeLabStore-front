@@ -39,7 +39,7 @@ const LoginForm = () => {
 
         alert("Inicio de sesión exitoso");
 
-        // dispatch(setUserInfo(user));
+        dispatch(setUserInfo(user));
 
         router.push("/");
         resetForm();
