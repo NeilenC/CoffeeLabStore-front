@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
@@ -6,12 +6,17 @@ import {
   TextField,
   Typography,
   Box,
-  Grid,
+  Grid, 
+  IconButton, 
+  InputAdornment
 } from "@mui/material";
 import { Formik, Form, Field, FormikHelpers } from "formik"; // Import FormikHelpers
 import { useRouter } from "next/router";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const RegistrationForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const initialValues = {
     name: "",
@@ -24,8 +29,8 @@ const RegistrationForm = () => {
   };
 
   const handleSubmit = async (
-    values: any, // Provide a type for values if not using TypeScript's type inference
-    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>, // Use FormikHelpers
+    values: any, 
+    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>, 
   ) => {
     try {
       const response = await fetch("http://localhost:8000/auth/register", {
@@ -51,7 +56,7 @@ const RegistrationForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ pb: 10 }}>
+    <Container component="main" maxWidth="sm" sx={{ pb: 10 }}>
       <CssBaseline />
       <Box sx={{ pt: 7 }}>
         <Box
@@ -123,12 +128,25 @@ const RegistrationForm = () => {
                       variant="outlined"
                       required
                       fullWidth
+                      type={showPassword ? "text" : "password"}
                       name="password"
                       label="Contraseña"
-                      type="password"
                       id="password"
                       autoComplete="new-password"
-                    />
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              sx={{bgcolor:"lightgrey", mr:0.5}}
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              edge="end"
+                            >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                     ),
+                    }}
+                  />
                   </Grid>
                   <Grid item xs={6}>
                     <Field
@@ -138,10 +156,23 @@ const RegistrationForm = () => {
                       fullWidth
                       name="confirmPassword"
                       label="Repetir contraseña"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       id="confirmPassword"
                       autoComplete="new-password"
-                    />
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              sx={{bgcolor:"lightgrey", mr:0.5}}
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              edge="end"
+                            >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                     ),
+                    }}
+                  />
                   </Grid>
                 </Grid>
                 <Button

@@ -6,10 +6,14 @@ import {
   Button,
   Grid,
   InputLabel,
+  IconButton,
+  InputAdornment
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { UserState } from "@/commons/types.interface";
 import { useRouter } from "next/router";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 import Swal from "sweetalert2";
 import theme from "@/styles/theme";
@@ -22,6 +26,7 @@ type EditUserDataFormProps = {
 };
 
 const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState(initialData);
   const router = useRouter();
   const handleChange = (fieldName: string, value: string) => {
@@ -95,14 +100,31 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
             fullWidth
           />
         </Grid>
+        
         <Grid item xs={12} sx={{ pb: 3 }}>
-          <InputLabel> Contraseña </InputLabel>
-          <TextField
-            value={formData?.password}
-            onChange={(e) => handleChange("password", e.target.value)}
-            fullWidth
-          />
-        </Grid>
+      <InputLabel> Contraseña </InputLabel>
+      <TextField
+        type={showPassword ? "text" : "password"}
+        value={formData?.password}
+        onChange={(e) => handleChange("password", e.target.value)}
+        fullWidth
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={() => setShowPassword((prev) => !prev)}
+                sx={{mr:0.5, bgcolor:"lightgrey"}}
+                edge="end"
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
+      />
+    </Grid>
+
+
         <Grid item xs={6}>
           <Button
             fullWidth

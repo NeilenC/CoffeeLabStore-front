@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
@@ -6,16 +6,21 @@ import {
   TextField,
   Typography,
   Box,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/redux/userInfo";
 import { useRouter } from "next/router";
 import theme from "@/styles/theme";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (
     values: any,
@@ -56,7 +61,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ height: "57vh" }}>
+    <Container component="main" maxWidth="sm" sx={{ height: "60vh" }}>
       <CssBaseline />
       <Box
         sx={{
@@ -94,13 +99,26 @@ const LoginForm = () => {
                 variant="outlined"
                 margin="normal"
                 required
+                label="Contraseña"
                 fullWidth
                 name="password"
-                label="Contraseña"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 autoComplete="current-password"
-              />
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        sx={{bgcolor:"lightgrey", mr:0.5}}
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+               ),
+              }}
+            />
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Typography variant="body1">¿No tenés cuenta?</Typography>
                 <Typography

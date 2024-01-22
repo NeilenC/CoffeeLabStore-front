@@ -96,7 +96,7 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
                 key={category._id} 
                 onClick={() => handleCategorySelect(category._id)}>
                 <Box 
-                sx={{'&:hover': {color: theme.palette.primary.main}, pt:1}} >{category.name} </Box>
+                sx={{'&:hover': {color: theme.palette.primary.main, cursor:"pointer"}, pt:1}} >{category.name} </Box>
               </ListItem>
             ))}
           </List> : null }
