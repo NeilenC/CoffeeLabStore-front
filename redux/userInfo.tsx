@@ -21,6 +21,7 @@ const initialState = {
   phoneNumber: 0,
   role: "",
   address: "",
+  
 };
 
 const userReducer = createReducer(initialState, {

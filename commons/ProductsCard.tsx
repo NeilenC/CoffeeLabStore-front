@@ -39,7 +39,6 @@ const ProductsCard = ({ products = [] }: any) => {
 
   useEffect(() => {
     const handleToggleFavorite = async (productId: string) => {
-      console.log("Toggle Favorite: ", productId);
       try {
         const selectedProduct = await products.find(
           (product: any) => product._id === productId,
@@ -49,15 +48,11 @@ const ProductsCard = ({ products = [] }: any) => {
           const isFavorite = favoriteProducts.favorites
             .map((item: any) => item._id)
             .includes(productId);
-          console.log("Is Favorite: ", isFavorite);
 
           if (isFavorite) {
-            console.log("Removing from Favorites");
             dispatch(removeFromFavorites(productId));
           } else {
-            console.log("Adding to Favorites");
             dispatch(addToFavorites(selectedProduct));
-            // dispatch(resetState())
           }
         }
       } catch (error) {

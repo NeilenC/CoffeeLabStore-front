@@ -28,7 +28,6 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
       {title: "Home", href:"/", icon: null},
       {title: "Datos usuario", href:"/userData", icon: null},
       {title: "Favoritos", href:"/favorites", icon: null},
-      {title: "Carrito", href:"/cart", icon: null},
     ]
 
   const handleClick = () => {
@@ -36,7 +35,7 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
   };
   
   const handleCategorySelect = (categoryId: string) => {
-    router.push(`/${categoryId}/${null}`)
+    router.push(`/${categoryId}`)
     setOpen(false);
     setOpenDrawer(false)
   };

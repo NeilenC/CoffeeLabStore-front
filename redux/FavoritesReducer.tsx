@@ -6,7 +6,7 @@ import {
 } from "./actions";
 
 const initialState = {
-  favorites: [],
+  favorites: [] as Product[],
 };
 
 const favoritesReducer = (state = initialState, action: any) => {

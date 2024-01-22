@@ -27,6 +27,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import NavListDrawer from "@/commons/NavListDrawer";
 import MenuIcon from '@mui/icons-material/Menu';
+import CartIcon from "./CartIcon";
 
 const Navbar = () => {
   useUserData();
@@ -68,11 +69,12 @@ const Navbar = () => {
       setExpanded(false);
     }
   }, [router.pathname]);
-  console.log("username", user.name)
   return (
-    <Box sx={{}}>
+    <Box >
       {isSmallScreen ? (
-          <>
+          <Grid container sx={{display:"flex"}}>
+            <Grid item xs={10}>
+
              <MenuIcon
              sx={{m:2}}
              onClick={()=> setOpenDrawer(true)}/>
@@ -80,11 +82,18 @@ const Navbar = () => {
               open ={openDrawer}
               anchor="left"
               onClose={()=> setOpenDrawer(false)}
-
+              
               >
              <NavListDrawer setOpenDrawer={setOpenDrawer} />
               </Drawer>
-              </>
+                </Grid>
+                
+                <Grid item xs={2} sx={{m:"auto"}}>
+
+                 <CartIcon handleCartClick={handleCartClick} cart={cart}/>
+              
+                </Grid>
+              </Grid>
        ) : null }
        
       {router.pathname !== "/cart" ? (
@@ -161,7 +170,6 @@ const Navbar = () => {
                             onClick={goToUserFavorites}
                             variant="body2"
                             >
-                            {/* <BookmarkBorderOutlinedIcon sx={{fontSize:"15px"}} />  */}
                             Favoritos{" "}
                           </Typography>
                         </Box>
@@ -171,41 +179,7 @@ const Navbar = () => {
                   </Grid>
 
                 <Grid item xs={2} md={1} >
-                  <Box
-                    sx={{
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    onClick={handleCartClick}
-                  >
-                    <ShoppingCartOutlinedIcon sx={{ fontSize: 24 }} />
-                    <Box sx={{ pb: 3 }}>
-                      <Box
-                        sx={{
-                          width: 17,
-                          height: 17,
-                          p: 0.5,
-                          bgcolor: "white",
-                          borderRadius: "50%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography
-                          sx={{
-                            fontSize: 9,
-                            color: "black",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          {cart.cart.length}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
+                 <CartIcon handleCartClick={handleCartClick} cart={cart}/>
                 </Grid>
 
                 <Grid item xs={1} md={1} sm={1} sx={{ml:2}}>
