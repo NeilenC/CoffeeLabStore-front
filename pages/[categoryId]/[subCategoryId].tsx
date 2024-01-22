@@ -43,28 +43,18 @@ function CategoryDetail() {
     indexOfLastProduct,
   );
 
+
   useEffect(() => {
     getSubCategory({ categoryId, setSubcategory, subCategory });
   }, [categoryId]);
 
-  // useEffect(() => {
-  //   getProductsByCategory({ categoryId, setProducts, products });
-  // }, [categoryId]);
-
   useEffect(() => {
-    console.log("subCategoryId", categoryId, typeof subCategoryId)
-   subCategoryId !== 'null' ?
       getProductsBySubCategory({
         categoryId,
         subCategoryId,
         setProducts,
         products,
-      }) : 
-      getProductsByCategory({
-        categoryId,
-        setProducts,
-        products 
-      });
+      }) 
 
   }, [categoryId, subCategoryId, category]);
 
@@ -75,8 +65,6 @@ function CategoryDetail() {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
-
-  console.log("products", products);
 
   return (
     <Box sx={{ display: "flex", bgcolor: "white" }}>

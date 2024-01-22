@@ -79,23 +79,13 @@ const Categories = () => {
     }
   };
 
-  const handleSubcategoryChange = (subcategoryId: string) => {
-    setSelectedSubcategory(subcategoryId);
-    router.push(`/${selectedCategory}/${subcategoryId}`);
-  };
-
-  // const handleCategoryChange = async (categoryId: string) => {
-  //   setSelectedCategory(categoryId);
-  //   router.push(`/${selectedCategory}/${null}`);
-  // };
-
-
-    const handleCategoryChange = (categoryId: string) => {
-      setExpandedCategory("")
-      setSelectedCategory(categoryId)
+  const handleSubcategoryChange = (categoryId: string, subcategoryId: string | null) => {
+    if( subcategoryId !== null) {
+      router.push(`/${categoryId}/${subcategoryId}`);
+    } else {
       router.push(`/${categoryId}`);
     }
-
+  };
 
   useEffect(() => {
     let timerId: NodeJS.Timeout;
@@ -127,9 +117,9 @@ const Categories = () => {
             sx={{ mx: "auto" }}
             onMouseEnter={() => handleMouseEnterCategory(category._id)}
             onMouseLeave={handleMouseLeaveCategory}
-            onClick={() => {handleCategoryChange(category._id)}}
-          >
+            >
             <Typography
+              onClick={() => {handleSubcategoryChange(category._id, null)}}
               variant="h6"
               sx={{
                 color:
@@ -162,13 +152,14 @@ const Categories = () => {
                 {subCategory.map((subcategory: any) => (
                   <Box key={subcategory._id} sx={{ py: 0.5 }}>
                     <Typography
-                      onClick={() => handleSubcategoryChange(subcategory._id)}
                       variant="body2"
                       sx={{
                         paddingLeft: 1,
                         textAlign: "left",
                         "&:hover": { color: "grey" },
+                        bgcolor:"pink"
                       }}
+                      onClick={() => handleSubcategoryChange(category._id, subcategory._id)}
                     >
                       {subcategory.name}
                     </Typography>

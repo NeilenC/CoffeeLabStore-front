@@ -28,7 +28,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 
 function CategoryDetail() {
   const router = useRouter();
-  const { categoryId, subCategoryId } = router.query;
+  const categoryId = router.query.categoryId
   const [products, setProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState("");
   const [subCategory, setSubcategory] = useState<SubCategory[]>([]);
@@ -43,12 +43,13 @@ function CategoryDetail() {
     indexOfLastProduct,
   );
 
-  console.log("routerquery", router.query)
   useEffect(() => {
     getSubCategory({ categoryId, setSubcategory, subCategory });
   }, [categoryId]);
 
-
+  // useEffect(() => {
+  //   getProductsByCategory({ categoryId, setProducts, products });
+  // }, [categoryId]);
 
   useEffect(() => {
       getProductsByCategory({
@@ -56,18 +57,22 @@ function CategoryDetail() {
         setProducts,
         products 
       });
-
-  }, [categoryId, subCategoryId, category]);
+  }, [categoryId, category]);
 
   useEffect(() => {
     getCategory({ categoryId, setCategory, category });
   }, [categoryId]);
 
+  const handleSelectSubcategory = (subcategoryId: string) => {
+    setSelectedSubCategory(subcategoryId)
+    router.push(`/${categoryId}/${subcategoryId}`)
+  };
+
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-  console.log("products", products);
+
 
   return (
     <Box sx={{ display: "flex", bgcolor: "white" }}>
@@ -94,12 +99,11 @@ function CategoryDetail() {
                     ? "#DAA520"
                     : "inherit",
               }}
-              onClick={() => {
-                router.push(`/${categoryId}/${subcategory._id}`),
-                  setSelectedSubCategory(subcategory.name);
-              }}
+              onClick={ () => {handleSelectSubcategory(subcategory._id)}}
             >
-              <Typography sx={{ fontWeight: "bold" }}>
+              <Typography sx={{ fontWeight: "bold" }}
+              
+               >
                 {subcategory.name}
               </Typography>
             </Grid>
