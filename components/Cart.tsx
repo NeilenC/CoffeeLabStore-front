@@ -18,12 +18,10 @@ import {
   incrementCartItem,
   removeFromCart,
 } from "@/redux/actions";
-import useUserData from "@/Hooks/useUserData";
 import { useRouter } from "next/router";
 import DetalleCompra from "@/commons/DetalleCompra";
 
 const CartItems = () => {
-  useUserData()
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const cart = useSelector((state: CartState) => state.cart);
   const dispatch = useDispatch();

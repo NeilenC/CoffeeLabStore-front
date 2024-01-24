@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CartState, UserState } from "@/commons/types.interface";
-import { clearUserInfo } from "@/redux/userInfo";
+import { clearUserInfo } from "@/redux/UserReducer";
 import { useRouter } from "next/router";
 import {
   AppBar,
@@ -16,7 +16,7 @@ import {
   Drawer,
 } from "@mui/material";
 import Link from "next/link";
-import useUserData from "@/Hooks/useUserData";
+// import useUserData from "@/Hooks/useUserData";
 import Categories from "./Categories";
 import theme from "../styles/theme";
 import Search from "./Search";
@@ -28,9 +28,10 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import NavListDrawer from "@/commons/NavListDrawer";
 import MenuIcon from '@mui/icons-material/Menu';
 import CartIcon from "./CartIcon";
+import LogoIcon from "@/commons/LogoIcon";
 
 const Navbar = () => {
-  useUserData();
+  // useUserData();
   const dispatch = useDispatch();
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
@@ -39,6 +40,7 @@ const Navbar = () => {
   const isSmallScreen = useMediaQuery('(max-width: 600px)')
   const isMediumScreen = useMediaQuery('(max-width: 1000px)')
   const [openDrawer,setOpenDrawer] = useState(false)
+
 
   const handleToggle = () => {
     setExpanded(!expanded);
@@ -69,8 +71,11 @@ const Navbar = () => {
       setExpanded(false);
     }
   }, [router.pathname]);
+
   return (
-    <Box >
+    <>
+    { router.pathname !== "/login" && user._id !== '' ? 
+    <Box position="sticky" zIndex={1} sx={{pb:"110px"}}>
       {isSmallScreen ? (
           <Grid container sx={{display:"flex"}}>
             <Grid item xs={10}>
@@ -97,41 +102,18 @@ const Navbar = () => {
        ) : null }
        
       {router.pathname !== "/cart" ? (
-        <AppBar position="sticky" sx={{display:{xs:"none", sm: "block"}}}>
+        <AppBar  sx={{display:{xs:"none", sm: "block"}}}>
           <Box sx={{ bgcolor: theme.palette.primary.main, color: "white" }}>
             <Toolbar>
 
               <Grid container alignItems="center" >
-                <Box sx={{ maxWidth: "28%" }}>
-                  <Link href={"/"}>
-                    <Grid item sx={{ display: "flex", }} xs={2} md={12} sm={12} >
-                      <Box
-                        component="img"
-                        src="/chemexvector.png"
-                        alt="logo"
-                        sx={{ width:  isSmallScreen ? "50px" : "50px", height: "10%" }}
-                 
-                      />
-                      <Box
-                        component="img"
-                        src="/logo.png"
-                        alt="logo"
-                        sx={{
-                         width:  isSmallScreen || isMediumScreen  ? "100px" : "30%",
-                         height:  isSmallScreen || isMediumScreen ? "25px" : "30%",
-                         my: "auto"
-                         }}
-
-                        />
-                    </Grid>
-                  </Link>
-                </Box>
+               <LogoIcon/>
                 <Grid item xs={1} md={3} sm={1}>
                   <Search />
                 </Grid>
 
                 <Grid item sx={{ ml: "15%", position: "relative" }} xs={1} md={1.5} sm={2}>
-                  {user ? (
+                  {user._id !== '' ? (
                     <Box
                       sx={{
                         cursor: "pointer",
@@ -182,8 +164,10 @@ const Navbar = () => {
                  <CartIcon handleCartClick={handleCartClick} cart={cart}/>
                 </Grid>
 
-                <Grid item xs={1} md={1} sm={1} sx={{ml:2}}>
-                  {!user ? (
+                <Grid item xs={1} md={1} sm={1} sx={{ml:2}}
+                      onClick={handleLogout}
+                      >
+                  {user._id == '' ? (
                     <Box
                       sx={{
                         cursor: "pointer",
@@ -193,9 +177,9 @@ const Navbar = () => {
                       }}
                       onClick={() => router.push("/login")}
                     >
-                      LogIn <LoginOutlinedIcon />
+                      LogIn &nbsp;  <LoginOutlinedIcon />
                     </Box>
-                  ) : (
+                    ) : (
                     <Box
                       sx={{
                         cursor: "pointer",
@@ -203,7 +187,6 @@ const Navbar = () => {
                         display: "flex",
                         alignItems: "center",
                       }}
-                      onClick={handleLogout}
                     >
                     {isMediumScreen ? 
                      <LogOutOutlinedIcon /> : <> Logout &nbsp; <LogOutOutlinedIcon /> </> }  
@@ -221,31 +204,11 @@ const Navbar = () => {
       ) : (
         <Grid
           container
-          sx={{ height: "80px", bgcolor: "white", alignItems: "center" }}
+          sx={{ height: "80px", bgcolor: "white", alignItems: "center" ,ml:1}}
         >
-          <Grid item xs={9}>
-            <Link href={"/"}>
-              <Box sx={{ display: "flex" }}>
-                <Box
-                  component="img"
-                  src="/chemexvector.png"
-                  alt="logo"
-                  sx={{     
-                  width: isSmallScreen ? "50px" : "50px",
-                  mt: 1 }}
-                />
-                <Box
-                  component="img"
-                  src="/logo.png"
-                  alt="logo"
-                  sx={{     
-                   width:  isSmallScreen || isMediumScreen  ? "25%" : "10%",
-                  height:  isSmallScreen || isMediumScreen ? "20%" : "30%", 
-                  my: "auto" }}
-                />
-              </Box>
-            </Link>
-          </Grid>
+
+          <LogoIcon/>
+     
 
           <Grid
             item
@@ -266,7 +229,12 @@ const Navbar = () => {
           </Grid>
         </Grid>
       )}
-    </Box>
+    </Box> 
+     : <Box sx={{heigth:10, p:2, pb:1}}>
+        <LogoIcon/>
+      </Box>}
+    </>
+
   );
 };
 

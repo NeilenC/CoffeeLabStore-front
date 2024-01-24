@@ -8,19 +8,23 @@ import {
   Box,
   IconButton,
   InputAdornment,
+  useMediaQuery,
 } from "@mui/material";
 import { Formik, Form, Field, FormikHelpers } from "formik";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/redux/userInfo";
+import { setUserInfo } from "@/redux/UserReducer";
 import { useRouter } from "next/router";
 import theme from "@/styles/theme";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Swal from "sweetalert2";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const isSmallScreen = useMediaQuery('(max-width: 600px)')
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
 
   const handleSubmit = async (
     values: any,
@@ -40,17 +44,25 @@ const LoginForm = () => {
         const { token, user } = data;
 
         localStorage.setItem("token", token);
-        localStorage.setItem("id", user._id);
+        // localStorage.setItem("id", user._id);
 
-        alert("Inicio de sesión exitoso");
+        Swal.fire({
+          icon: "success",
+          title: `Sesión iniciada con éxito`,
+          confirmButtonColor: theme.palette.primary.main,
+        });
 
         dispatch(setUserInfo(user));
 
         router.push("/");
         resetForm();
       } else {
-        alert("ERROR");
-        console.error("Error en el inicio de sesión");
+       Swal.fire({
+        icon: "error",
+        title: "No se ha podido iniciar sesión",
+        text: "Verifica que los datos ingresados sean correctos",
+        confirmButtonColor: theme.palette.primary.main,
+      });
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
@@ -61,7 +73,9 @@ const LoginForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="sm" sx={{ height: "60vh" }}>
+    <Container component="main" maxWidth="sm" sx={{ height: "60vh" , 
+    mt: isSmallScreen || isMediumScreen ? "0px" : "100px" 
+    }}>
       <CssBaseline />
       <Box
         sx={{

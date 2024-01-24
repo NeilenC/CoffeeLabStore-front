@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { cartReducer } from "./CartReducer";
-import userReducer from "./userInfo";
+import userReducer from "./UserReducer";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import favoritesReducer  from "./FavoritesReducer";

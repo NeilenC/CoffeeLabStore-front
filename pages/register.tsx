@@ -14,6 +14,8 @@ import { Formik, Form, Field, FormikHelpers } from "formik"; // Import FormikHel
 import { useRouter } from "next/router";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Swal from "sweetalert2";
+import theme from "@/styles/theme";
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -45,8 +47,11 @@ const RegistrationForm = () => {
         resetForm();
         router.push("/login");
       } else {
-        alert("Hubo un error, por favor vuelva a intentar");
-        console.error("Error en el registro");
+        Swal.fire({
+          icon: "error",
+          title: "Hubo un error, por favor vuelva a intentar",
+          confirmButtonColor: theme.palette.primary.main,
+        });
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);

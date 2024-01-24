@@ -23,7 +23,10 @@ import {
 import CartItems from "@/components/Cart";
 
 const ProductsCard = ({ products = [] }: any) => {
+  const user = useSelector((state: UserState) => state.user);
   const favoriteProducts = useSelector((state: any) => state.favorites);
+  const userId = user?._id
+  const userFavorites = favoriteProducts.users[userId] || [];
   const [visibleProducts, setVisibleProducts] = useState(8);
   const [visibleProductsList, setVisibleProductsList] = useState<Product[]>([]);
   const [selectedAsFavorite, setSelectedAsFavorite] = useState<string>("");
@@ -43,25 +46,25 @@ const ProductsCard = ({ products = [] }: any) => {
         const selectedProduct = await products.find(
           (product: any) => product._id === productId,
         );
-
+  
         if (selectedProduct) {
-          const isFavorite = favoriteProducts.favorites
-            .map((item: any) => item._id)
-            .includes(productId);
-
+          const isFavorite = userFavorites.includes(productId);
+  
           if (isFavorite) {
-            dispatch(removeFromFavorites(productId));
+            dispatch(removeFromFavorites(userId, productId));
           } else {
-            dispatch(addToFavorites(selectedProduct));
+            dispatch(addToFavorites(userId, productId));
           }
         }
       } catch (error) {
         console.log(error);
       }
     };
-
+  
     handleToggleFavorite(selectedAsFavorite);
-  }, [selectedAsFavorite, setSelectedAsFavorite]);
+  }, [selectedAsFavorite, user ]);
+
+  
 
   return (
     <Grid container sx={{ maxWidth: "1300px", m: "auto", pb: 5 }}>
@@ -81,7 +84,7 @@ const ProductsCard = ({ products = [] }: any) => {
                 <Box
                   component="img"
                   src={product.imageURL[0]}
-                  sx={{ width: "100%", height: "98%", overflow:"hidden  " }}
+                  sx={{ width: "100%", height: "98%", overflow:"hidden" }}
                 />
               </Box>
             </Link>
@@ -100,9 +103,10 @@ const ProductsCard = ({ products = [] }: any) => {
                   color={product ? "error" : "default"}
                   onClick={() => setSelectedAsFavorite(product._id)}
                 >
-                  {favoriteProducts.favorites
-                    .map((item: any) => item._id)
-                    .includes(product._id) ? (
+                  {
+                  // favoriteProducts.favorites
+                  //   .map((item: any) => item._id)
+                  userFavorites.includes(product._id) ? (
                     <FavoriteIcon />
                   ) : (
                     <FavoriteBorderIcon sx={{ color: "grey" }} />

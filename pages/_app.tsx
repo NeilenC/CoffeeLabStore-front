@@ -3,23 +3,12 @@ import React, { useEffect } from "react";
 import type { AppProps } from "next/app";
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 import store, { persistor } from "@/redux/store";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import theme from "../styles/theme";
 import Layout from "@/components/Layout";
 import { PersistGate } from "redux-persist/integration/react";
 
 export default function App({ Component, pageProps }: AppProps) {
-  // const theme = useMemo(
-  //   () =>
-  //     createTheme({
-  //       palette: {
-  //         primary: {
-  //           main: '#f0f0f0',
-  //         },
-  //       },
-  //     }),
-  //     [],
-  //     );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
