@@ -1,15 +1,16 @@
 import React from 'react'
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Box, Typography } from '@mui/material';
-import { UserState } from '@/commons/types.interface';
+import { CartState, UserState } from '@/commons/types.interface';
 import { useSelector } from 'react-redux';
 
 const CartIcon = ({handleCartClick, cart}: any) => {
-  const user = useSelector((state: UserState) => state.user);
+  const userId = useSelector((state: UserState) => state.user._id);
+  const cartForUser = useSelector((state: CartState) => state.cart.carts[userId]);
 
   return (
     <>
-    {user._id != '' ? 
+    {userId != '' ? 
     <Box
     sx={{
       cursor: "pointer",
@@ -40,7 +41,7 @@ const CartIcon = ({handleCartClick, cart}: any) => {
             fontWeight: "bold",
           }}
         >
-          {cart.cart.length}
+          {cartForUser?.length}
         </Typography>
       </Box>
     </Box>

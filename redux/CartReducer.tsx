@@ -1,90 +1,118 @@
-import { CartState, Product } from "@/commons/types.interface";
+import { Product } from "@/commons/types.interface";
+
+interface CartState {
+  carts: Record<string, Product[]>; 
+}
 
 const initialState: CartState = {
-  cart: [],
+  carts: {},
 };
 
 export const cartReducer = (state = initialState, action: any) => {
+  if (!action.payload) {
+    return state;
+  }
+  const { product, quantity, userId } = action.payload;
+  const userCart: Product[] = state.carts[userId] || [];
   switch (action.type) {
     case "ADD_TO_CART":
-      const quantityToAdd = action.payload.quantity || 1;
-      const existingProductIndex = state.cart.findIndex(
+    
+      const existingProductIndex = userCart.findIndex(
         (item: Product) =>
-          item._id === action.payload._id &&
-          item.productPreferences.grind ===
-            action.payload.productPreferences.grind,
+          item._id === product._id &&
+          item.productPreferences?.grind === product.productPreferences?.grind
       );
-
+    
+    
       if (existingProductIndex !== -1) {
-        const cart = [...state.cart];
+        // Si el producto ya está en el carrito, sumar la cantidad
+        const cart = [...userCart];
         const existingProduct = cart[existingProductIndex];
-        const updatedQuantity = existingProduct.quantity + quantityToAdd;
-
-        if (updatedQuantity <= action.payload.stock) {
+        const updatedQuantity = existingProduct.quantity + quantity;
+    
+        if (updatedQuantity <= product.stock) {
+         
           cart[existingProductIndex] = {
             ...existingProduct,
             quantity: updatedQuantity,
           };
+    
           return {
             ...state,
-            cart: cart,
+            carts: {
+              ...state.carts,
+              [userId]: cart,
+            },
           };
         } else {
           console.error("La cantidad supera el stock disponible");
           return state;
         }
       } else {
+        // Si el producto no está en el carrito, lo agrega
         const productWithQuantity = {
-          ...action.payload,
-          quantity: quantityToAdd,
+          ...product,
+          quantity,
         };
+    
         return {
           ...state,
-          cart: [...state.cart, productWithQuantity],
-          userId: action.userId,
+          carts: {
+            ...state.carts,
+            [userId]: [...userCart, productWithQuantity],
+          },
         };
       }
+    
+    
 
-    case "INCREMENT_CART_ITEM":
-      const updatedCart = state.cart.map((item: Product) => {
-        if (item._id === action.payload._id) {
-          const newQuantity = item.quantity + 1;
-
-          if (newQuantity <= item.stock) {
-            return { ...item, quantity: newQuantity };
-          } else {
-            console.log(
-              `La cantidad supera el stock disponible para el producto ${item.name}`,
-            );
-          }
-        }
-        return item;
-      });
-
-      return {
-        ...state,
-        cart: updatedCart,
-      };
-
-    case "DECREMENT_CART_ITEM":
-      const decrementItem = state.cart
-        .map((item: Product) => {
-          if (item._id === action.payload._id) {
-            const newQuantity = (item.quantity || 0) - 1;
-            if (newQuantity >= 1) {
+      case "INCREMENT_CART_ITEM":
+        const updatedCartIncrement = userCart.map((item: Product) => {
+          if (item._id === product._id) {
+            const newQuantity = item.quantity + 1;
+            if (newQuantity <= item.stock) {
               return { ...item, quantity: newQuantity };
+            } else {
+              console.error(
+                `La cantidad supera el stock disponible para el producto ${item.name}`,
+              );
+              return item; // Mantener el producto sin cambios si la cantidad supera el stock
             }
-
-            return null;
           }
           return item;
-        })
-        .filter(Boolean);
+        });
+      
+        return {
+          ...state,
+          carts: {
+            ...state.carts,
+            [userId]: updatedCartIncrement,
+          },
+        };
+      
 
-      return {
-        ...state,
-        cart: decrementItem,
-      };
+
+        case "DECREMENT_CART_ITEM":
+          const updatedCartDecrement = userCart.map((item: Product) => {
+            if (item._id === product._id) {
+              const newQuantity = (item.quantity || 0) - 1;
+              if (newQuantity >= 1) {
+                return { ...item, quantity: newQuantity };
+              }
+              // Si la cantidad es menor o igual a 0, simplemente omite este producto
+              return null;
+            }
+            return item;
+          });
+        
+          return {
+            ...state,
+            carts: {
+              ...state.carts,
+              [userId]: updatedCartDecrement.filter((item) => item !== null) || state.carts[userId],
+            },
+          };
+        
 
     case "UPDATE_CART_TOTAL":
       return {
@@ -92,22 +120,25 @@ export const cartReducer = (state = initialState, action: any) => {
         totalPrice: action.payload.totalPrice,
       };
 
-    case "REMOVE_FROM_CART":
-      return {
-        ...state,
-        cart: state.cart.filter((item: Product) => item._id !== action.payload),
-      };
 
-    case "LOAD_CART_FROM_LOCAL_STORAGE":
-      return {
-        ...state,
-        cart: action.payload,
-      };
+      case "REMOVE_FROM_CART":
+        const updatedCart = userCart.filter((item: Product) => item._id !== product);
+        return {
+          ...state,
+          carts: {
+            ...state.carts,
+            [userId]: updatedCart,
+          },
+        };
+
 
     case "CLEAR_CART":
       return {
         ...state,
-        cart: [],
+        carts: {
+          ...state.carts,
+          [userId]: [],
+        },
       };
 
     default:

@@ -12,6 +12,7 @@ export type Product = {
   productPreferences: {
     grind: string;
   };
+  userId?: string;
 };
 
 export type SubCategory = {
@@ -28,19 +29,24 @@ export type Category = {
 
 export type CartState = {
   cart: any;
-  userId?: string;
-  totalPrice?: number;
+  userId: string;
 };
 
 export type AddToCartAction = {
   type: "ADD_TO_CART";
-  payload: Product;
-  userId?: string;
+  payload: {
+    product: Product;
+    userId: string;
+    quantity: number
+  };
 };
 
 export type RemoveFromCartAction = {
   type: "REMOVE_FROM_CART";
-  payload: Product;
+  payload: {
+    product: Product;
+    userId: string
+  };
 };
 
 export type AddTotalPriceAction = {

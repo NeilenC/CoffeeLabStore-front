@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { CartState, Product } from "@/commons/types.interface";
+import { CartState, Product, UserState } from "@/commons/types.interface";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -22,52 +22,51 @@ import { useRouter } from "next/router";
 import DetalleCompra from "@/commons/DetalleCompra";
 
 const CartItems = () => {
-  const isSmallScreen = useMediaQuery('(max-width: 600px)');
-  const cart = useSelector((state: CartState) => state.cart);
+    const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+    const isSmallScreen = useMediaQuery('(max-width: 600px)');
+  const userId = useSelector((state: UserState) => state.user._id);
+  const cartForUser = useSelector((state: CartState) => state.cart.carts[userId]);
   const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
-
   function incrementItem(product: Product) {
-    dispatch(incrementCartItem(product));
+    dispatch(incrementCartItem(product, userId));
   }
 
   function decrementItem(product: Product) {
-    dispatch(decrementCartItem(product));
+    dispatch(decrementCartItem(product, userId));
   }
 
   function deleteFromCart(product: Product) {
-    dispatch(removeFromCart(product));
+    console.log("product deleteFromCart", product)
+
+    dispatch(removeFromCart(product, userId));
   }
 
   return (
-    <Box sx={{ bgcolor: "whitesmoke", p: 5 }}>
+    <Box sx={{ bgcolor: "whitesmoke", px: 5 }}>
     <Box display="flex" flexDirection={isSmallScreen ? "column" : "row"} sx={{ p: isSmallScreen ? 1 : 5 }}>
-      <Box width={isSmallScreen ? "100%" : "65%"} sx={{}}>
+      <Box width={isSmallScreen || isMediumScreen ? "100%" : "65%"} >
         <Grid container spacing={2}>
-            {cart.cart.length ? (
-              cart.cart.map((product: any) => (
+            {cartForUser && cartForUser.length ? (
+             cartForUser.map((product: any) => (
                 <Grid item key={product._id} xs={12}>
                   <Card
                     sx={{
                       borderRadius: 2,
                       display: "flex",
-                      flexDirection: "row",
+                      flexDirection: "row", 
+                      maxHeight: isSmallScreen || isMediumScreen ? "68%" : "97%"
                     }}
                   >
-                    <Box sx={{ width: "40%" }}>
                       <Link href={`/products/${product._id}`}>
-                        <Image
+                        <Image  
                           src={product.imageURL[0]}
                           width={220}
                           height={220}
                           alt={product.name}
                         />
                       </Link>
-                    </Box>
 
                     {/* Detalles del producto */}
                     <Box sx={{ width: "50%", pl: 2, m: "auto" }}>

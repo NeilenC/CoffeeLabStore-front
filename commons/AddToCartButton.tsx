@@ -9,11 +9,10 @@ import theme from "@/styles/theme";
 
 const AddToCartButtom = ({ product, quantity }: any) => {
   const cart = useSelector((state: CartState) => state.cart);
-  const user = useSelector((state: UserState) => state.user);
-  const userId = user._id;
+  const userId = useSelector((state: UserState) => state.user._id);
   const dispatch = useDispatch();
 
-  function addItemToCart(product: Product, quantity: number, userId: string) {
+  function addItemToCart(product: Product, quantity: number) {
     if (product.stock > 0) {
       dispatch(addToCart(product, quantity, userId));
       Swal.fire({
@@ -32,7 +31,7 @@ const AddToCartButtom = ({ product, quantity }: any) => {
 
   return (
     <Button
-      onClick={() => addItemToCart(product, quantity, userId)}
+      onClick={() => addItemToCart(product, quantity)}
       sx={{
         fontWeight: "bold",
         "&:hover": { color: "white", bgcolor: "black" },

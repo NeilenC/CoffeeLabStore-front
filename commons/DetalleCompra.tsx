@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { CartState } from "./types.interface";
+import { CartState, Product, UserState } from "./types.interface";
 import { useSelector } from "react-redux";
 import {
   Box,
@@ -13,27 +13,41 @@ import {
 import { useRouter } from "next/router";
 
 const calculateTotalQuantity = (cart: any) => {
-  return cart.reduce((total: any, product: any) => {
-    return total + product.quantity;
-  }, 0);
+  if(cart && cart.length){
+    const prices = cart.map((product: Product) => product.price * product.quantity)
+    return prices.reduce((acc:number, item: number)=> {return acc + item})
+  } 
+    return 0
+  
 };
 
+const calculateTotalProducts = (cart: any) => {
+  if(cart && cart.length) {
+    
+    const quantity = cart.map((product: Product) =>  product.quantity)
+    const products = quantity.reduce((acc:number , item: number) => acc + item)
+    return products
+  }
+   return 0
+}
+
 const DetalleCompra = () => {
-  const cart = useSelector((state: CartState) => state.cart);
-  const totalQuantity = calculateTotalQuantity(cart.cart);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const userId = useSelector((state: UserState) => state.user._id);
+  const cartForUser = useSelector((state: CartState) => state.cart.carts[userId]);
+  const totalPrice = calculateTotalQuantity(cartForUser);
+  const totalProducts = calculateTotalProducts(cartForUser)
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
 
   const handleButtonClick = async () => {
-    const productDetails = cart.cart.map((product: any) => ({
+    const productDetails = cartForUser.map((product: any) => ({
       productId: product._id,
       quantity: product.quantity,
     }));
 
     try {
       const response = await fetch(
-        `http://localhost:8000/cart/${cart.userId}`,
+        `http://localhost:8000/cart/${userId}`,
         {
           method: "POST",
           headers: {
@@ -50,26 +64,15 @@ const DetalleCompra = () => {
     }
   };
 
-  useEffect(() => {
-    function totalPriceCounter() {
-      let newTotalPrice = 0;
-      cart.cart.forEach((product: any) => {
-        const productTotal = product.price * product.quantity;
-        newTotalPrice += productTotal;
-      });
-      setTotalPrice(newTotalPrice);
-    }
-
-    totalPriceCounter();
-  }, [cart]);
-
   return (
-    <Box sx={{ 
+    <Box 
+ 
+      sx={{ 
       width: isSmallScreen ? "100%" : "40%", 
       ml: isSmallScreen ? 0 : 5,
       mt: isSmallScreen ? 2 : 0
       }}>
-      {cart.cart.length > 0 && (
+      {cartForUser && cartForUser.length > 0 && (
         <Box sx={{ width: "100%" }}>
           <Box
             sx={{
@@ -86,7 +89,7 @@ const DetalleCompra = () => {
             <Divider />
 
             <Typography variant="body2" sx={{ py: 1 }}>
-              Productos {totalQuantity}
+              Productos {totalProducts}
             </Typography>
 
             <Typography variant="body2">Total ${totalPrice}</Typography>
