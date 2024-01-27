@@ -11,25 +11,8 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import { calculateTotalProducts, calculateTotalQuantity } from "@/functions";
 
-const calculateTotalQuantity = (cart: any) => {
-  if(cart && cart.length){
-    const prices = cart.map((product: Product) => product.price * product.quantity)
-    return prices.reduce((acc:number, item: number)=> {return acc + item})
-  } 
-    return 0
-  
-};
-
-const calculateTotalProducts = (cart: any) => {
-  if(cart && cart.length) {
-    
-    const quantity = cart.map((product: Product) =>  product.quantity)
-    const products = quantity.reduce((acc:number , item: number) => acc + item)
-    return products
-  }
-   return 0
-}
 
 const DetalleCompra = () => {
   const userId = useSelector((state: UserState) => state.user._id);

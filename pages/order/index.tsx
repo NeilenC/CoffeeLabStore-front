@@ -11,36 +11,22 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { CartState } from "@/commons/types.interface";
+import { CartState, Product, UserState } from "@/commons/types.interface";
 import theme from "@/styles/theme";
+import { calculateTotalProducts, calculateTotalQuantity } from "@/functions";
 
-const calculateTotalQuantity = (cart: any) => {
-  return cart.reduce((total: any, product: any) => {
-    return total + product.quantity;
-  }, 0);
-};
 
 const FormaEntrega = () => {
   const cart = useSelector((state: CartState) => state.cart);
-  const totalQuantity = calculateTotalQuantity(cart.cart);
+  const userId = useSelector((state: UserState) => state.user._id);
+  const cartForUser = useSelector((state: CartState) => state.cart.carts[userId]);
+  const totalQuantity = calculateTotalProducts(cartForUser);
+  const totalPrice = calculateTotalQuantity(cartForUser);
   const [selectedValue, setSelectedValue] = useState("");
   const router = useRouter();
-  const [totalPrice, setTotalPrice] = useState(0);
   const domicilioCosto = 1500;
   const correoCosto = 1000;
 
-  useEffect(() => {
-    function totalPriceCounter() {
-      let newTotalPrice = 0;
-      cart.cart.forEach((product: any) => {
-        const productTotal = product.price * product.quantity;
-        newTotalPrice += productTotal;
-      });
-      setTotalPrice(newTotalPrice);
-    }
-
-    totalPriceCounter();
-  }, [cart]);
 
   const handleChange = (event: any) => {
     setSelectedValue(event.target.value);
@@ -159,7 +145,7 @@ const FormaEntrega = () => {
 
         {/* <Grid item xs={7} sx={{  }}> */}
 
-        {cart.cart.length > 0 && (
+        {cartForUser && cartForUser.length  && (
           <Box width="30%" sx={{ width: "50%", m: "auto" }}>
             <Box
               sx={{

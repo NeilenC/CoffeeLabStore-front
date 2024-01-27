@@ -26,8 +26,8 @@ const DeliveryHome = () => {
   const [apartment, setApartment] = useState("");
   const [directionNum, setDirectionNum] = useState("");
   const [codigo, setCodigo] = useState<number | null>(null);
-  const [provincia, setProvincia] = useState("");
-  const [localidad, setLocalidad] = useState("");
+  // const [provincia, setProvincia] = useState("");
+  // const [localidad, setLocalidad] = useState("");
 
   // Datos de la sección 3 (Metodo de Pago)
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -85,8 +85,8 @@ const DeliveryHome = () => {
           apartment,
           directionNum,
           codigo,
-          provincia,
-          localidad,
+          // provincia,
+          // localidad,
         },
         paymentData: {
           paymentMethod,
@@ -153,9 +153,10 @@ const DeliveryHome = () => {
               setDirectionNum={setDirectionNum}
               codigo={codigo}
               setCodigo={setCodigo}
-              localidad={localidad}
-              setProvincia={setProvincia}
-              setLocalidad={setLocalidad}
+              // localidad={localidad}
+              // provincia={provincia}
+              // setProvincia={setProvincia}
+              // setLocalidad={setLocalidad}
               handleNextSection={handleNextSection}
               handleGoBack={handleGoBack}
             />

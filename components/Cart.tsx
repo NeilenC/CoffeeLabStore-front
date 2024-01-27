@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   Grid,
@@ -38,8 +38,6 @@ const CartItems = () => {
   }
 
   function deleteFromCart(product: Product) {
-    console.log("product deleteFromCart", product)
-
     dispatch(removeFromCart(product, userId));
   }
 

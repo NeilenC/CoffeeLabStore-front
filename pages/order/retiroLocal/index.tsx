@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 
 const index = () => {
   const user = useSelector((state: UserState) => state.user);
-  const cart = useSelector((state: CartState) => state.cart);
   const [section, setSection] = useState(1);
   const deliveryCharge = 1500;
   const router = useRouter();

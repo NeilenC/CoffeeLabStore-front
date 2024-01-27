@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Typography, Grid, TextField, Button, Box } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Typography, Grid, TextField, Button, Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useSelector } from "react-redux";
 import { UserState } from "@/commons/types.interface";
@@ -14,13 +14,23 @@ const Section2 = ({
   setDirectionNum,
   codigo,
   setCodigo,
-  provincia,
-  setProvincia,
-  localidad,
-  setLocalidad,
+  // provincia,
+  // setProvincia,
+  // localidad,
+  // setLocalidad,
   handleNextSection,
 }: any) => {
   const user = useSelector((state: UserState) => state.user);
+  const [addressError, setAddressError] = useState(false);
+  const [directionNumError, setDirectionNumError] = useState(false);
+  const [codigoError, setCodigoError] = useState(false);
+  const [provinciaError, setProvinciaError] = useState(false);
+  const [localidadError, setLocalidadError] = useState(false);
+  const [provincias, setProvincias] = useState<string[]>([]);
+  const [selectedProvincia, setSelectedProvincia] = useState<string[]>([]);
+  const [localidades, setLocalidades] = useState<string[]>([]);
+  const [selectedLocalidad, setSelectedLocalidad] = useState("");
+
 
   const handleSaveToLocalStorage = () => {
     const shippingData = {
@@ -28,8 +38,8 @@ const Section2 = ({
       apartment,
       directionNum,
       codigo,
-      provincia,
-      localidad,
+      provincias,
+      localidades,
     };
     localStorage.setItem("shippingData", JSON.stringify(shippingData));
   };
@@ -45,10 +55,67 @@ const Section2 = ({
       setApartment(shippingData.apartment || "");
       setDirectionNum(shippingData.directionNum || "");
       setCodigo(shippingData.codigo || "");
-      setLocalidad(shippingData.localidad || "");
+      // setSelectedLocalidad(shippingData.localidad || "");
+      // setSelectedProvincia(shippingData.provincia || "");
     }
   }, []);
 
+  const validateFields = () => {
+    // Validar campos y establecer estados de error
+    setAddressError(!address);
+    setDirectionNumError(!directionNum);
+    setCodigoError(!codigo);
+    setProvinciaError(!provincias);
+    setLocalidadError(!localidades);
+
+    // Devolver verdadero si todos los campos obligatorios están completos
+    return address && directionNum && codigo && provincias && localidades;
+  };
+  
+  
+  useEffect(() => {
+    const fetchProvincias = async () => {
+      try {
+        const response = await fetch(
+        "https://apis.datos.gob.ar/georef/api/provincias",
+        {method:"GET"}
+      );
+
+      const data = await response.json();
+
+      setProvincias(data.provincias);
+    } catch (error) {
+      console.error("Error al obtener la lista de provincias:", error);
+    }
+  };
+  fetchProvincias();
+}, []);
+  
+    useEffect(() => {
+      if (provincias && provincias.length) {
+        const fetchLocalidades = async () => {
+          try {
+        // const provinciaParam = selectedProvincia.join();
+        console.log("DATA", selectedProvincia)
+        const response = await fetch(
+          `https://apis.datos.gob.ar/georef/api/departamentos?provincia=${selectedProvincia}&max=75`
+       , 
+       {method: "GET"}
+        );
+        const data = await response.json();
+console.log("DATA", data.departamentos)
+        setLocalidades(data.departamentos)
+    } catch (error) {
+      console.error("Error al obtener la lista de localidades:", error);
+    }
+  };
+  fetchLocalidades();
+}
+}, [selectedProvincia]);
+  
+// console.log("PRIVNCIAS", provincias)
+console.log("PRIVNCIAS", selectedProvincia)
+console.log("localidad", selectedLocalidad)
   return (
     <Box>
       <Box
@@ -67,7 +134,13 @@ const Section2 = ({
             fullWidth
             value={address}
             style={{ marginBottom: "16px" }}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              setAddressError(false);
+            }}
+            error={addressError}
+            helperText={addressError && "Este campo es obligatorio"}
+            required
           />
         </Grid>
         <Grid item xs={2} md={4}>
@@ -76,7 +149,12 @@ const Section2 = ({
             value={directionNum}
             fullWidth
             style={{ marginBottom: "16px" }}
-            onChange={(e) => setDirectionNum(e.target.value)}
+            onChange={(e) => {setDirectionNum(e.target.value)
+            setDirectionNumError(false)
+          }}
+          error={directionNumError}
+          helperText={directionNumError && "Este campo es obligatorio"}
+          required
           />
         </Grid>
         <Grid item xs={5} md={4}>
@@ -94,32 +172,67 @@ const Section2 = ({
             value={codigo}
             fullWidth
             style={{ marginBottom: "16px" }}
-            onChange={(e) => setCodigo(parseInt(e.target.value, 10))}
+            onChange={(e) => {setCodigo(parseInt(e.target.value, 10))
+            setCodigoError(false)
+          }}
+          error={codigoError}
+          helperText={codigoError && "Este campo es obligatorio"}
+          required
           />
         </Grid>
-        <Grid item xs={5} md={4}>
-          <TextField
-            label="Provincia"
-            value={provincia}
-            fullWidth
-            style={{ marginBottom: "16px" }}
-            onChange={(e) => setProvincia(e.target.value)}
-          />
+         <Grid item xs={5} md={4}>
+         <FormControl fullWidth style={{ marginBottom: "16px" }}>
+            <InputLabel id="provinciaLabel">Provincia</InputLabel>
+            <Select
+              labelId="provinciaLabel"
+              value={selectedProvincia}
+              onChange={(e) => {
+                const selectedValue = e.target.value as string[];
+                setSelectedProvincia(selectedValue);
+                setProvinciaError(false);
+              }}
+              error={provinciaError}
+              required
+            
+            >
+              {provincias && provincias.length ? provincias.map((prov: any) => (
+                <MenuItem key={prov.id} value={prov.nombre}>
+                  {prov.nombre}
+                </MenuItem>
+              )) : null }
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={5} md={4}>
-          <TextField
-            label="Localidad"
-            value={localidad}
-            fullWidth
-            style={{ marginBottom: "16px" }}
-            onChange={(e) => setLocalidad(e.target.value)}
-          />
+        <FormControl fullWidth style={{ marginBottom: "16px" }}>
+          <InputLabel id="localidadLabel">Localidad</InputLabel>
+          <Select
+            labelId="localidadLabel"
+            value={selectedLocalidad}
+            onChange={(e) => {
+              const selectedValue = e.target.value as string;
+              setSelectedLocalidad(selectedValue);
+              setLocalidadError(false);
+            }}
+            error={localidadError}
+            required
+          >
+            { localidades && localidades.length ? localidades.map((loc:any) => (
+              <MenuItem key={loc.id} value={loc.nombre}>
+                {loc.nombre}
+              </MenuItem>
+            )) : null}
+          </Select>
+        </FormControl>
+
         </Grid>
       </Grid>
       <Button
         onClick={() => {
-          handleNextSection();
-          handleSaveToLocalStorage();
+          if (validateFields()) {
+            handleNextSection();
+            handleSaveToLocalStorage();
+          }
         }}
         sx={{ color: "black" }}
       >
