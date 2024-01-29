@@ -66,6 +66,10 @@ const Navbar = () => {
     router.push("/favorites");
   };
 
+  const goToHistory = () => {
+    router.push('/order/history')
+  }
+
   useEffect(() => {
     if (router.pathname === "/cart") {
       setExpanded(false);
@@ -151,8 +155,15 @@ const Navbar = () => {
                           <Typography
                             onClick={goToUserFavorites}
                             variant="body2"
+                            sx={{ pb: 1 }}
                             >
                             Favoritos{" "}
+                          </Typography>
+                          <Typography
+                            onClick={goToHistory}
+                            variant="body2"
+                            >
+                            Tus compras{" "}
                           </Typography>
                         </Box>
                       )}

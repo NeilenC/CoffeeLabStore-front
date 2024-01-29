@@ -26,7 +26,7 @@ const Confirmation = () => {
         const orderData: OrderState = await response.json();
         setOrder(orderData);
 
-        dispatch(clearCart());
+        dispatch(clearCart(user._id));
       } catch (error) {
         console.log("Error fetching data:");
       }
@@ -35,6 +35,7 @@ const Confirmation = () => {
     fetchData();
   }, [user._id]);
 
+  console.log("order", order)
   return (
     <Box
       sx={{
@@ -57,6 +58,7 @@ const Confirmation = () => {
           <Typography variant="body2">
             Llegará a la dirección: {order.shoppingData?.address}{" "}
             {order.shoppingData?.directionNum} {order.shoppingData.apartment}
+            &nbsp; -  &nbsp; {order.shoppingData?.provincia} &nbsp;  {order.shoppingData.localidad}
           </Typography>
           <Typography variant="body2">
             Código de seguimiento: {order.trackingNumber}

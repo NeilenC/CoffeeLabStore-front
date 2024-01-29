@@ -1,4 +1,4 @@
-import { Product } from "@/commons/types.interface";
+import { ClearCartAction, Product } from "@/commons/types.interface";
 import {
   AddToCartAction,
   RemoveFromCartAction,
@@ -31,11 +31,10 @@ export const decrementCartItem = (product: Product, userId:string) => ({
 
 });
 
-export const clearCart = () => {
-  return {
+export const clearCart = (userId:string): ClearCartAction => ({
     type: "CLEAR_CART",
-  };
-};
+    payload: {userId}
+})
 
 //----------------------------------- CARRITO DE COMPRA -----------------------------------
 

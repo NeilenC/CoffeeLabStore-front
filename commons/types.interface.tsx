@@ -49,6 +49,11 @@ export type RemoveFromCartAction = {
   };
 };
 
+export type  ClearCartAction = {
+  type: "CLEAR_CART";
+  payload: { userId : string};
+}
+
 export type AddTotalPriceAction = {
   type: "UPDATE_CART_TOTAL";
   payload: number;
@@ -75,6 +80,7 @@ export type OrderState = {
   totalCart: number;
   trackingNumber: string;
   cartId: string[];
+  cartDetails: any
 };
 
 type userData = {
@@ -95,4 +101,5 @@ type shoppingData = {
   apartment?: string;
   directionNum: number;
   localidad: string;
+  provincia: string;
 };

@@ -28,6 +28,7 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
       {title: "Home", href:"/", icon: null},
       {title: "Datos usuario", href:"/userData", icon: null},
       {title: "Favoritos", href:"/favorites", icon: null},
+      {title: "Compras", href:"/order/history", icon: null},
     ]
 
   const handleClick = () => {

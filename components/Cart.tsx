@@ -14,6 +14,7 @@ import { CartState, Product, UserState } from "@/commons/types.interface";
 import Link from "next/link";
 import Image from "next/image";
 import {
+  clearCart,
   decrementCartItem,
   incrementCartItem,
   removeFromCart,
@@ -41,6 +42,10 @@ const CartItems = () => {
     dispatch(removeFromCart(product, userId));
   }
 
+  function handleClearCart() {
+    dispatch(clearCart(userId));
+  }
+
   return (
     <Box sx={{ bgcolor: "whitesmoke", px: 5 }}>
     <Box display="flex" flexDirection={isSmallScreen ? "column" : "row"} sx={{ p: isSmallScreen ? 1 : 5 }}>
@@ -54,7 +59,8 @@ const CartItems = () => {
                       borderRadius: 2,
                       display: "flex",
                       flexDirection: "row", 
-                      maxHeight: isSmallScreen || isMediumScreen ? "68%" : "97%"
+                      maxHeight: isSmallScreen || isMediumScreen ? "68%" : "97%",
+                       maxWidth: "100%",
                     }}
                   >
                       <Link href={`/products/${product._id}`}>
@@ -161,6 +167,8 @@ const CartItems = () => {
         {/* DETALLES DE COMPRA */}
         <DetalleCompra />
       </Box>
+
+      <Button onClick={() => handleClearCart()}>vaciar carrito</Button>
     </Box>
   );
 };

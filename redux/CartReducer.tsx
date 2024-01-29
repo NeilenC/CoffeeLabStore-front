@@ -132,15 +132,18 @@ export const cartReducer = (state = initialState, action: any) => {
         };
 
 
-    case "CLEAR_CART":
-      return {
-        ...state,
-        carts: {
-          ...state.carts,
-          [userId]: [],
-        },
-      };
-
+        case "CLEAR_CART":
+        
+          const updatedState = {
+            ...state,
+            carts: {
+              ...state.carts,
+              [userId]: [],
+            },
+          };
+        
+          return updatedState;
+        
     default:
       return state;
   }

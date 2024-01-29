@@ -12,7 +12,6 @@ const DeliveryHome = () => {
   const user = useSelector((state: UserState) => state.user);
   const cart = useSelector((state: CartState) => state.cart);
   const [section, setSection] = useState(1);
-  const deliveryCharge = 1500;
 
   // Datos de la sección 1 (Datos Personales)
   const [name, setName] = useState(user.name || "");
@@ -26,8 +25,8 @@ const DeliveryHome = () => {
   const [apartment, setApartment] = useState("");
   const [directionNum, setDirectionNum] = useState("");
   const [codigo, setCodigo] = useState<number | null>(null);
-  // const [provincia, setProvincia] = useState("");
-  // const [localidad, setLocalidad] = useState("");
+  const [provincia, setProvincia] = useState('');
+  const [localidad, setLocalidad] = useState('');
 
   // Datos de la sección 3 (Metodo de Pago)
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -85,14 +84,13 @@ const DeliveryHome = () => {
           apartment,
           directionNum,
           codigo,
-          // provincia,
-          // localidad,
+          provincia,
+          localidad,
         },
         paymentData: {
           paymentMethod,
           cardNumber,
           delivery: "domicilio",
-          deliveryCharge: deliveryCharge,
         },
       };
 
@@ -153,10 +151,10 @@ const DeliveryHome = () => {
               setDirectionNum={setDirectionNum}
               codigo={codigo}
               setCodigo={setCodigo}
-              // localidad={localidad}
-              // provincia={provincia}
-              // setProvincia={setProvincia}
-              // setLocalidad={setLocalidad}
+              localidad={localidad}
+              provincia={provincia}
+              setProvincia={setProvincia}
+              setLocalidad={setLocalidad}
               handleNextSection={handleNextSection}
               handleGoBack={handleGoBack}
             />

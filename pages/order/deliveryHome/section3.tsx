@@ -13,7 +13,6 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useSelector } from "react-redux";
 import { UserState } from "@/commons/types.interface";
-import * as datefns from "date-fns";
 
 const Section3 = ({
   handleGoBack,
@@ -28,9 +27,11 @@ const Section3 = ({
   handlePlaceOrder,
 }: any) => {
   const [formattedCardExpirationDate, setFormattedCardExpirationDate] =
-    useState("");
+  useState("");
   const user = useSelector((state: UserState) => state.user);
-  const [payWithCashNumber, setPayWithCashNumber] = useState(0);
+  const [cardNumberError, setCardNumberError] = useState(false)
+  const [cardSecurityCodeError, setCardSecurityCodeError] = useState(false)
+  const [cardExpirationDateError, setCardExpirationDateError] = useState(false)
 
   const handleSaveToLocalStorage = () => {
     const paymentData = {
@@ -51,30 +52,22 @@ const Section3 = ({
       setCardNumber(paymentData.cardNumber || "");
       setCardSecurityCode(paymentData.cardSecurityCode || "");
       setCardExpirationDate(paymentData.cardExpirationDate || "");
-      setFormattedCardExpirationDate(
-        datefns.format(
-          datefns.parse(
-            paymentData.cardExpirationDate || "",
-            "MM-yyyy",
-            new Date(),
-          ),
-          "MM/yyyy",
-        ),
-      );
+      setFormattedCardExpirationDate(paymentData.cardExpirationDate || "")
     }
   }, [user]);
-  console.log("setFormattedCardExpirationDate", formattedCardExpirationDate);
 
-  const handleCardExpirationDateChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const inputDate = e.target.value;
-    if (datefns.isValid(datefns.parse(inputDate, "MM/yyyy", new Date()))) {
-      setCardExpirationDate(datefns.parse(inputDate, "MM/yyyy", new Date()));
-      setFormattedCardExpirationDate(inputDate);
-    }
+
+  const validatePaymentFields = () => {
+    // Validar campos y establecer estados de error
+    setCardNumberError(paymentMethod === "tarjeta debito" || paymentMethod === "tarjeta credito" ? !cardNumber : false);
+    setCardSecurityCodeError(paymentMethod === "tarjeta debito" || paymentMethod === "tarjeta credito" ? !cardSecurityCode : false);
+    setCardExpirationDateError(paymentMethod === "tarjeta debito" || paymentMethod === "tarjeta credito" ? !cardExpirationDate : false);
+  
+    // Devolver verdadero si todos los campos obligatorios están completos
+    return !(paymentMethod === "tarjeta debito" || paymentMethod === "tarjeta credito") ||
+           (cardNumber && cardSecurityCode && cardExpirationDate);
   };
-
+  
   return (
     <Box >
       <Box sx={{ color: "black", py: 2 }} onClick={handleGoBack}>
@@ -105,29 +98,43 @@ const Section3 = ({
               fullWidth
               style={{ marginBottom: "16px" }}
               value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
+              onChange={(e) => {setCardNumber(e.target.value);
+                setCardNumberError(false);
+              }}
+              error={cardNumberError}
+              helperText={cardNumberError && "Este campo es obligatorio"}
             />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Código de Seguridad"
-              fullWidth
-              style={{ marginBottom: "16px" }}
-              value={cardSecurityCode}
-              onChange={(e) => setCardSecurityCode(e.target.value)}
-            />
+              <TextField
+                label="Código de Seguridad"
+                fullWidth
+                style={{ marginBottom: "16px" }}
+                value={cardSecurityCode}
+                onChange={(e) => {
+                  setCardSecurityCode(e.target.value);
+                  setCardSecurityCodeError(false);
+                }}
+                error={cardSecurityCodeError}
+                helperText={cardSecurityCodeError && "Este campo es obligatorio"}
+              />
+
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Fecha de Vencimiento"
-              fullWidth
-              placeholder="MM/YYYY"
-              style={{ marginBottom: "16px" }}
-              value={formattedCardExpirationDate}
-              // onChange={(e) => setFormattedCardExpirationDate(e.target.value)}
-              // onChange={(e) => handleCardExpirationDateChange(e.target.value)}
-              onChange={(e) => setCardExpirationDate(e.target.value)}
-            />
+              <TextField
+                label="Fecha de Vencimiento"
+                fullWidth
+                placeholder="MM/YYYY"
+                style={{ marginBottom: "16px" }}
+                value={formattedCardExpirationDate}
+                onChange={(e) => {
+                  setFormattedCardExpirationDate(e.target.value);
+                  setCardExpirationDateError(false);
+                }}
+                error={cardExpirationDateError}
+                helperText={cardExpirationDateError && "Este campo es obligatorio"}
+              />
+
           </Grid>
         </Grid>
       ) : null}
@@ -135,14 +142,16 @@ const Section3 = ({
       {paymentMethod === "efectivo" ? (
         <Box>
           Aboná en el Pago fácil o Rapipago más cercano usando el código: #
-          {Math.floor(Math.random() * 100000000)}
+          {Math.floor(Math.random() * 1000)}
         </Box>
       ) : null}
 
       <Button
         onClick={() => {
-          handlePlaceOrder();
-          handleSaveToLocalStorage();
+          if(validatePaymentFields()){
+            handlePlaceOrder();
+            handleSaveToLocalStorage();
+          }
         }}
         sx={{ color: "black" }}
       >
