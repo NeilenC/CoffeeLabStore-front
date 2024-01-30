@@ -46,8 +46,9 @@ const Historial = () => {
   orders.map((order, index) => (
     <Box key={index} sx={{ marginBottom: 4 , p:3, borderRadius:"8px", boxShadow:"0px 0px 15px -3px lightgrey"}}>
       <Typography variant="h6">Orden {index + 1}</Typography>
-      <Typography variant="body2">Fecha de Creación: {new Date(order.createdAt).toLocaleString()}</Typography>
-      <Typography variant="body2">Número de seguimiento: {order.trackingNumber}</Typography>
+      <Typography variant="body2">Creada el día: {new Date(order.createdAt).toLocaleString()}</Typography>
+      <Typography variant="body2">Número de seguimiento: {order.trackingNumber} </Typography> 
+      <Typography variant="body2">Total compra: $ {order.cartTotal}</Typography>
       <Box sx={{ display: "flex", flexDirection: "row", flexWrap: "wrap",my: 2}}>
         {order && order.cartDetails.map((item:any, index: any) => (
           <Box key={index} sx={{  width: "15%",  m:"auto" }}>

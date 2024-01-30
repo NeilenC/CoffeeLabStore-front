@@ -48,7 +48,7 @@ const FormaEntrega = () => {
     <Box
       sx={{
         display: "flex",
-        bgcolor: "lightgrey",
+        bgcolor: "whitesmoke",
         width: "100%",
         padding: "20px",
         p: 8,
@@ -56,15 +56,16 @@ const FormaEntrega = () => {
     >
       <Grid container spacing={2} justifyContent="space-between">
         <Grid item xs={5}>
-          <Typography variant="h6">Seleccione la forma de entrega:</Typography>
+          <Typography variant="h5" sx={{pb:2}}>Seleccione la forma de entrega:</Typography>
           <RadioGroup value={selectedValue || null} onChange={handleChange}>
             <Box
               sx={{
                 p: 3,
                 width: "100%",
                 bgcolor: "white",
-                borderRadius: 4,
+                borderRadius: 2,
                 mb: 4,
+                boxShadow: "0px 0px 12px -9px black"
               }}
             >
               <FormControlLabel
@@ -81,7 +82,6 @@ const FormaEntrega = () => {
               <Box>
                 <Divider />
                 <Typography sx={{ ml: 3, p: 0.5 }}>
-                  {" "}
                   Adicional envío domicilio: ${domicilioCosto}
                 </Typography>
               </Box>
@@ -92,8 +92,9 @@ const FormaEntrega = () => {
                 p: 3,
                 width: "100%",
                 bgcolor: "white",
-                borderRadius: 4,
-                mb: 4,
+                borderRadius: 2,
+                boxShadow: "0px 0px 12px -9px black",
+                mb: 4, 
               }}
             >
               <FormControlLabel
@@ -117,7 +118,8 @@ const FormaEntrega = () => {
             </Box>
 
             <Box
-              sx={{ p: 3, width: "100%", bgcolor: "white", borderRadius: 4 }}
+                
+                sx={{ p: 3, width: "100%", bgcolor: "white", borderRadius: 2, boxShadow: "0px 0px 12px -9px black"}}
             >
               <FormControlLabel
                 value="local"
@@ -132,15 +134,15 @@ const FormaEntrega = () => {
               />
             </Box>
           </RadioGroup>
-          <Box sx={{ pt: 3 }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleContinuarButtom}
-            >
-              Continuar
-            </Button>
-          </Box>
+          <Box sx={{ pt: 2.5}}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleContinuarButtom}
+                >
+                  Continuar
+              </Button>
+             </Box>
         </Grid>
 
         {/* <Grid item xs={7} sx={{  }}> */}
@@ -155,45 +157,89 @@ const FormaEntrega = () => {
                 ml: "auto",
                 mr: 4,
                 bgcolor: "white",
+                boxShadow: "0px 0px 12px -9px black"
+
               }}
             >
               <Typography variant="h6">Resumen de compra</Typography>
+
               <Divider />
 
-              <Typography sx={{ py: 1 }}>
-                Productos ({totalQuantity}) {totalPrice}
+              <Typography sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'left', py: 1 }}>
+                <Box sx={{ textAlign: 'right' }}>
+                  Productos ({totalQuantity})
+                </Box>
+
+                <Typography sx={{mr:1}}>
+                $ {totalPrice}
+                </Typography>
               </Typography>
 
+           
               {selectedValue == "domicilio" ? (
                 <>
-                  <Typography variant="body1">
-                    Envío ${domicilioCosto}
+                  <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'left', py: 1 }}>
+                <Box sx={{ textAlign: 'right' }}>
+                    Envío 
+                    </Box>
+                    <Typography sx={{mr:1}}>
+                    $ {domicilioCosto}
+                    </Typography>
                   </Typography>
+                  <Divider sx={{py:2}}/>
 
-                  <Typography variant="body1">
-                    Total ${totalPrice + domicilioCosto}
+                  <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'left', py: 1 }}>
+                 <Box sx={{ textAlign: 'right' }}>
+                    Total 
+                  </Box>
+                  
+
+                  <Typography sx={{mr:1}}>
+                  ${totalPrice + domicilioCosto}
                   </Typography>
+                    </Typography>
+                 
                 </>
               ) : null}
 
               {selectedValue == "correo" ? (
                 <>
-                  <Typography variant="body1">
-                    Envío ${domicilioCosto}
+                   <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'left', py: 1 }}>
+                <Box sx={{ textAlign: 'right' }}>
+                    Envío
+                    </Box>
+                    <Typography sx={{mr:1}}>
+                    $ {domicilioCosto}
+                    </Typography>
                   </Typography>
+                  <Divider sx={{py:2}}/>
 
-                  <Typography variant="body1">
-                    Total ${totalPrice + correoCosto}
+                  <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'left', py: 1 }}>
+                <Box sx={{ textAlign: 'right' }}>
+                    Total 
+                    </Box>
+                    <Typography sx={{mr:1}}>
+                      ${totalPrice + correoCosto}</Typography>
                   </Typography>
                 </>
               ) : null}
 
               {selectedValue == "local" ? (
                 <>
-                  <Typography variant="body1">Total ${totalPrice}</Typography>
+                  <Divider sx={{py:2}}/>
+
+                      <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'left', py: 1 }}>
+                <Box sx={{ textAlign: 'right' }}>
+                    Total 
+                  </Box>
+                  <Typography sx={{mr:1}}>
+                  ${totalPrice}
+                  </Typography>
+                    </Typography>
                 </>
               ) : null}
             </Box>
+            
           </Box>
         )}
         {/* </Grid>   */}

@@ -39,7 +39,7 @@ const ProductDetails = ({ productId, quantity }:any) => {
               {productDetails.name}
             </Typography>
             <Typography color="text.secondary" sx={{ textAlign: "center" }}>
-              Precio: {productDetails.price}
+              Precio: $ {productDetails.price}
             </Typography>
             <Typography color="text.secondary" sx={{ textAlign: "center" }}>
               Cantidad: {quantity}

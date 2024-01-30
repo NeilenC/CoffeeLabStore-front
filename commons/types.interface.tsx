@@ -63,7 +63,7 @@ export type UserState = {
   user: {
     _id: string;
     name: string;
-    lastname: string;
+    lastName: string;
     email: string;
     address: string;
     role: string;
@@ -77,7 +77,7 @@ export type OrderState = {
   shoppingData: shoppingData;
   userData: userData;
   paymentData: paymentData;
-  totalCart: number;
+  cartTotal: number;
   trackingNumber: string;
   cartId: string[];
   cartDetails: any

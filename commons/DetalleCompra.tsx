@@ -22,13 +22,17 @@ const DetalleCompra = () => {
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const router = useRouter();
 
-  const handleButtonClick = async () => {
-    const productDetails = cartForUser.map((product: any) => ({
-      productId: product._id,
-      quantity: product.quantity,
-    }));
 
+  const handleButtonClick = async () => {
+    
     try {
+      const productDetails = cartForUser.map((product: any) => ({
+        productId: product._id,
+        quantity: product.quantity,
+      }));
+      console.log("product", productDetails)
+
+      
       const response = await fetch(
         `http://localhost:8000/cart/${userId}`,
         {
