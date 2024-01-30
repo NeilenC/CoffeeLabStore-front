@@ -41,7 +41,7 @@ const CartIcon = ({handleCartClick, cart}: any) => {
             fontWeight: "bold",
           }}
         >
-          {cartForUser?.length}
+          {cartForUser?.length || 0}
         </Typography>
       </Box>
     </Box>

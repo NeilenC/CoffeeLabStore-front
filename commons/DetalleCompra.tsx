@@ -20,6 +20,8 @@ const DetalleCompra = () => {
   const totalPrice = calculateTotalQuantity(cartForUser);
   const totalProducts = calculateTotalProducts(cartForUser)
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+
   const router = useRouter();
 
 
@@ -55,9 +57,13 @@ const DetalleCompra = () => {
     <Box 
  
       sx={{ 
-      width: isSmallScreen ? "100%" : "40%", 
-      ml: isSmallScreen ? 0 : 5,
-      mt: isSmallScreen ? 2 : 0
+        position:  'fixed',
+        top: isSmallScreen || isMediumScreen ? "25%" :  "auto",
+        right: 0,
+      
+      width: isSmallScreen || isMediumScreen ? "90%" : "30%", 
+      mr: isSmallScreen || isMediumScreen  ? 2.5 : 5,
+      mt: isSmallScreen || isMediumScreen  ? "auto" : "auto"
       }}>
       {cartForUser && cartForUser.length > 0 && (
         <Box sx={{ width: "100%" }}>
@@ -82,7 +88,7 @@ const DetalleCompra = () => {
             <Typography variant="body2">Total ${totalPrice}</Typography>
 
             <Button
-              sx={{ color: "black", mt: 3, mx: "auto", width: "100%" }}
+              sx={{ color: "black", mt: 3, mx: "auto", width: "100%", bgcolor:"whitesmoke" }}
               onClick={handleButtonClick}
             >
               Continuar compra

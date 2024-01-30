@@ -47,7 +47,7 @@ const CartItems = () => {
   }
 
   return (
-    <Box sx={{ bgcolor: "whitesmoke", px: 5 }}>
+    <Box sx={{ bgcolor: "whitesmoke", px: 5, pt: isSmallScreen || isMediumScreen ? "30%" : null }}>
     <Box display="flex" flexDirection={isSmallScreen ? "column" : "row"} sx={{ p: isSmallScreen ? 1 : 5 }}>
       <Box width={isSmallScreen || isMediumScreen ? "100%" : "65%"} >
         <Grid container spacing={2}>
@@ -85,12 +85,17 @@ const CartItems = () => {
                           Cantidad seleccionada: {product.quantity}
                         </Typography>
 
-                        {product.category.name === "Café" ? (
+                        {product.category.name === "Café" && product.productPreferences?.grind ? (
                           <Typography variant="body2">
                             {" "}
                             Molido para: {product.productPreferences?.grind}
                           </Typography>
-                        ) : null}
+                        ) : <Box>
+                           <Typography variant="body2">
+                            {" "}
+                            Café en grano
+                          </Typography>
+                          </Box>}
 
                         <Grid
                           container
@@ -162,13 +167,15 @@ const CartItems = () => {
               </Box>
             )}
           </Grid>
+          <Box sx={{pt:2}}>
+        <Button   sx={{p:2, color:"black", bgcolor:"lightgrey"}} onClick={() => handleClearCart()}>vaciar carrito</Button>
+       </Box>
         </Box>
 
         {/* DETALLES DE COMPRA */}
         <DetalleCompra />
       </Box>
-
-      <Button onClick={() => handleClearCart()}>vaciar carrito</Button>
+ 
     </Box>
   );
 };
