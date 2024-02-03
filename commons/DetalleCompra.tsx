@@ -60,8 +60,8 @@ const DetalleCompra = () => {
         position:  'fixed',
         top: isSmallScreen || isMediumScreen ? "25%" :  "auto",
         right: 0,
-      
-      width: isSmallScreen || isMediumScreen ? "90%" : "30%", 
+    
+      width: isSmallScreen || isMediumScreen ? "93%" : "30%", 
       mr: isSmallScreen || isMediumScreen  ? 2.5 : 5,
       mt: isSmallScreen || isMediumScreen  ? "auto" : "auto"
       }}>
@@ -88,7 +88,7 @@ const DetalleCompra = () => {
             <Typography variant="body2">Total ${totalPrice}</Typography>
 
             <Button
-              sx={{ color: "black", mt: 3, mx: "auto", width: "100%", bgcolor:"whitesmoke" }}
+              sx={{ color: "black", mt: 3, mx: "auto", width: "100%", bgcolor:"whitesmoke",  '&:hover': {bgcolor:"lightgrey"} }}
               onClick={handleButtonClick}
             >
               Continuar compra

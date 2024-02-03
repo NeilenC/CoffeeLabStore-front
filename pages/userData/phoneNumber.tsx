@@ -14,27 +14,31 @@ const PhoneNumber = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          phoneNumber: newPhoneNumber,
-        }),
-      });
+      if(newPhoneNumber) {
 
-      if (response.ok) {
-        console.log('Número de teléfono modificado con éxito');
+        const response = await fetch(`http://localhost:8000/users/${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            phoneNumber: newPhoneNumber,
+          }),
+        });
+        
+        if (response.ok) {
+          console.log('Número de teléfono modificado con éxito');
         setNewPhoneNumber(null)
         router.push('/userData')
       } else {
         console.error('Error al modificar el número de teléfono');
+       }
       }
     } catch (error) {
       console.error('Error de red', error);
     }
   };
+
 
   return (
     <Container component="main" maxWidth="xs" sx={{ height: "70vh" }}>

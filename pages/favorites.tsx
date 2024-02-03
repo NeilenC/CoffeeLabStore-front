@@ -4,6 +4,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { UserState } from "@/commons/types.interface";
+import NotFound from "@/commons/NotFound";
 
 const favorites = () => {
   const user = useSelector((state: UserState) => state.user);
@@ -13,16 +14,17 @@ const favorites = () => {
   const [products, setProducts] = useState([])
   const router = useRouter();
 
+  console.log("userfavo", products)
+
   useEffect(() => {
 
     const getProductsById = async () => {
-  
       const response = await fetch('http://localhost:8000/products/byIds', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userFavorites }),
+      body: JSON.stringify({ productIds: userFavorites }),
     });
     
     if (response.ok) {
@@ -38,46 +40,15 @@ const favorites = () => {
 
   return (
     <Box sx={{ py: 10 }}>
-      <Box sx={{ display: "flex", justifyContent: "center", pb: 4 }}>
-        <Typography variant="h3">Tus favoritos</Typography>
-      </Box>
       {userFavorites.length ? (
-        <ProductsCard products={products} />
-      ) : (
-        <Box
-          sx={{
-            bgcolor: "black",
-            width: "70%",
-            p: 8,
-            m: "auto",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Typography
-            sx={{
-              color: "white",
-              fontWeight: "bold",
-              m: "auto",
-              fontSize: "25px",
-              px: 5,
-              mb: 3,
-            }}
-          >
-            Aún no agregaste favoritos a tu lista
-          </Typography>
-          <Button
-            sx={{ m: "auto" }}
-            color="warning"
-            onClick={() => {
-              router.push("/");
-            }}
-          >
-            Ir a inicio
-          </Button>
+        <Box>
+        <Box sx={{ display: "flex", justifyContent: "center", pb: 4 }}>
+          <Typography variant="h3">Tus favoritos</Typography>
         </Box>
+        <ProductsCard products={products} />
+        </Box> 
+      ) : (
+       <NotFound>  Aún no agregaste favoritos a tu lista </NotFound>
       )}
     </Box>
   );

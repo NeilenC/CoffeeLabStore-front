@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { UserState } from '@/commons/types.interface';
 import { useSelector } from 'react-redux';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useRouter } from 'next/router';
 
 const Password = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
   const userId = useSelector((state: UserState) => state.user._id);
+  const router = useRouter()
 
   const handleCurrentPasswordChange = (e: any) => {
     setCurrentPassword(e.target.value);
@@ -16,16 +24,39 @@ const Password = () => {
     setNewPassword(e.target.value);
   };
 
-  const handleSubmit = () => {
-    // Aquí puedes realizar la lógica para modificar la contraseña del usuario
-    console.log('Contraseña actual:', currentPassword);
-    console.log('Nueva contraseña:', newPassword);
-    // Puedes enviar la información al servidor, realizar una petición API, etc.
+  const handleSubmit = async () => {
+    try {
+      if(newPassword) {
+
+        const response = await fetch(`http://localhost:8000/users/modifyPassword/${userId}`, {
+          method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          updateUserDTO: {
+            password: newPassword,
+          },
+          currentPassword,
+        }),
+      });
+      
+      if (response.ok) {
+        console.log('Contraseña modificada con éxito');
+        // Agregar toast
+        router.push('/userData')
+       }
+      } else {
+        console.error('Error al modificar la contraseña');
+        // Agregar toast
+      }
+    } catch (error) {
+      console.error('Error de red', error);
+    }
   };
 
   return (
     <Container component="main" maxWidth="xs" sx={{height:"70vh"}}>
-
       <Box
         sx={{
           py: 10,
@@ -45,11 +76,23 @@ const Password = () => {
             id="currentPassword"
             label="Contraseña Actual"
             name="currentPassword"
-            type="password"
+            type={showCurrentPassword ? "text" : "password"}
             autoComplete="current-password"
             autoFocus
             value={currentPassword}
             onChange={handleCurrentPasswordChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowCurrentPassword((prev) => !prev)}
+                    edge="end"
+                  >
+                    {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
             margin="normal"
@@ -58,10 +101,22 @@ const Password = () => {
             id="newPassword"
             label="Nueva Contraseña"
             name="newPassword"
-            type="password"
+            type={showNewPassword ? "text" : "password"}
             autoComplete="new-password"
             value={newPassword}
             onChange={handleNewPasswordChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowNewPassword((prev) => !prev)}
+                    edge="end"
+                  >
+                    {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             fullWidth

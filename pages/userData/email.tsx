@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { UserState } from '@/commons/types.interface';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 const Email = () => {
   const [newEmail, setNewEmail] = useState('');
   const userId = useSelector((state: UserState) => state.user._id);
+  const router = useRouter()
 
   const handleEmailChange = (e: any) => {
     setNewEmail(e.target.value);
@@ -14,10 +16,12 @@ const Email = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/users/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      if(newEmail) {
+
+        const response = await fetch(`http://localhost:8000/users/${userId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: newEmail,
@@ -26,10 +30,12 @@ const Email = () => {
 
       if (response.ok) {
         console.log('Email modificado con éxito');
-        // Puedes realizar acciones adicionales si es necesario
+        router.push('/userData')
+
       } else {
         console.error('Error al modificar el email');
       }
+    }
     } catch (error) {
       console.error('Error de red', error);
     }

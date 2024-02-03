@@ -68,7 +68,7 @@ export const cartReducer = (state = initialState, action: any) => {
 
       case "INCREMENT_CART_ITEM":
         const updatedCartIncrement = userCart.map((item: Product) => {
-          if (item._id === product._id) {
+          if (item._id === product._id && product.productPreferences?.grind == item.productPreferences?.grind) {
             const newQuantity = item.quantity + 1;
             if (newQuantity <= item.stock) {
               return { ...item, quantity: newQuantity };

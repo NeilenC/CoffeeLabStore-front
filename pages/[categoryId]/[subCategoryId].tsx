@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   Pagination,
+  useMediaQuery,
 } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Image from "next/image";
@@ -25,6 +26,7 @@ import {
 import ProductsCard from "@/commons/ProductsCard";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import NotFound from "@/commons/NotFound";
 
 function CategoryDetail() {
   const router = useRouter();
@@ -34,6 +36,8 @@ function CategoryDetail() {
   const [subCategory, setSubcategory] = useState<SubCategory[]>([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const isSmallScreen = useMediaQuery('(max-width: 600px)')
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
   const productsPerPage = 9;
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -67,7 +71,7 @@ function CategoryDetail() {
   };
 
   return (
-    <Box sx={{ display: "flex", bgcolor: "white" }}>
+    <Box sx={{ display: "flex", bgcolor: "white", height: isSmallScreen || isMediumScreen ? "90vh" : "70vh" }}>
       <Box sx={{ width: "15%" }}>
         <Typography
           variant="h5"
@@ -75,7 +79,7 @@ function CategoryDetail() {
         >
           {category}
         </Typography>
-        <Grid container spacing={2} sx={{ ml: 2 }}>
+        <Grid container spacing={2} sx={{ ml: 2}}>
           {subCategory.map((subcategory) => (
             <Grid
               item
@@ -90,13 +94,14 @@ function CategoryDetail() {
                   selectedSubCategory === subcategory.name
                     ? "#DAA520"
                     : "inherit",
+                 
               }}
               onClick={() => {
                 router.push(`/${categoryId}/${subcategory._id}`),
                   setSelectedSubCategory(subcategory.name);
               }}
             >
-              <Typography sx={{ fontWeight: "bold" }}>
+              <Typography sx={{ fontWeight: "bold",  }}>
                 {subcategory.name}
               </Typography>
             </Grid>
@@ -109,7 +114,7 @@ function CategoryDetail() {
             <Box>
               <Image alt="imageOslo" src={oslo1} height={150} width={1300} />
             </Box>
-          ) : // <Box component={'img'} src={'/oslo1.png'}  alt="imageOslo" sx={{height:"200px", width: "95%"}} />
+          ) : 
 
           null}
         </Box>
@@ -148,18 +153,7 @@ function CategoryDetail() {
             </Box>
           </Box>
         ) : (
-          <Grid
-            container
-            key="no-products-message"
-            sx={{ width: "50%", m: "auto" }}
-          >
-            <Grid item xs={5} sm={5}>
-              <Typography variant="h6"> Lo sentimos!</Typography>
-              <Typography variant="body1">
-                No hay productos para esta categoría.{" "}
-              </Typography>
-            </Grid>
-          </Grid>
+          <NotFound> No hay productos para esta categoría. </NotFound>
         )}
       </Grid>
     </Box>

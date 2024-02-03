@@ -21,6 +21,7 @@ import {
 } from "@/redux/actions";
 import { useRouter } from "next/router";
 import DetalleCompra from "@/commons/DetalleCompra";
+import NotFound from "@/commons/NotFound";
 
 const CartItems = () => {
     const isMediumScreen = useMediaQuery('(max-width: 1000px)')
@@ -47,10 +48,21 @@ const CartItems = () => {
   }
 
   return (
-    <Box sx={{ bgcolor: "whitesmoke", px: 5, pt: isSmallScreen || isMediumScreen ? "30%" : null }}>
-    <Box display="flex" flexDirection={isSmallScreen ? "column" : "row"} sx={{ p: isSmallScreen ? 1 : 5 }}>
-      <Box width={isSmallScreen || isMediumScreen ? "100%" : "65%"} >
-        <Grid container spacing={2}>
+    <Box sx={{ 
+      bgcolor: "whitesmoke", 
+      px: isSmallScreen || isMediumScreen ? 1 : 5, 
+      pt: isSmallScreen || isMediumScreen ? "30%" : null }}>
+
+    <Box 
+    display="flex" 
+    flexDirection={isSmallScreen ? "column" : "row"} 
+    sx={{ p: isSmallScreen ? 1 : 5 }}>
+      <Box
+       width={isSmallScreen || isMediumScreen ? "100%" : "100%"} 
+       >
+        <Grid container spacing={2}
+         width={isSmallScreen || isMediumScreen ? "100%" : "68%"}
+        >
             {cartForUser && cartForUser.length ? (
              cartForUser.map((product: any) => (
                 <Grid item key={product._id} xs={12}>
@@ -100,11 +112,11 @@ const CartItems = () => {
                         <Grid
                           container
                           spacing={2}
-                          sx={{ pt: 2, color: "black" }}
+                          sx={{ pt: 2, color: "black"  }}
                         >
                           <Grid item xs={6}>
                             <Button
-                              sx={{ color: "black" }}
+                              sx={{ color: "black",  '&:hover': {bgcolor:"whitesmoke"} }}
                               onClick={() => deleteFromCart(product._id)}
                             >
                               eliminar
@@ -141,39 +153,20 @@ const CartItems = () => {
                 </Grid>
               ))
             ) : (
-              <Box sx={{ display: "flex", width: "50%", ml: "65%", mt: 3 }}>
-                <Box sx={{ bgcolor: "black", width: "100%", p: 8 }}>
-                  <Box
-                    sx={{
-                      color: "white",
-                      fontWeight: "bold",
-                      fontSize: "25px",
-                      px: 5,
-                    }}
-                  >
-                    No hay productos en el carrito
-                  </Box>
-                  <Box sx={{ ml: "25%", pt: 3 }}>
-                    <Button
-                      color="warning"
-                      onClick={() => {
-                        router.push("/");
-                      }}
-                    >
-                      Ir a inicio
-                    </Button>
-                  </Box>
-                </Box>
-              </Box>
+               <NotFound> No hay productos en el carrito </NotFound>
             )}
           </Grid>
-          <Box sx={{pt:2}}>
-        <Button   sx={{p:2, color:"black", bgcolor:"lightgrey"}} onClick={() => handleClearCart()}>vaciar carrito</Button>
-       </Box>
+       { cartForUser.lenght != 0 && 
+         <Box sx={{pt:2}}>
+           <Button sx={{p:2, color:"black", bgcolor:"#f0f0f0f0", '&:hover': {bgcolor:"lightgrey"}}} 
+            onClick={() => handleClearCart()
+           }> vaciar carrito</Button>
+          </Box>
+       }
         </Box>
 
         {/* DETALLES DE COMPRA */}
-        <DetalleCompra />
+       <DetalleCompra />
       </Box>
  
     </Box>

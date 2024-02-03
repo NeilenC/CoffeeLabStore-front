@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { CartState, OrderState, Product, UserState } from "../../commons/types.interface";
 import { RepeatOneSharp } from "@mui/icons-material";
 import ProductDetails from "@/commons/ProductInOrder";
+import NotFound from "@/commons/NotFound";
 
 const Historial = () => {
   const userId = useSelector((state: UserState) => state.user._id);
@@ -41,7 +42,7 @@ const Historial = () => {
   
 
   return (
-    <Box sx={{ m: 10 }}>
+    <Box sx={{ m: 10, height:"51vh" }}>
   {orders.length > 0 && orders.length > 0 ? (
   orders.map((order, index) => (
     <Box key={index} sx={{ marginBottom: 4 , p:3, borderRadius:"8px", boxShadow:"0px 0px 15px -3px lightgrey"}}>
@@ -59,7 +60,7 @@ const Historial = () => {
     </Box>
   ))
 ) : (
-  <p>No hay órdenes disponibles.</p>
+  <NotFound>Aún no hay órdenes disponibles.</NotFound>
 )}
     </Box>
   );

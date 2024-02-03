@@ -29,7 +29,6 @@ const UserData = () => {
   const [shippingData, setShippingData] = useState<ShippingData | null>(null);
   const router = useRouter();
 
-  console.log("user", user)
   useEffect(() => {
     const storedShippingData = JSON.parse(
       localStorage.getItem("shippingData") || "{}",
@@ -58,15 +57,15 @@ const UserData = () => {
 
 
   const dataItems = [
-    { label: "Nombre", value: `${user.name} ${user.lastName}`, buttonLabel: "Modificar" , href:'/userData/username'},
-    { label: "Email", value: user.email, buttonLabel: "Modificar", href:'/userData/email' },
-    { label: "Teléfono", value: user.phoneNumber, buttonLabel: "Modificar", href:'/userData/phoneNumber' },
+    { label: "Nombre", value: `${user?.name} ${user?.lastName}`, buttonLabel: "Modificar" , href:'/userData/username'},
+    { label: "Email", value: user?.email, buttonLabel: "Modificar", href:'/userData/email' },
+    { label: "Teléfono", value: user?.phoneNumber, buttonLabel: "Modificar", href:'/userData/phoneNumber' },
     {
       label: "Dirección",
       value: `${shippingData?.address} n° ${shippingData?.directionNum} ${shippingData?.apartment || ""}`,
       buttonLabel: "",
     },
-    { label: "Contraseña", value: '', buttonLabel: "Modificar", href:'/userData/password' },
+    { label: "Contraseña", value: '*******', buttonLabel: "Modificar", href:'/userData/password' },
   ];
 
   return (

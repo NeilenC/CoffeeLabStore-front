@@ -73,18 +73,16 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
     }
   };
 
-  console.log("formData", formData);
-  console.log("initialData", initialData);
 
   return (
     <Box>
       <Grid container spacing={2} sx={{ width: "35%", p: 5, m: "auto" }}>
         <Grid item xs={12}>
-          <Typography variant="h5" sx={{}}>
+          <Typography variant="h5">
             MODIFICAR DATOS
           </Typography>
         </Grid>
-        <Grid item xs={12} sx={{}}>
+        <Grid item xs={12}>
           <InputLabel> Email </InputLabel>
           <TextField
             value={formData?.email}
@@ -92,7 +90,7 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sx={{}}>
+        <Grid item xs={12}>
           <InputLabel> Teléfono </InputLabel>
           <TextField
             value={formData?.phoneNumber}
