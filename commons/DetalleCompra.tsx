@@ -21,6 +21,7 @@ const DetalleCompra = () => {
   const totalProducts = calculateTotalProducts(cartForUser)
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  const isMidScreen = useMediaQuery('(max-width: 800px)')
 
   const router = useRouter();
 
@@ -58,7 +59,7 @@ const DetalleCompra = () => {
  
       sx={{ 
         position:  'fixed',
-        top: isSmallScreen || isMediumScreen ? "25%" :  "auto",
+        top: isSmallScreen ? "27%" : ( isMediumScreen || isMidScreen ? "17%" :  "auto"),
         right: 1,
       width: isSmallScreen || isMediumScreen ? "93%" : "30%", 
       mr: isSmallScreen ? 0.7 : 5 && isMediumScreen ? 1.6 : 5 ,

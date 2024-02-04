@@ -31,7 +31,7 @@ const CartCard = ({product}:any) => {
     key={product._id} 
     xs={12} 
     sx={{
-     pb: isSmallScreen ? "40%": (isMediumScreen || isMidScreen ? "26%": 1),
+     pb: isSmallScreen ? "58%": (isMediumScreen || isMidScreen ? "43%": 1),
     }}
     >
       <Card

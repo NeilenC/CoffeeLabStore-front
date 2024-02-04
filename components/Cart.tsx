@@ -72,7 +72,7 @@ const CartItems = () => {
         </Box>
 
         {/* DETALLES DE COMPRA */}
-       {/* <DetalleCompra /> */}
+       <DetalleCompra />
       </Box>
  
     </Box>
