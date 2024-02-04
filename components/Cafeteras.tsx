@@ -9,7 +9,7 @@ import aeropress from "../public/aeropress.png";
 import Image from "next/image";
 import theme from "@/styles/theme";
 import { useRouter } from "next/router";
-import { Category, SubCategory } from "@/commons/types.interface";
+import { SubCategory } from "@/commons/types.interface";
 
 const cafeteras = [
   { img: chemex, alt: "chemex", description: "Chemex" },

@@ -7,6 +7,7 @@ import { Provider, useSelector } from "react-redux";
 import theme from "../styles/theme";
 import Layout from "@/components/Layout";
 import { PersistGate } from "redux-persist/integration/react";
+import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -25,6 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <CssBaseline />
           <Layout>
             <Component {...pageProps} />
+            <ToastContainer position="top-right" />
           </Layout>
         </ThemeProvider>
       </PersistGate>

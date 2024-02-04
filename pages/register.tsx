@@ -14,8 +14,9 @@ import { Formik, Form, Field, FormikHelpers } from "formik"; // Import FormikHel
 import { useRouter } from "next/router";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Swal from "sweetalert2";
-import theme from "@/styles/theme";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+       
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -47,11 +48,10 @@ const RegistrationForm = () => {
         resetForm();
         router.push("/login");
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Hubo un error, por favor vuelva a intentar",
-          confirmButtonColor: theme.palette.primary.main,
-        });
+      toast.error("Hubo un error, por favor vuelva a intentar" ,{
+        autoClose: 1500, 
+      });
+
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);

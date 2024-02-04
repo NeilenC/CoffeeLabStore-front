@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductsCard from "@/commons/ProductsCard";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
 import { UserState } from "@/commons/types.interface";
 import NotFound from "@/commons/NotFound";
 
@@ -12,9 +11,6 @@ const favorites = () => {
   const userId = user?._id
   const userFavorites = favoriteProducts.users[userId] || [];
   const [products, setProducts] = useState([])
-  const router = useRouter();
-
-  console.log("userfavo", products)
 
   useEffect(() => {
 

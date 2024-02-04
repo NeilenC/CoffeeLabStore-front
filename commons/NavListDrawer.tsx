@@ -1,9 +1,9 @@
 import { Box, Grid, Hidden, Toolbar, Typography, Select, MenuItem, Button, Menu, ListItem, ListItemText, List  } from "@mui/material";
 import Link from "next/link";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import { useSelector } from "react-redux";
-import { CartState, Category, UserState } from "./types.interface";
+import { Category, UserState } from "./types.interface";
 import { useRouter } from "next/router";
 import theme from "@/styles/theme";
 import { getCategories } from "@/functions";

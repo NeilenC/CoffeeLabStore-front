@@ -6,6 +6,8 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { Button } from "@mui/material";
 import Swal from "sweetalert2";
 import theme from "@/styles/theme";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddToCartButtom = ({ product, quantity }: any) => {
   const cart = useSelector((state: CartState) => state.cart);
@@ -15,21 +17,18 @@ const AddToCartButtom = ({ product, quantity }: any) => {
   function addItemToCart(product: Product, quantity: number) {
     if (product.stock > 0) {
       dispatch(addToCart(product, quantity, userId));
-      Swal.fire({
-        icon: "success",
-        title: "Producto agregadoal carrito",
-        confirmButtonColor: theme.palette.primary.main,
+      toast.success("Producto agregado al carrito" ,{
+        autoClose: 1000, 
       });
     } else {
-      Swal.fire({
-        icon: "error",
-        title: "No se encuentra stock para este producto",
-        confirmButtonColor: theme.palette.primary.main,
+      toast.error("No se encuentra stock para este producto",{
+        autoClose: 1000, 
       });
     }
   }
-
+  
   return (
+    <>
     <Button
       onClick={() => addItemToCart(product, quantity)}
       sx={{
@@ -43,6 +42,8 @@ const AddToCartButtom = ({ product, quantity }: any) => {
       Agregar al &nbsp;
       <ShoppingCartOutlinedIcon />
     </Button>
+
+        </>
   );
 };
 

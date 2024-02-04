@@ -14,9 +14,10 @@ import { UserState } from "@/commons/types.interface";
 import { useRouter } from "next/router";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import Swal from "sweetalert2";
-import theme from "@/styles/theme";
+
 type EditUserDataFormProps = {
   initialData: {
     email: "";
@@ -56,19 +57,14 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
       });
 
       if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title: "Cambios realizados con éxito",
-          confirmButtonColor: theme.palette.primary.main,
+        toast.success("Cambios realizados con éxito" ,{
+          autoClose: 1000, 
         });
         setFormData(initialData);
       }
     } catch (error) {
-      console.error("Error en la solicitud PUT:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Hubo un error al procesar la solicitud",
-        confirmButtonColor: theme.palette.error.main,
+      toast.error("Hubo un error al procesar la solicitud" ,{
+        autoClose: 1000, 
       });
     }
   };

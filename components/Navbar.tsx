@@ -16,7 +16,6 @@ import {
   Drawer,
 } from "@mui/material";
 import Link from "next/link";
-// import useUserData from "@/Hooks/useUserData";
 import Categories from "./Categories";
 import theme from "../styles/theme";
 import Search from "./Search";
@@ -40,7 +39,9 @@ const Navbar = () => {
   const isSmallScreen = useMediaQuery('(max-width: 600px)')
   const isMediumScreen = useMediaQuery('(max-width: 1000px)')
   const [openDrawer,setOpenDrawer] = useState(false)
+  const isCartIndex = router.pathname
 
+  console.log(isCartIndex, "asca")
 
   const handleToggle = () => {
     setExpanded(!expanded);
@@ -79,7 +80,7 @@ const Navbar = () => {
   return (
     <>
     { router.pathname !== "/login" && user._id !== '' ? 
-    <Box position="sticky" zIndex={1} sx={{pb:"110px"}}>
+    <Box position="sticky" zIndex={1} sx={{pb: isCartIndex != '/cart' ? "100px" : "20px"}}>
       {isSmallScreen ? (
           <Grid container sx={{display:"flex"}}>
             <Grid item xs={10}>
@@ -217,10 +218,7 @@ const Navbar = () => {
           container
           sx={{ height: "80px", bgcolor: "white", alignItems: "center" ,ml:1}}
         >
-
           <LogoIcon/>
-     
-
           <Grid
             item
             xs={3}

@@ -118,8 +118,8 @@ const ProductDetail = () => {
   return (
     <Box sx={{ p: 5, display: "flex", height: "100%" }}>
       {product ? (
-        <Grid container spacing={1} sx={{ m: "auto" }}>
-          <Grid item xs={4} sx={{ m: "auto" }}>
+        <Grid container  sx={{ m: "auto"}}>
+          <Grid item xs={4} sx={{ m: "auto"}}>
             <Box
               onMouseEnter={handleImageHover}
               onMouseLeave={handleImageLeave}
@@ -134,9 +134,10 @@ const ProductDetail = () => {
               <Box
                 component="img"
                 src={actualImage || undefined}
-                width={600}
-                height={650}
+                width={550}
+                height={600}
                 alt={product.name}
+                sx={{overflow:"hidden"}}
               />
             </Box>
             <Box>

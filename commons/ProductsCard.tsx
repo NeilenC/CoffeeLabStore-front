@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import AddToCartButtom from "./AddToCartButton";
-import { useRouter } from "next/router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Product, UserState } from "./types.interface";
@@ -18,9 +17,24 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addToFavorites,
   removeFromFavorites,
-  resetState,
 } from "@/redux/actions";
-import CartItems from "@/components/Cart";
+// import { makeStyles } from '@mui/styles';
+// import { styled } from '@mui/system';
+
+// const useStyles = makeStyles((theme) => ({
+//   productImage: {
+//     width: '100%',
+//     height: '98%',
+//     overflow: 'hidden',
+//   },
+//   productImageOutOfStock: {
+//     width: '100%',
+//     height: '98%',
+//     overflow: 'hidden',
+//     filter: 'grayscale(100%)', // Filtro de escala de grises
+//   },
+// }));
+
 
 const ProductsCard = ({ products = [] }: any) => {
   const user = useSelector((state: UserState) => state.user);
@@ -84,7 +98,9 @@ const ProductsCard = ({ products = [] }: any) => {
                 <Box
                   component="img"
                   src={product.imageURL[0]}
-                  sx={{ width: "100%", height: "98%", overflow:"hidden" }}
+                  sx={{ width: "100%", height: "98%", overflow:"hidden",
+                //  filter: product.stock <= 0 ? 'grayscale(100%)' : 'none',
+                }}
                 />
               </Box>
             </Link>

@@ -59,21 +59,17 @@ const DetalleCompra = () => {
       sx={{ 
         position:  'fixed',
         top: isSmallScreen || isMediumScreen ? "25%" :  "auto",
-        right: 0,
-    
+        right: 1,
       width: isSmallScreen || isMediumScreen ? "93%" : "30%", 
-      mr: isSmallScreen || isMediumScreen  ? 2.5 : 5,
-      mt: isSmallScreen || isMediumScreen  ? "auto" : "auto"
+      mr: isSmallScreen ? 0.7 : 5 && isMediumScreen ? 1.6 : 5 ,
       }}>
       {cartForUser && cartForUser.length > 0 && (
-        <Box sx={{ width: "100%" }}>
+        <Box sx={{ width: isSmallScreen || isMediumScreen  ? "96%" : "100%" }}>
           <Box
             sx={{
               p: 3,
               borderRadius: 2,
               width: "100%",
-              ml: "auto",
-              mr: 0,
               bgcolor: "white",
               boxShadow: "0px 1.5px 3px -1px rgba(0,0,0,0.4)",
             }}

@@ -33,7 +33,7 @@ const theme = createTheme({
     },
     body1: {
       fontSize: "1rem",
-      fontWeight: 700,
+      fontWeight: 500,
     },
     body2: {
       fontSize: "1rem",
