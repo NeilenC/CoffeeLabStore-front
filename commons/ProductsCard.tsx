@@ -7,11 +7,11 @@ import {
   Grid,
   IconButton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import AddToCartButtom from "./AddToCartButton";
-import { Product, UserState } from "./types.interface";
-import { useDispatch, useSelector } from "react-redux";
+import { Product } from "./types.interface";
 import AddToFavButton from "./AddToFavButton";
 import { useRouter } from "next/router";
 
@@ -20,7 +20,9 @@ const ProductsCard = ({ products = [] }: any) => {
   const [visibleProducts, setVisibleProducts] = useState(9);
   const [visibleProductsList, setVisibleProductsList] = useState<Product[]>([]);
   const router = useRouter()
-  const ruta = router.pathname
+  const ruta = router.pathname  
+  const isSmallScreen = useMediaQuery('(max-width: 600px)')
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
 
   useEffect(() => {
     if (window.location.pathname === "/") {
@@ -36,7 +38,7 @@ const ProductsCard = ({ products = [] }: any) => {
       flexDirection: "row", 
       flexWrap: "wrap", 
       // pl: 1,
-       justifyContent: ruta == '/' || ruta == '/favorites'   ? "center" :  null ,
+       justifyContent: ruta == '/' || ruta == '/favorites'  && isSmallScreen || isMediumScreen ? "center" :  null ,
        maxWidth: "100%", 
 
       }}>
@@ -47,27 +49,26 @@ const ProductsCard = ({ products = [] }: any) => {
         sx={{
           maxWidth: 282,
           p: 2,
-          m: "auto",
+          m: "auto", 
         }}
       >
        
             <Link href={`/products/${product._id}`}>
               <Box sx={{ 
-                mx: "auto",
                  height: 257,
-                 overflow: "auto" }}>
+                 overflow: "auto", justifyContent:"center", }}>
                 <Box
                   component="img"
                   src={product.imageURL[0]}
-                  sx={{ width: 250,  overflow:"scroll",
+                  sx={{ width: 250,  overflow:"scroll"
                 }}
                 />
               </Box>
             </Link>
             <CardContent sx={{ p: 0 }}>
-              <Typography variant="body1" color="initial">
-                {product.name}
-              </Typography>
+            <Typography variant="body1" color="initial" noWrap>
+                {product.name.length > 25 ? `${product.name.substring(0, 25)}...` : product.name}
+            </Typography>
               <Box
                 color="black"
                 sx={{ py: 1, display: "flex", justifyContent: "space-between" }}

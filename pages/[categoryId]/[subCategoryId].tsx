@@ -1,25 +1,16 @@
-import { Category, Product, SubCategory } from "@/commons/types.interface";
+import {Product, SubCategory } from "@/commons/types.interface";
 import {
   Box,
   Grid,
-  Card,
-  CardContent,
   Typography,
   Button,
-  Pagination,
   useMediaQuery,
+  Drawer,
 } from "@mui/material";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import AddToCartButtom from "@/commons/AddToCartButton";
-import oslo1 from "../../public/oslo1.png";
-import theme from "@/styles/theme";
 import {
   getCategory,
-  getProductsByCategory,
   getProductsBySubCategory,
   getSubCategory,
 } from "@/functions";
@@ -27,6 +18,8 @@ import ProductsCard from "@/commons/ProductsCard";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import NotFound from "@/commons/NotFound";
+import SideBarCategories from "@/commons/SideBarCategories";
+import DrawerListCategories from "@/commons/DrawerListCategories";
 
 function CategoryDetail() {
   const router = useRouter();
@@ -71,91 +64,76 @@ function CategoryDetail() {
   };
 
   return (
-    <Box sx={{ display: "flex", bgcolor: "white", height: "100vh", maxWidth:"100%" }}>
-      <Box sx={{ width: isSmallScreen || isMediumScreen ? "20%" : "16%" }}>
-        <Typography
-          variant="h5"
-          sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
-        >
-          {category}
-        </Typography>
-        <Grid container spacing={2} sx={{ ml: 2}}>
-          {subCategory.map((subcategory) => (
-            <Grid
-              item
-              xs={12}
-              key={subcategory._id}
-              sx={{
-                "&:hover": {
-                  color: theme.palette.text.secondary,
-                  cursor: "pointer",
-                },
-                color:
-                  selectedSubCategory === subcategory.name
-                    ? "#DAA520"
-                    : "inherit",
-                 
-              }}
-              onClick={() => {
-                router.push(`/${categoryId}/${subcategory._id}`),
-                  setSelectedSubCategory(subcategory.name);
-              }}
-            >
-              <Typography sx={{ fontWeight: "bold",  }}>
-                {subcategory.name}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-      <Grid container  sx={{ pt: 3 }}>
-        {/* <Box>
-          {selectedSubCategory === "Oslo" ? (
-            <Box>
-              <Image alt="imageOslo" src={oslo1} height={150} width={1300} />
+    <Box sx={{ 
+        pt:3, 
+        display: "flex",
+        height: "100vh", 
+        maxWidth:"100%" , flexDirection: isSmallScreen || isMediumScreen ? "column" : null, height: "100%" 
+   
+      }}>
+          {isSmallScreen || isMediumScreen ? 
+          (
+            <Box sx={{display: "flex", height:"20%"}}>
+    <Box sx={{  direction: "column", bgcolor:"white", width:"100%" }}>
+                <DrawerListCategories
+                  category={category} 
+                  subCategory={subCategory} 
+                  selectedSubCategory={selectedSubCategory} 
+                  setSelectedSubCategory={setSelectedSubCategory} 
+                  categoryId={categoryId} 
+                  />
+              </Box>
             </Box>
           ) : 
+          (
+            <SideBarCategories
+              category={category} 
+              subCategory={subCategory} 
+              selectedSubCategory={selectedSubCategory} 
+              setSelectedSubCategory={setSelectedSubCategory} 
+              categoryId={categoryId} 
+            />
+          )
+        }
 
-          null}
-        </Box> */}
-        {/* MAP DE LOS PRODUCTOS */}
-
-        {products.length ? (
-          <Box sx={{  width:"100%", pb:3}}>
-            <Box sx={{  bgcolor: "whitesmoke", }}>
-              <ProductsCard products={currentProducts} />
-              {/* PAGINACION */}
-            </Box>
-            <Box sx={{ mt: 3, display: "flex", justifyContent: "center"}}>
-              <Button
-                disabled={currentPage === 1}
-                onClick={() => handlePageChange(currentPage - 1)}
-              >
-                <KeyboardDoubleArrowLeftIcon />
-              </Button>
-              {Array.from({ length: totalPages }).map((_, index) => (
+      
+        <Grid container  sx={{ pt:3}}>
+          {products.length ? (
+            <Box sx={{ pb:3,}}>
+              <Box sx={{  bgcolor: "whitesmoke", }}>
+                <ProductsCard products={currentProducts} />
+                {/* PAGINACION */}
+              </Box>
+              <Box sx={{ mt: 3, display: "flex", justifyContent: "center"}}>
                 <Button
-                  key={index}
-                  onClick={() => handlePageChange(index + 1)}
-                  sx={{
-                    fontWeight: currentPage === index + 1 ? "bold" : "normal",
-                  }}
+                  disabled={currentPage === 1}
+                  onClick={() => handlePageChange(currentPage - 1)}
                 >
-                  {index + 1}
+                  <KeyboardDoubleArrowLeftIcon />
                 </Button>
-              ))}
-              <Button
-                disabled={indexOfLastProduct >= products.length}
-                onClick={() => handlePageChange(currentPage + 1)}
-              >
-                <KeyboardDoubleArrowRightIcon />
-              </Button>
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <Button
+                    key={index}
+                    onClick={() => handlePageChange(index + 1)}
+                    sx={{
+                      fontWeight: currentPage === index + 1 ? "bold" : "normal",
+                    }}
+                  >
+                    {index + 1}
+                  </Button>
+                ))}
+                <Button
+                  disabled={indexOfLastProduct >= products.length}
+                  onClick={() => handlePageChange(currentPage + 1)}
+                >
+                  <KeyboardDoubleArrowRightIcon />
+                </Button>
+              </Box>
             </Box>
-          </Box>
-        ) : (
-          <NotFound> No hay productos para esta categoría. </NotFound>
-        )}
-      </Grid>
+          ) : (
+            <NotFound> No hay productos para esta categoría. </NotFound>
+          )}
+        </Grid>
     </Box>
   );
 }
