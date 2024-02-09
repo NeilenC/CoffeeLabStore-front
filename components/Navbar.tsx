@@ -6,22 +6,17 @@ import { useRouter } from "next/router";
 import {
   AppBar,
   Grid,
-  IconButton,
-  InputBase,
   Toolbar,
   Typography,
   Box,
-  Collapse,
   useMediaQuery,
   Drawer,
 } from "@mui/material";
-import Link from "next/link";
 import Categories from "./Categories";
 import theme from "../styles/theme";
 import Search from "./Search";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import LogOutOutlinedIcon from "@mui/icons-material/LogOutOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import NavListDrawer from "@/commons/NavListDrawer";
@@ -30,18 +25,16 @@ import CartIcon from "./CartIcon";
 import LogoIcon from "@/commons/LogoIcon";
 
 const Navbar = () => {
-  // useUserData();
   const dispatch = useDispatch();
   const router = useRouter();
   const [expanded, setExpanded] = useState(false);
   const cart = useSelector((state: CartState) => state.cart);
   const user = useSelector((state: UserState) => state.user);
-  const isSmallScreen = useMediaQuery('(max-width: 600px)')
+  const isSmallScreen = useMediaQuery('(max-width: 400px)')
   const isMediumScreen = useMediaQuery('(max-width: 1000px)')
   const [openDrawer,setOpenDrawer] = useState(false)
-  const isCartIndex = router.pathname
+  const path = router.pathname
 
-  console.log(isCartIndex, "asca")
 
   const handleToggle = () => {
     setExpanded(!expanded);
@@ -80,8 +73,8 @@ const Navbar = () => {
   return (
     <>
     { router.pathname !== "/login" && user._id !== '' ? 
-    <Box position="sticky" zIndex={1} sx={{pb: isCartIndex != '/cart' ? "100px" : "20px"}}>
-      {isSmallScreen ? (
+    <Box position="sticky" zIndex={1} sx={{pb: path != '/cart' ? "100px" : "20px"}}>
+      {isSmallScreen || isMediumScreen ? (
           <Grid container sx={{display:"flex"}}>
             <Grid item xs={10}>
 
@@ -97,16 +90,17 @@ const Navbar = () => {
              <NavListDrawer setOpenDrawer={setOpenDrawer} />
               </Drawer>
                 </Grid>
+                {path  !== '/cart' ? 
                 
                 <Grid item xs={2} sx={{m:"auto"}}>
 
                  <CartIcon handleCartClick={handleCartClick} cart={cart}/>
-              
                 </Grid>
+              :null}
               </Grid>
        ) : null }
        
-      {router.pathname !== "/cart" ? (
+       {router.pathname !== "/cart"   && (
         <AppBar  sx={{display:{xs:"none", sm: "block"}}}>
           <Box sx={{ bgcolor: theme.palette.primary.main, color: "white" }}>
             <Toolbar>
@@ -172,10 +166,11 @@ const Navbar = () => {
                   ) : null}
                   </Grid>
 
-                <Grid item xs={2} md={1} >
-                 <CartIcon handleCartClick={handleCartClick} cart={cart}/>
-                </Grid>
 
+                    <Grid item xs={2} md={1}>
+                      <CartIcon handleCartClick={handleCartClick} cart={cart}/>
+                    </Grid>
+              
                 <Grid item xs={1} md={1} sm={1} sx={{ml:2}}
                       onClick={handleLogout}
                       >
@@ -212,12 +207,15 @@ const Navbar = () => {
 
           {/* ---------------------- COMPONENTE DE CATEGORÍAS ---------------------- */}
           <Categories />
+          
         </AppBar>
-      ) : (
-        <Grid
+      ) }
+       {/*  EN CARRITO SI SE ENCUENTRA EN PANTALLA PEQUEÑA O MEDIANA NO SE MUESTRA */}
+      {router.pathname === "/cart" && !isMediumScreen && (
+          <Grid
           container
           sx={{ height: "80px", bgcolor: "white", alignItems: "center" ,ml:1}}
-        >
+          >
           <LogoIcon/>
           <Grid
             item
@@ -236,12 +234,16 @@ const Navbar = () => {
               <FavoriteBorderIcon sx={{ fontSize: "1.2rem", pt: 0.5 }} />
             </Typography>
           </Grid>
-        </Grid>
-      )}
+          </Grid>
+          )
+      }
+
+
     </Box> 
      : <Box sx={{heigth:10, p:2, pb:1}}>
         <LogoIcon/>
-      </Box>}
+      </Box>
+      }
     </>
 
   );

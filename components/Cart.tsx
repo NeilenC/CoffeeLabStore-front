@@ -2,17 +2,11 @@ import React from "react";
 import {
   Box,
   Grid,
-  Card,
-  CardContent,
-  Typography,
   Button,
-  Divider,
   useMediaQuery,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { CartState, Product, UserState } from "@/commons/types.interface";
-import Link from "next/link";
-import Image from "next/image";
+import { CartState, UserState } from "@/commons/types.interface";
 import {
   clearCart,
 } from "@/redux/actions";

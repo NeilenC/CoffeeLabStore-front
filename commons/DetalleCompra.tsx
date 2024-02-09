@@ -59,7 +59,7 @@ const DetalleCompra = () => {
  
       sx={{ 
         position:  'fixed',
-        top: isSmallScreen ? "27%" : ( isMediumScreen || isMidScreen ? "17%" :  "auto"),
+        top: isSmallScreen ? "12%" : ( isMediumScreen || isMidScreen ? "20%" :  "auto"),
         right: 1,
       width: isSmallScreen || isMediumScreen ? "93%" : "30%", 
       mr: isSmallScreen ? 0.7 : 5 && isMediumScreen ? 1.6 : 5 ,

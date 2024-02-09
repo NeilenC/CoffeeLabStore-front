@@ -1,25 +1,21 @@
 import {
   Box,
-  Button,
-  CardMedia,
   CircularProgress,
   Divider,
   FormControl,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
   TextField,
   Typography,
 } from "@mui/material";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { ChangeEvent } from "react";
 import { Product } from "@/commons/types.interface";
 import AddToCartButtom from "@/commons/AddToCartButton";
 import BuyButton from "@/commons/BuyButton";
+import AddToFavButton from "@/commons/AddToFavButton";
 
 const initialProductState: Product = {
   _id: "",
@@ -70,6 +66,8 @@ const ProductDetail = () => {
       }));
     }
   };
+
+  console.log("PRoduct", product)
 
   useEffect(() => {
     async function fetchProductDetails() {
@@ -140,6 +138,7 @@ const ProductDetail = () => {
                 sx={{overflow:"hidden"}}
               />
             </Box>
+            <AddToFavButton product={product} />
             <Box>
               {product.imageURL?.map((image, index) => (
                 <Box
@@ -172,11 +171,14 @@ const ProductDetail = () => {
               </pre>
             </Typography>
 
-            {product.stock > 0 ? (
+            {product.stock > 0 && (
               <Typography variant="body2">
                 Disponibles: {product.stock}
               </Typography>
-            ) : (
+            ) }
+            
+            
+            {product.stock < 0 && (
               <Typography variant="body2" sx={{ pt: 2, color: "red" }}>
                 {" "}
                 No hay stock disponible para este producto{" "}

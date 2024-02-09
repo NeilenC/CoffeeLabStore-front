@@ -1,4 +1,4 @@
-import { Box, Grid, Hidden, Toolbar, Typography, Select, MenuItem, Button, Menu, ListItem, ListItemText, List  } from "@mui/material";
+import { Box, Grid, Hidden, Toolbar, Typography, ListItem, List, useMediaQuery, useTheme  } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
@@ -19,6 +19,9 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const user = useSelector((state: UserState) => state.user);
   const router = useRouter()
+  const isCartPath = router.pathname
+  const isMidScreen = useMediaQuery('(max-width:1000px)');
+  const isMidmidScreen = useMediaQuery('(max-width:1500px)');
 
     useEffect(() => {
       getCategories({ setCategories });
@@ -40,17 +43,22 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
     setOpen(false);
     setOpenDrawer(false)
   };
+
+  const theme = useTheme();
+  const isMobileOrTablet = useMediaQuery(theme.breakpoints.down("md"));
+
   
     return (
-      <Hidden mdUp>
       <Grid container spacing={2} sx={{ 
-        pt: 5, 
-        ml: 3, 
-        display: "flex", 
-        flexDirection: "column", 
-        maxWidth: "250px",
-        }}>
-        <Toolbar sx={{ display: { xs: "flex", sm: "block" } }}>
+          pt: 5, 
+          ml: 3, 
+          display: "flex", 
+          flexDirection: "column", 
+          maxWidth: "250px",
+         }}
+        >
+      <Hidden mdUp>
+        <Toolbar sx={{ display: { xs: "flex", sm: "block"} }}>
           <Grid item>
             <Link href={"/"}>
               <Box
@@ -76,7 +84,7 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
             </Grid>
           )) : null}
 
-<Grid item>
+   <Grid item>
     <Typography
       aria-controls="category-menu"
       aria-haspopup="true"
@@ -134,8 +142,8 @@ const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
             </Box>
           </Grid>
         )}
-      </Grid>
     </Hidden>
+      </Grid>
     );
   };
 

@@ -71,8 +71,8 @@ function CategoryDetail() {
   };
 
   return (
-    <Box sx={{ display: "flex", bgcolor: "white", height: isSmallScreen || isMediumScreen ? "90vh" : "70vh" }}>
-      <Box sx={{ width: "15%" }}>
+    <Box sx={{ display: "flex", bgcolor: "white", height: "100vh", maxWidth:"100%" }}>
+      <Box sx={{ width: isSmallScreen || isMediumScreen ? "20%" : "16%" }}>
         <Typography
           variant="h5"
           sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
@@ -108,8 +108,8 @@ function CategoryDetail() {
           ))}
         </Grid>
       </Box>
-      <Grid container spacing={3} sx={{ display: "flex", pt: 3, m: "auto" }}>
-        <Box sx={{}}>
+      <Grid container  sx={{ pt: 3 }}>
+        {/* <Box>
           {selectedSubCategory === "Oslo" ? (
             <Box>
               <Image alt="imageOslo" src={oslo1} height={150} width={1300} />
@@ -117,16 +117,16 @@ function CategoryDetail() {
           ) : 
 
           null}
-        </Box>
+        </Box> */}
         {/* MAP DE LOS PRODUCTOS */}
 
         {products.length ? (
-          <Box sx={{ mr: 1 }}>
-            <Box sx={{ m: "auto", bgcolor: "whitesmoke" }}>
+          <Box sx={{  width:"100%", pb:3}}>
+            <Box sx={{  bgcolor: "whitesmoke", }}>
               <ProductsCard products={currentProducts} />
               {/* PAGINACION */}
             </Box>
-            <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+            <Box sx={{ mt: 3, display: "flex", justifyContent: "center"}}>
               <Button
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}

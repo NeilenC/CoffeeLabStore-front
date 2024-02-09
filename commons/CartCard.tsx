@@ -7,7 +7,8 @@ import { Product, UserState } from './types.interface'
 import { decrementCartItem, incrementCartItem, removeFromCart } from '@/redux/actions'
 
 const CartCard = ({product}:any) => {
-  const isMediumScreen = useMediaQuery('(max-width: 950px)')
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  // const isTablet = useMediaQuery('(max-width: 1300px)')
   const isMidScreen = useMediaQuery('(max-width: 800px)')
   const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const userId = useSelector((state: UserState) => state.user._id);
@@ -31,7 +32,7 @@ const CartCard = ({product}:any) => {
     key={product._id} 
     xs={12} 
     sx={{
-     pb: isSmallScreen ? "58%": (isMediumScreen || isMidScreen ? "43%": 1),
+      pb: isSmallScreen ? "10%" : (isMediumScreen || isMidScreen ? "43%" : 1),
     }}
     >
       <Card
@@ -147,7 +148,7 @@ const CartCard = ({product}:any) => {
           <Grid item xs={5}  sm={1}
            sx={{
             pt:1 ,  
-            pl:  !isSmallScreen || !isMediumScreen ? 3 : null}}>
+            pl:  !isSmallScreen || !isMediumScreen  ? 2 : null}}>
             <Button
               sx={{ 
                 fontSize:  isSmallScreen || isMediumScreen  ?  "20px" : "25px",
