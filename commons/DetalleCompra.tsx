@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { calculateTotalProducts, calculateTotalQuantity } from "@/functions";
+import { calculateTotalProducts, calculateTotalQuantity } from "@/functionsFetch";
 
 
 const DetalleCompra = () => {

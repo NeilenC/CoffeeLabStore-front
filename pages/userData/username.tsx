@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, useMediaQuery } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { UserState } from '@/commons/types.interface';
 import { useRouter } from 'next/router';
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const username = () => {
   const [newUserName, setNewUserName] = useState('');
   const [newLastName, setNewLastName] = useState('');
   const userId = useSelector((state: UserState) => state.user._id);
   const router = useRouter()
+  const isMediumScreen = useMediaQuery('( max-width: 900px)')
+  
+   function handleGoBack () {
+      router.push('/userData')
+  };
   
   const handleChangeUserName = (e:any) => {
     setNewUserName(e.target.value);
@@ -53,43 +58,55 @@ const username = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{height:"70vh"}}>
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{
+        height: "80vh",
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        bgcolor: "#f0f0f0f0",
+        width: "100%",
+      pt: isMediumScreen ? "10%" : "2%",
 
+      }}
+    >
       <Box
         sx={{
-          py: 10,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          p: 4,
+          bgcolor: 'background.paper',
+          boxShadow: 1,
+          borderRadius: 2
         }}
       >
-        <Typography component="h1" variant="h5">
-          Modificar Nombre Usuario
-        </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+          <ArrowBackIcon fontSize="large" onClick={handleGoBack} />
+          <Typography variant="h5" component="h1" sx={{ ml: 7 }}> Nombre Usuario</Typography>
+        </Box>
+        <form noValidate onSubmit={handleSubmit}>
           <TextField
             margin="normal"
             fullWidth
             id="newUserName"
             label="Nombre"
             name="newUserName"
-            autoComplete="tel"
+            autoComplete="given-name"
             autoFocus
             value={newUserName}
             onChange={handleChangeUserName}
           />
-                <TextField
-                    margin="normal"
-                    fullWidth
-                    id="newLastName"
-                    label="Apellido"
-                    name="newLastName"
-                    autoComplete="tel"
-                    autoFocus
-                    value={newLastName}
-                    onChange={handleChangeUserLastName}  
-                    />
-
+          <TextField
+            margin="normal"
+            fullWidth
+            id="newLastName"
+            label="Apellido"
+            name="newLastName"
+            autoComplete="family-name"
+            autoFocus
+            value={newLastName}
+            onChange={handleChangeUserLastName}
+          />
           <Button
             fullWidth
             variant="contained"
@@ -98,7 +115,7 @@ const username = () => {
           >
             Guardar Cambios
           </Button>
-        </Box>
+        </form>
       </Box>
     </Container>
   );

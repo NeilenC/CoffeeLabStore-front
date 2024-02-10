@@ -13,7 +13,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { Product } from "@/commons/types.interface";
 import theme from "@/styles/theme";
 import { useRouter } from "next/router";
-import { searchProducts } from "@/functions";
+import { searchProducts } from "@/functionsFetch";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");

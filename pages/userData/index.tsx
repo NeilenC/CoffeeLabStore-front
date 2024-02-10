@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { UserState } from "@/commons/types.interface";
-import { Box, Typography, Button, Divider, Grid } from "@mui/material";
+import { Box, Typography, Button, Divider, Grid, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/router";
 import { SignalCellularNullOutlined } from "@mui/icons-material";
 
@@ -28,6 +28,9 @@ const UserData = () => {
   })
   const [shippingData, setShippingData] = useState<ShippingData | null>(null);
   const router = useRouter();
+  const isSmallScreen = useMediaQuery('(max-width: 600px)')
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+
 
   useEffect(() => {
     const storedShippingData = JSON.parse(
@@ -72,7 +75,9 @@ const UserData = () => {
     <Box sx={{ height: "100%" }}>
     <Box
       sx={{
-         bgcolor:"whitesmoke", px:"20%", py:"5%",
+         bgcolor:"whitesmoke", 
+         px:  isSmallScreen || isMediumScreen ? "2%" : "20%", 
+         py: isSmallScreen || isMediumScreen ? "12%":"5%",
         maxWidth: "80%", m:"auto"
       }}
     >

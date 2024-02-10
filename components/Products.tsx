@@ -2,7 +2,7 @@ import "tailwindcss/tailwind.css";
 import React, { useEffect, useState } from "react";
 import { Product } from "@/commons/types.interface";
 import ProductsCard from "@/commons/ProductsCard";
-import { getProducts } from "@/functions";
+import { getProducts } from "@/functionsFetch";
 
 const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);

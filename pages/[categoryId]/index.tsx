@@ -22,7 +22,7 @@ import {
   getProductsByCategory,
   getProductsBySubCategory,
   getSubCategory,
-} from "@/functions";
+} from "@/functionsFetch";
 import ProductsCard from "@/commons/ProductsCard";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";

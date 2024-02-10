@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Category, SubCategory } from "@/commons/types.interface";
-import { getCategories, getSubCategories } from "@/functions";
+import { getCategories, getSubCategories } from "@/functionsFetch";
 import toast from "react-hot-toast";
 
 const ProductForm = () => {

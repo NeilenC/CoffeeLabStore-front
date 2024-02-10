@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, useMediaQuery } from '@mui/material';
 import { UserState } from '@/commons/types.interface';
 import { useSelector } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
@@ -7,7 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useRouter } from 'next/router';
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const Password = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -15,6 +15,11 @@ const Password = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const userId = useSelector((state: UserState) => state.user._id);
   const router = useRouter()
+  const isMediumScreen = useMediaQuery('(max-width: 900px)')
+   
+    function handleGoBack () {
+       router.push('/userData')
+   };
 
   const handleCurrentPasswordChange = (e: any) => {
     setCurrentPassword(e.target.value);
@@ -56,79 +61,93 @@ const Password = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs" sx={{height:"70vh"}}>
-      <Box
-        sx={{
-          py: 10,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Typography component="h1" variant="h5">
-          Modificar Contraseña
-        </Typography>
-        <Box component="form" noValidate sx={{ mt: 1 }}>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="currentPassword"
-            label="Contraseña Actual"
-            name="currentPassword"
-            type={showCurrentPassword ? "text" : "password"}
-            autoComplete="current-password"
-            autoFocus
-            value={currentPassword}
-            onChange={handleCurrentPasswordChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowCurrentPassword((prev) => !prev)}
-                    edge="end"
-                  >
-                    {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="newPassword"
-            label="Nueva Contraseña"
-            name="newPassword"
-            type={showNewPassword ? "text" : "password"}
-            autoComplete="new-password"
-            value={newPassword}
-            onChange={handleNewPasswordChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => setShowNewPassword((prev) => !prev)}
-                    edge="end"
-                  >
-                    {showNewPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Button
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-            onClick={handleSubmit}
-          >
-            Guardar Cambios
-          </Button>
-        </Box>
+    <Container
+    component="main"
+    maxWidth="xs"
+    sx={{
+      height: "80vh",
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      bgcolor: "#f0f0f0f0",
+      width: "100%",
+      pt: isMediumScreen ? "10%" : "2%",
+
+    }}
+  >
+    <Box
+      sx={{
+        p: 4,
+        bgcolor: 'background.paper',
+        boxShadow: 1,
+        borderRadius: 2
+      }}
+    >
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+        <ArrowBackIcon fontSize="large" onClick={handleGoBack} />
+        <Typography variant="h5" component="h1" sx={{ ml: 5 }}>Modificar Contraseña</Typography>
       </Box>
-    </Container>
+      <form noValidate onSubmit={handleSubmit}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="currentPassword"
+          label="Contraseña Actual"
+          name="currentPassword"
+          type={showCurrentPassword ? "text" : "password"}
+          autoComplete="current-password"
+          autoFocus
+          value={currentPassword}
+          onChange={handleCurrentPasswordChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShowCurrentPassword((prev) => !prev)}
+                  edge="end"
+                >
+                  {showCurrentPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          id="newPassword"
+          label="Nueva Contraseña"
+          name="newPassword"
+          type={showNewPassword ? "text" : "password"}
+          autoComplete="new-password"
+          value={newPassword}
+          onChange={handleNewPasswordChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={() => setShowNewPassword((prev) => !prev)}
+                  edge="end"
+                >
+                  {showNewPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Button
+          fullWidth
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+          onClick={handleSubmit}
+        >
+          Guardar Cambios
+        </Button>
+      </form>
+    </Box>
+  </Container>
   );
 };
 

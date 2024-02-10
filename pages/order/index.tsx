@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { CartState, Product, UserState } from "@/commons/types.interface";
 import theme from "@/styles/theme";
-import { calculateTotalProducts, calculateTotalQuantity } from "@/functions";
+import { calculateTotalProducts, calculateTotalQuantity } from "@/functionsFetch";
 
 
 const FormaEntrega = () => {

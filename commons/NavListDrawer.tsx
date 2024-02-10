@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { Category, UserState } from "./types.interface";
 import { useRouter } from "next/router";
 import theme from "@/styles/theme";
-import { getCategories } from "@/functions";
+import { getCategories } from "@/functionsFetch";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 

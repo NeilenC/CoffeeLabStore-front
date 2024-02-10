@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Category } from "@/commons/types.interface";
 import { useRouter } from "next/router";
-import { getCategories } from "@/functions";
+import { getCategories } from "@/functionsFetch";
 
 const Categories = () => {
   const router = useRouter();

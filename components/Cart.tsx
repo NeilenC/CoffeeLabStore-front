@@ -16,6 +16,7 @@ import CartCard from "@/commons/CartCard";
 
 const CartItems = () => {
     const isMediumScreen = useMediaQuery('(max-width: 950px)')
+    const isMinScreen = useMediaQuery('(max-width: 400)')
     const isMidScreen = useMediaQuery('(max-width: 800px)')
     const isSmallScreen = useMediaQuery('(max-width: 600px)');
   const userId = useSelector((state: UserState) => state.user._id);
@@ -30,7 +31,8 @@ const CartItems = () => {
     <Box sx={{ 
       bgcolor: "whitesmoke", 
       px: isSmallScreen || isMediumScreen ? 1 : 5, 
-      pt:  isSmallScreen ? "45%" : (isMediumScreen || isMidScreen ? "35%"  : null),
+      pt: isSmallScreen ? "45%" : (isMediumScreen || isMidScreen ? "35%" : (isMinScreen ? "100%" : null))
+
       }}>
      
     <Box 
