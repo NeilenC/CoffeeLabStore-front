@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   Pagination,
+  useMediaQuery,
 } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Image from "next/image";
@@ -25,6 +26,8 @@ import {
 import ProductsCard from "@/commons/ProductsCard";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import DrawerListCategories from "@/commons/DrawerListCategories";
+import SideBarCategories from "@/commons/SideBarCategories";
 
 function CategoryDetail() {
   const router = useRouter();
@@ -42,7 +45,8 @@ function CategoryDetail() {
     indexOfFirstProduct,
     indexOfLastProduct,
   );
-
+  const isSmallScreen = useMediaQuery('(max-width: 600px)')
+  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
   useEffect(() => {
     getSubCategory({ categoryId, setSubcategory, subCategory });
   }, [categoryId]);
@@ -72,15 +76,45 @@ function CategoryDetail() {
 
 
   return (
-    <Box sx={{ display: "flex", bgcolor: "white" }}>
-      <Box sx={{ width: "15%" }}>
-        <Typography
+    <Box sx={{    
+      display: "flex",
+      height: "100vh", 
+      maxWidth:"100%" , 
+      flexDirection: isSmallScreen || isMediumScreen ? "column" : null,
+      mt: isMediumScreen && !isSmallScreen ? 10 : 2
+    }}>
+
+      {isSmallScreen || isMediumScreen ? 
+          (
+            <Box sx={{display: "flex", height:"20%"}}>
+    <Box sx={{  direction: "column", bgcolor:"white", width:"100%" }}>
+                <DrawerListCategories
+                  category={category} 
+                  subCategory={subCategory} 
+                  selectedSubCategory={selectedSubCategory} 
+                  setSelectedSubCategory={setSelectedSubCategory} 
+                  categoryId={categoryId} 
+                  />
+              </Box>
+            </Box>
+          ) : 
+          (
+            <SideBarCategories
+              category={category} 
+              subCategory={subCategory} 
+              selectedSubCategory={selectedSubCategory} 
+              setSelectedSubCategory={setSelectedSubCategory} 
+              categoryId={categoryId} 
+            />
+          )
+        }
+        {/* <Typography
           variant="h5"
           sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
         >
           {category}
-        </Typography>
-        <Grid container spacing={2} sx={{ ml: 2 }}>
+        </Typography> */}
+        {/* <Grid container spacing={2} sx={{ ml: 2 }}>
           {subCategory.map((subcategory) => (
             <Grid
               item
@@ -105,8 +139,7 @@ function CategoryDetail() {
               </Typography>
             </Grid>
           ))}
-        </Grid>
-      </Box>
+        </Grid> */}
       <Grid container spacing={3} sx={{ display: "flex", pt: 3, m: "auto" }}>
         <Box sx={{}}>
           {selectedSubCategory === "Oslo" ? (

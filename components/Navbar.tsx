@@ -31,7 +31,7 @@ const Navbar = () => {
   const cart = useSelector((state: CartState) => state.cart);
   const user = useSelector((state: UserState) => state.user);
   const isSmallScreen = useMediaQuery('(max-width: 400px)')
-  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  const isMediumScreen = useMediaQuery('(max-width: 900px)')
   const [openDrawer,setOpenDrawer] = useState(false)
   const path = router.pathname
 
@@ -73,9 +73,11 @@ const Navbar = () => {
   return (
     <>
     { router.pathname !== "/login" && user._id !== '' ? 
-    <Box position="sticky" zIndex={1} sx={{pb: path != '/cart' ? "100px" : "20px"}}>
+    <Box position="sticky" zIndex={1} 
+    sx={{pb: path != '/cart' && isSmallScreen || isMediumScreen ? "10px" : "100px"}}>
       {isSmallScreen || isMediumScreen ? (
-          <Grid container sx={{display:"flex"}}>
+          <Grid container sx={{display:"flex", }}>
+              
             <Grid item xs={10}>
 
              <MenuIcon
@@ -85,7 +87,6 @@ const Navbar = () => {
               open ={openDrawer}
               anchor="left"
               onClose={()=> setOpenDrawer(false)}
-              
               >
              <NavListDrawer setOpenDrawer={setOpenDrawer} />
               </Drawer>

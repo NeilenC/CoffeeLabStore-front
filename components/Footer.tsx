@@ -21,7 +21,7 @@ const ContainerWrapper = styled(Container)(({ theme }) => ({
 
 const Footer = () => {
   return (
-    <FooterAppBar position="static">
+    <FooterAppBar position="static" sx={{ alignSelf: "flex-end"}}>
       <Box sx={{ bgcolor: "black", height: "50%" }}>
         <ContainerWrapper>
           <Grid container spacing={2} sx={{ color: "white", margin: "auto" }}>

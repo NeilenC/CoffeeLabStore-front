@@ -65,16 +65,17 @@ function CategoryDetail() {
 
   return (
     <Box sx={{ 
-        pt:3, 
+        pt: isMediumScreen && !isSmallScreen ? 10 : 1, 
         display: "flex",
         height: "100vh", 
-        maxWidth:"100%" , flexDirection: isSmallScreen || isMediumScreen ? "column" : null, height: "100%" 
-   
+        maxWidth:"100%" , 
+        bgcolor: isSmallScreen || isMediumScreen ? "whitesmoke" : "white",
+        flexDirection: isSmallScreen || isMediumScreen ? "column" : null,  
       }}>
           {isSmallScreen || isMediumScreen ? 
           (
             <Box sx={{display: "flex", height:"20%"}}>
-    <Box sx={{  direction: "column", bgcolor:"white", width:"100%" }}>
+    <Box sx={{  direction: "column", width:"100%" , bgcolor:"white"}}>
                 <DrawerListCategories
                   category={category} 
                   subCategory={subCategory} 
@@ -97,10 +98,10 @@ function CategoryDetail() {
         }
 
       
-        <Grid container  sx={{ pt:3}}>
+        <Grid container  sx={{ pt:3,justifyContent:"center", width:"100%"}}>
           {products.length ? (
-            <Box sx={{ pb:3,}}>
-              <Box sx={{  bgcolor: "whitesmoke", }}>
+            <Box sx={{ pb:3, width:"90%"}}>
+              <Box sx={{  bgcolor: "whitesmoke",}}>
                 <ProductsCard products={currentProducts} />
                 {/* PAGINACION */}
               </Box>
