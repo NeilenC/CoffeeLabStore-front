@@ -133,7 +133,6 @@ const ProductDetail = () => {
       justifyContent: "center", 
       width: isMediumScreen || isSmallScreen ? "100%" : "80%",
       height: isMediumScreen || isSmallScreen ? "100%" : "60%",
-      // bgcolor:"lightgrey"
     }}
   >
     <Box
@@ -157,7 +156,6 @@ const ProductDetail = () => {
           width: "50px",
           marginRight: "5px",
           cursor: "pointer",
-          bgcolor:"green"
         }}
         onClick={() => {
           handleClickThumbnail(index), handleClickImage(image);
