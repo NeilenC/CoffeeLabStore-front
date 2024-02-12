@@ -10,12 +10,11 @@ import { sendOrderToBackend } from "./function";
 
 const DeliveryHome = () => {
   const user = useSelector((state: UserState) => state.user);
-  const cart = useSelector((state: CartState) => state.cart);
   const [section, setSection] = useState(1);
 
   // Datos de la sección 1 (Datos Personales)
   const [name, setName] = useState(user.name || "");
-  const [lastName, setLastName] = useState(user.lastname || "");
+  const [lastName, setLastName] = useState(user.lastName || "");
   const [dni, setDni] = useState("");
   const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber || "");
   const [email, setEmail] = useState(user.email || "");
@@ -93,6 +92,8 @@ const DeliveryHome = () => {
           delivery: "domicilio",
         },
       };
+
+      console.log("LLEGA HASTA ACA!")
 
       await sendOrderToBackend(user._id, orderData, router);
     }

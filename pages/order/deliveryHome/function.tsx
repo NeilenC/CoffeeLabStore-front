@@ -3,6 +3,10 @@ export const sendOrderToBackend = async (
   orderData: any,
   router: any,
 ) => {
+
+  console.log("userId",userId)
+  console.log("orderData",orderData)
+  console.log("router",router)
   try {
     const response = await fetch(`http://localhost:8000/order/${userId}`, {
       method: "POST",

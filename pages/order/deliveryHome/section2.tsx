@@ -176,56 +176,59 @@ import { UserState } from "@/commons/types.interface";
           </Grid>
           <Grid item xs={5} md={4}>
           <FormControl fullWidth style={{ marginBottom: "16px" }}>
-              <InputLabel id="provinciaLabel">Provincia</InputLabel>
-              <Select
-                labelId="provinciaLabel"
-                value={provincia}
-                onChange={(e) => {
-                  const selectedValue = e.target.value as string;
-                  setProvincia(selectedValue);
-                  setProvinciaError(false);
-                }}
-                error={provinciaError}
-                required
-              
-              >
-                 {provincias && provincias.length
-                  ? provincias
-                      .filter((prov: any) =>
-                        ["Buenos Aires", "Ciudad Autónoma de Buenos Aires","Córdoba", "Santa Fe", "La Pampa"].includes(prov.nombre)
-                      )
-                      .map((prov: any) => (
-                        <MenuItem key={prov.id} value={prov.nombre}>
-                          {prov.nombre}
-                        </MenuItem>
-                      ))
-                  : null}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={5} md={4}>
-          <FormControl fullWidth style={{ marginBottom: "16px" }}>
-            <InputLabel id="localidadLabel">Localidad</InputLabel>
             <Select
-              labelId="localidadLabel"
+              value={provincia}
+              onChange={(e) => {
+                const selectedValue = e.target.value as string;
+                setProvincia(selectedValue);
+                setProvinciaError(false);
+              }}
+              displayEmpty
+              required
+            >
+              <MenuItem value="" disabled>
+                {provincia ? provincia : "Provincia"}
+              </MenuItem>
+              {provincias && provincias.length
+                ? provincias
+                    .filter((prov: any) =>
+                      ["Buenos Aires", "Ciudad Autónoma de Buenos Aires", "Córdoba", "Santa Fe", "La Pampa"].includes(prov.nombre)
+                    )
+                    .map((prov: any) => (
+                      <MenuItem key={prov.id} value={prov.nombre}>
+                        {prov.nombre}
+                      </MenuItem>
+                    ))
+                : null}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={5} md={4}>
+          <FormControl fullWidth style={{ marginBottom: "16px" }}>
+            <Select
               value={localidad}
               onChange={(e) => {
                 const selectedValue = e.target.value as string;
                 setLocalidad(selectedValue);
                 setLocalidadError(false);
               }}
-              error={localidadError}
+              displayEmpty
               required
             >
-              { localidades && localidades.length ? localidades.map((loc:any) => (
-                <MenuItem key={loc.id} value={loc.nombre}>
-                  {loc.nombre}
-                </MenuItem>
-              )) : null}
+              <MenuItem value="" disabled>
+                {localidad ? localidad : "Localidad"}
+              </MenuItem>
+              {localidades && localidades.length
+                ? localidades.map((loc:any) => (
+                    <MenuItem key={loc.id} value={loc.nombre}>
+                      {loc.nombre}
+                    </MenuItem>
+                  ))
+                : null}
             </Select>
           </FormControl>
+        </Grid>
 
-          </Grid>
         </Grid>
         <Button
           onClick={() => {

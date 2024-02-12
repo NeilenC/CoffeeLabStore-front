@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { CartState, Product, UserState } from "@/commons/types.interface";
+import { CartState, UserState } from "@/commons/types.interface";
 import theme from "@/styles/theme";
-import { calculateTotalProducts, calculateTotalQuantity } from "@/functionsFetch";
+import { calculateTotalProducts, calculateTotalQuantity } from "@/functions";
 
 
 const FormaEntrega = () => {
@@ -24,7 +24,7 @@ const FormaEntrega = () => {
   const totalPrice = calculateTotalQuantity(cartForUser);
   const [selectedValue, setSelectedValue] = useState("");
   const router = useRouter();
-  const domicilioCosto = 1500;
+  const domicilioCosto = 2500;
   const correoCosto = 1000;
 
 
@@ -36,9 +36,9 @@ const FormaEntrega = () => {
     if (selectedValue === "domicilio") {
       router.push("/order/deliveryHome");
     }
-    if (selectedValue === "correo") {
-      router.push("/order/deliveryMail");
-    }
+    // if (selectedValue === "correo") {
+    //   router.push("/order/deliveryMail");
+    // }
     if (selectedValue === "local") {
       router.push("/order/retiroLocal");
     }
@@ -86,7 +86,7 @@ const FormaEntrega = () => {
                 </Typography>
               </Box>
             </Box>
-
+{/* 
             <Box
               sx={{
                 p: 3,
@@ -115,11 +115,16 @@ const FormaEntrega = () => {
                   Adicional envío domicilio: ${correoCosto}
                 </Typography>
               </Box>
-            </Box>
+            </Box> */}
 
-            <Box
-                
-                sx={{ p: 3, width: "100%", bgcolor: "white", borderRadius: 2, boxShadow: "0px 0px 12px -9px black"}}
+            <Box 
+            sx={{ 
+              p: 3, 
+            width: "100%", 
+            bgcolor: "white", 
+            borderRadius: 2, 
+            boxShadow: "0px 0px 12px -9px black"
+          }}
             >
               <FormControlLabel
                 value="local"
@@ -134,6 +139,7 @@ const FormaEntrega = () => {
               />
             </Box>
           </RadioGroup>
+
           <Box sx={{ pt: 2.5}}>
                 <Button
                   variant="contained"
