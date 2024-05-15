@@ -37,7 +37,7 @@ const DetalleCompra = () => {
 
       
       const response = await fetch(
-        `http://localhost:8000/cart/${userId}`,
+        `${process.env.BASE_URL}/cart/${userId}`,
         {
           method: "POST",
           headers: {

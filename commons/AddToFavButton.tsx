@@ -5,7 +5,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Product, UserState } from './types.interface';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '@/redux/actions';
-import { getProducts } from '@/functionsFetch';
+import { getProducts } from '@/FetchFunctions/productsFetch';
 
 const AddToFavButton = ({product}: any) => {
   const user = useSelector((state: UserState) => state.user);

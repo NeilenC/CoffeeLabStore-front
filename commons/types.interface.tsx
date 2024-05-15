@@ -68,6 +68,7 @@ export type UserState = {
     address: string;
     role: string;
     phoneNumber: number;
+    password: string
   };
 };
 

@@ -15,7 +15,7 @@ const Confirmation = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/order/${user._id}`,
+          `${process.env.BASE_URL}/order/${user._id}`,
           { method: "GET" },
         );
 

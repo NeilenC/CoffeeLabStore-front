@@ -1,10 +1,10 @@
-import { Category, Product, SubCategory } from "@/commons/types.interface";
+import { Product } from "@/commons/types.interface";
 
 //OBTENER TODOS LOS PRODUCTOS
 
 export const getProducts = async ({ setProducts, products }: any) => {
   try {
-    const response = await fetch("http://localhost:8000/products", {
+    const response = await fetch(`${process.env.BASE_URL}/products`, {
       method: "GET",
     });
     if (!response.ok) {
@@ -29,7 +29,7 @@ export async function getProductsBySubCategory({
   try {
     if (categoryId) {
       const response = await fetch(
-        `http://localhost:8000/products/bySubCategory/${subCategoryId}`,
+        `${process.env.BASE_URL}/products/bySubCategory/${subCategoryId}`,
         { method: "GET" },
       );
       const dataPromise: Promise<Product[]> = response.json();
@@ -55,7 +55,7 @@ export async function getProductsByCategory({
   try {
     if (categoryId) {
       const response = await fetch(
-        `http://localhost:8000/products/byCategory/${categoryId}`,
+        `${process.env.BASE_URL}/products/byCategory/${categoryId}`,
         { method: "GET" },
       );
       const dataPromise: Promise<Product[]> = response.json();
@@ -72,85 +72,13 @@ export async function getProductsByCategory({
   }
 }
 
-export const getSubCategory = async ({
-  categoryId,
-  setSubcategory,
-  subCategory,
-}: any) => {
-  try {
-    const response = await fetch(
-      `http://localhost:8000/subcategory/${categoryId}`,
-      {
-        method: "GET",
-      },
-    );
-    const data = await response.json();
-    if (response.ok) {
-      setSubcategory(data);
 
-      return subCategory;
-    }
-  } catch (e) {
-    throw new Error();
-  }
-};
-
-export const getCategory = async ({
-  categoryId,
-  setCategory,
-  category,
-}: any) => {
-  const categories = await fetch(
-    `http://localhost:8000/categories/${categoryId}`,
-    { method: "GET" },
-  );
-
-  const data = await categories.json();
-  setCategory(data.name);
-  return category;
-};
-
-//------------------------ FUNCION OBTENER CATEGORIAS ------------------------
-
-export const getCategories = async ({ setCategories }: any) => {
-  const response = await fetch("http://localhost:8000/categories", {
-    method: "GET",
-  });
-  const dataPromise: Promise<Category[]> = response.json();
-
-  const data = await dataPromise;
-
-  setCategories(data);
-};
-
-//------------------------ FUNCION OBTENER SUBCATEGORIAS ------------------------
-export const getSubCategories = async ({
-  selectedCategory,
-  setSubcategory,
-}: any) => {
-  try {
-    const response = await fetch(
-      `http://localhost:8000/subcategory/${selectedCategory}`,
-      {
-        method: "GET",
-      },
-    );
-    const dataPromise: Promise<SubCategory[]> = response.json();
-    const data = await dataPromise;
-
-    if (response.ok) {
-      setSubcategory(data);
-    }
-  } catch (e) {
-    throw new Error();
-  }
-};
 // ------------------------ FUNCION PARA BUSCADOR ------------------------
 
 export const searchProducts = async ({ searchTerm, setSearchResults }: any) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/products/search/${searchTerm}`,
+      `${process.env.BASE_URL}/products/search/${searchTerm}`,
       {
         method: "GET",
       },
@@ -175,7 +103,7 @@ export const searchProducts = async ({ searchTerm, setSearchResults }: any) => {
 export async function fetchProductDetails({productId, setProduct} : any) {
   try {
     const response = await fetch(
-      `http://localhost:8000/products/${productId}`,
+      `${process.env.BASE_URL}/products/${productId}`,
     );
     if (!response.ok) {
       throw new Error("Failed to fetch product details");

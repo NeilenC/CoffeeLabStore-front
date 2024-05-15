@@ -44,7 +44,7 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/users/${user._id}`, {
+      const response = await fetch(`${process.env.BASE_URL}/users/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -78,7 +78,7 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
             MODIFICAR DATOS
           </Typography>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <InputLabel> Email </InputLabel>
           <TextField
             value={formData?.email}
@@ -116,7 +116,7 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
           ),
         }}
       />
-    </Grid>
+    </Grid> */}
 
 
         <Grid item xs={6}>

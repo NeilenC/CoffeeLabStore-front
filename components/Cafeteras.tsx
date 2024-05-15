@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import prensa from "../public/prensa.png";
 import filtro from "../public/cafetera-de-filtro.png";
@@ -23,11 +23,13 @@ const cafeteras = [
 const Cafeteras = () => {
   const router = useRouter();
   const [subCategory, setSubcategory] = useState<SubCategory[]>([]);
+  const isMidScreen = useMediaQuery('(max-width: 800px)')
+  const isSmallScreen = useMediaQuery('(max-width: 600px)');
 
   useEffect(() => {
     const getSubCategory = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/subcategory`, {
+        const response = await fetch(`${process.env.BASE_URL}/subcategory`, {
           method: "GET",
         });
 
@@ -62,7 +64,7 @@ const Cafeteras = () => {
     <Box
       sx={{
         bgcolor: "#eeeeee",
-        px: { xs: 2, sm: 4, md: "28%" },
+        px: { xs: 2, sm: 4, md: "20%" },
         py: { xs: 4, sm: 6, md: 8 },
         pb: { xs: 4, sm: 6, md: 7 },
       }}
@@ -73,20 +75,18 @@ const Cafeteras = () => {
         </Typography>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
-        <Grid container spacing={2}>
+        <Grid container columnGap={isMidScreen ? (isSmallScreen ? 12 :0) : 0 }>
           {cafeteras.map(({ img, alt, description }) => (
-            <Box
+            <Grid item xs={isMidScreen ? (isSmallScreen ? 12 : 4) : 2 }
               onClick={() => {
                 handleCafeteraClick(alt);
               }}
               key={alt}
               sx={{
                 textAlign: "center",
-                m: "auto",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                width: { xs: "100%", sm: "60%", md: "calc(80% / 5)" },
               }}
             >
               <Image alt={alt} src={img} height={80} width={80} />
@@ -101,7 +101,7 @@ const Cafeteras = () => {
               >
                 {description}
               </Typography>
-            </Box>
+            </Grid>
           ))}
         </Grid>
       </Box>

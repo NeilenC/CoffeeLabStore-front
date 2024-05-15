@@ -24,6 +24,7 @@ const UserData = () => {
     address: '',
     role: '',
     phoneNumber: 0,
+    password: ''
   },
   })
   const [shippingData, setShippingData] = useState<ShippingData | null>(null);
@@ -42,7 +43,7 @@ const UserData = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/users/${userId}`, { method: "GET" });
+        const response = await fetch(`${process.env.BASE_URL}/users/${userId}`, { method: "GET" });
   
         if (response.ok) {
           const userData = await response.json();
@@ -60,9 +61,9 @@ const UserData = () => {
 
 
   const dataItems = [
-    { label: "Nombre", value: `${user?.name} ${user?.lastName}`, buttonLabel: "Modificar" , href:'/userData/username'},
-    { label: "Email", value: user?.email, buttonLabel: "Modificar", href:'/userData/email' },
-    { label: "Teléfono", value: user?.phoneNumber, buttonLabel: "Modificar", href:'/userData/phoneNumber' },
+    { label: "Nombre", value: `${user?.user?.name} ${user?.user?.lastName}`, buttonLabel: "Modificar" , href:'/userData/username'},
+    { label: "Email", value: user?.user?.email, buttonLabel: "Modificar", href:'/userData/email' },
+    { label: "Teléfono", value: user?.user?.phoneNumber, buttonLabel: "Modificar", href:'/userData/phoneNumber' },
     {
       label: "Dirección",
       value: `${shippingData?.address} n° ${shippingData?.directionNum} ${shippingData?.apartment || ""}`,

@@ -19,7 +19,7 @@ const Historial = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/order/get-orders/${userId}`,
+          `${process.env.BASE_URL}/order/get-orders/${userId}`,
           { method: "GET" },
         );
   

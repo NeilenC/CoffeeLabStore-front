@@ -22,7 +22,7 @@ const PhoneNumber = () => {
     try {
       if(newPhoneNumber) {
 
-        const response = await fetch(`http://localhost:8000/users/${userId}`, {
+        const response = await fetch(`${process.env.BASE_URL}/users/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

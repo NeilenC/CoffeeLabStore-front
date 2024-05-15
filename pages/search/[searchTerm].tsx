@@ -1,6 +1,6 @@
 import ProductsCard from "@/commons/ProductsCard";
 import { Product } from "@/commons/types.interface";
-import { searchProducts } from "@/functionsFetch";
+import { searchProducts } from "@/FetchFunctions/productsFetch";
 import { Box, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";

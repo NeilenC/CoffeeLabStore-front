@@ -7,9 +7,9 @@ import ImageCarousel from "@/commons/Carousel";
 import Footer from "@/components/Footer";
 import Cafeteras from "@/components/Cafeteras";
 import ProductsCard from "@/commons/ProductsCard";
-import { getProducts } from "@/functionsFetch";
 import { Product } from "@/commons/types.interface";
 import { Box, Divider, Typography } from "@mui/material";
+import { getProducts } from "@/FetchFunctions/productsFetch";
 
 const inter = Inter({ subsets: ["latin"] });
 

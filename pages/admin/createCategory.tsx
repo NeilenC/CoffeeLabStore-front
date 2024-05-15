@@ -18,7 +18,7 @@
 
 //   const handleCreateCategory = async () => {
 //     try {
-//       const response = await fetch('http://localhost:8000/categories/create', {
+//       const response = await fetch('${process.env.BASE_URL}/categories/create', {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',

@@ -9,20 +9,12 @@ import {
   Pagination,
   useMediaQuery,
 } from "@mui/material";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import AddToCartButtom from "@/commons/AddToCartButton";
 import oslo1 from "../../public/oslo1.png";
-import theme from "@/styles/theme";
-import {
-  getCategory,
-  getProductsByCategory,
-  getProductsBySubCategory,
-  getSubCategory,
-} from "@/functionsFetch";
+import { getCategory, getSubCategory } from "@/FetchFunctions/categoriesFetch";
+import { getProductsByCategory } from "@/FetchFunctions/productsFetch";
 import ProductsCard from "@/commons/ProductsCard";
 import KeyboardDoubleArrowLeftIcon from "@mui/icons-material/KeyboardDoubleArrowLeft";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
@@ -31,7 +23,7 @@ import SideBarCategories from "@/commons/SideBarCategories";
 
 function CategoryDetail() {
   const router = useRouter();
-  const categoryId = router.query.categoryId
+  const categoryId = router.query.categoryId;
   const [products, setProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState("");
   const [subCategory, setSubcategory] = useState<SubCategory[]>([]);
@@ -43,21 +35,20 @@ function CategoryDetail() {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(
     indexOfFirstProduct,
-    indexOfLastProduct,
+    indexOfLastProduct
   );
-  const isSmallScreen = useMediaQuery('(max-width: 600px)')
-  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 1000px)");
   useEffect(() => {
     getSubCategory({ categoryId, setSubcategory, subCategory });
   }, [categoryId]);
 
-
   useEffect(() => {
-      getProductsByCategory({
-        categoryId,
-        setProducts,
-        products 
-      });
+    getProductsByCategory({
+      categoryId,
+      setProducts,
+      products,
+    });
   }, [categoryId, category]);
 
   useEffect(() => {
@@ -65,56 +56,52 @@ function CategoryDetail() {
   }, [categoryId]);
 
   const handleSelectSubcategory = (subcategoryId: string) => {
-    setSelectedSubCategory(subcategoryId)
-    router.push(`/${categoryId}/${subcategoryId}`)
+    setSelectedSubCategory(subcategoryId);
+    router.push(`/${categoryId}/${subcategoryId}`);
   };
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-
-
   return (
-    <Box sx={{    
-      display: "flex",
-      height: "100vh", 
-      maxWidth:"100%" , 
-      flexDirection: isSmallScreen || isMediumScreen ? "column" : null,
-      mt: isMediumScreen && !isSmallScreen ? 10 : 2
-    }}>
-
-      {isSmallScreen || isMediumScreen ? 
-          (
-            <Box sx={{display: "flex", height:"20%"}}>
-    <Box sx={{  direction: "column", bgcolor:"white", width:"100%" }}>
-                <DrawerListCategories
-                  category={category} 
-                  subCategory={subCategory} 
-                  selectedSubCategory={selectedSubCategory} 
-                  setSelectedSubCategory={setSelectedSubCategory} 
-                  categoryId={categoryId} 
-                  />
-              </Box>
-            </Box>
-          ) : 
-          (
-            <SideBarCategories
-              category={category} 
-              subCategory={subCategory} 
-              selectedSubCategory={selectedSubCategory} 
-              setSelectedSubCategory={setSelectedSubCategory} 
-              categoryId={categoryId} 
+    <Box
+      sx={{
+        display: "flex",
+        height: "100vh",
+        maxWidth: "100%",
+        flexDirection: isSmallScreen || isMediumScreen ? "column" : null,
+        mt: isMediumScreen && !isSmallScreen ? 10 : 2,
+      }}
+    >
+      {isSmallScreen || isMediumScreen ? (
+        <Box sx={{ display: "flex", height: "20%" }}>
+          <Box sx={{ direction: "column", bgcolor: "white", width: "100%" }}>
+            <DrawerListCategories
+              category={category}
+              subCategory={subCategory}
+              selectedSubCategory={selectedSubCategory}
+              setSelectedSubCategory={setSelectedSubCategory}
+              categoryId={categoryId}
             />
-          )
-        }
-        {/* <Typography
+          </Box>
+        </Box>
+      ) : (
+        <SideBarCategories
+          category={category}
+          subCategory={subCategory}
+          selectedSubCategory={selectedSubCategory}
+          setSelectedSubCategory={setSelectedSubCategory}
+          categoryId={categoryId}
+        />
+      )}
+      {/* <Typography
           variant="h5"
           sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
         >
           {category}
         </Typography> */}
-        {/* <Grid container spacing={2} sx={{ ml: 2 }}>
+      {/* <Grid container spacing={2} sx={{ ml: 2 }}>
           {subCategory.map((subcategory) => (
             <Grid
               item

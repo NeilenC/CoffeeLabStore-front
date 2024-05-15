@@ -5,70 +5,57 @@ import {
   Card,
   CardContent,
   Grid,
-  IconButton,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import Link from "next/link";
 import AddToCartButtom from "./AddToCartButton";
 import { Product } from "./types.interface";
 import AddToFavButton from "./AddToFavButton";
-import { useRouter } from "next/router";
-
+import useProductCard from "@/Hooks/useProductCard";
 
 const ProductsCard = ({ products = [] }: any) => {
-  const [visibleProducts, setVisibleProducts] = useState(9);
-  const [visibleProductsList, setVisibleProductsList] = useState<Product[]>([]);
-  const router = useRouter()
-  const ruta = router.pathname  
-  const isSmallScreen = useMediaQuery('(max-width: 600px)')
-  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
-
-  useEffect(() => {
-    if (window.location.pathname === "/") {
-      setVisibleProductsList(products.slice(0, visibleProducts));
-    } else {
-      setVisibleProductsList(products);
-    }
-  }, [visibleProducts, products]);
+  const {
+    visibleProducts,
+    setVisibleProducts,
+    visibleProductsList,
+    ruta,
+    isSmallScreen,
+    isMediumScreen,
+  } = useProductCard(products);
 
   return (
-    <Box sx={{ 
-      display: "flex",
-      flexDirection: "row", 
-      flexWrap: "wrap", 
-      // pl: 1,
-       justifyContent: ruta == '/' || ruta == '/favorites'  && isSmallScreen || isMediumScreen ? "center" :  null ,
-       maxWidth: "100%", 
-
-      }}>
-    {visibleProductsList.map((product: Product) => (
-    <Box sx={{ p:1,  flex: "0 0 30%", }}>
-      <Card
-        key={product._id} 
-        sx={{
-          maxWidth: 282,
-          p: 2,
-          m: "auto", 
-        }}
-      >
-       
+    <Grid container>
+      {visibleProductsList.map((product: Product) => (
+      <Grid item xs={isMediumScreen ? (isSmallScreen ? 12 : 6) : 4} sx={{ p: 1, }}>
+          <Card
+            key={product._id}
+            sx={{
+              maxWidth: 282,
+              p: 2,
+              m: "auto",
+            }}
+          >
             <Link href={`/products/${product._id}`}>
-              <Box sx={{ 
-                 height: 257,
-                 overflow: "auto", justifyContent:"center", }}>
+              <Box
+                sx={{
+                  height: 257,
+                  overflow: "auto",
+                  justifyContent: "center",
+                }}
+              >
                 <Box
                   component="img"
                   src={product.imageURL[0]}
-                  sx={{ width: 250,  overflow:"scroll"
-                }}
+                  sx={{ width: 250, overflow: "scroll" }}
                 />
               </Box>
             </Link>
             <CardContent sx={{ p: 0 }}>
-            <Typography variant="body1" color="initial" noWrap>
-                {product.name.length > 25 ? `${product.name.substring(0, 25)}...` : product.name}
-            </Typography>
+              <Typography variant="body1" color="initial" noWrap>
+                {product.name.length > 25
+                  ? `${product.name.substring(0, 25)}...`
+                  : product.name}
+              </Typography>
               <Box
                 color="black"
                 sx={{ py: 1, display: "flex", justifyContent: "space-between" }}
@@ -76,16 +63,15 @@ const ProductsCard = ({ products = [] }: any) => {
                 <Typography variant="body1" sx={{ my: "auto" }}>
                   ${product.price}
                 </Typography>
-                
-                <AddToFavButton product={product}  />
+
+                <AddToFavButton product={product} />
               </Box>
 
               <AddToCartButtom product={product} quantity={1} />
             </CardContent>
           </Card>
-          </Box>
+          </Grid>
         // </Grid>
-
       ))}
 
       {/* Botón "Ver más" */}
@@ -113,7 +99,7 @@ const ProductsCard = ({ products = [] }: any) => {
             </Button>
           </Box>
         )}
-    </Box>
+    </Grid>
   );
 };
 

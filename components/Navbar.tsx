@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   Drawer,
 } from "@mui/material";
-import Categories from "./Categories";
+import Categories from "./Categories/Categories";
 import theme from "../styles/theme";
 import Search from "./Search";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
@@ -72,7 +72,7 @@ const Navbar = () => {
 
   return (
     <>
-    { router.pathname !== "/login" && user._id !== '' ? 
+    { router.pathname !== "/login" && router.pathname !== "/register"  && user._id !== '' ? 
     <Box position="sticky" zIndex={1} 
     sx={{pb: path != '/cart' && isSmallScreen || isMediumScreen ? "10px" : "100px"}}>
       {isSmallScreen || isMediumScreen ? (

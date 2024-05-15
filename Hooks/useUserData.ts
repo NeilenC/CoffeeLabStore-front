@@ -9,7 +9,7 @@
 //   const getUser = async (id: any) => {
 //     try {
 //       if (id) {
-//         const response = await fetch(`http://localhost:8000/users/${id}`, {
+//         const response = await fetch(`${process.env.BASE_URL}/users/${id}`, {
 //           method: "GET",
 //         });
 //         const data = await response.json();

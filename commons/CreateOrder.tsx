@@ -13,7 +13,7 @@ const CreateOrder = () => {
       }
       try {
         const response = await fetch(
-          `http://localhost:8000/cart/${cart.userId}`,
+          `${process.env.BASE_URL}/cart/${cart.userId}`,
           {
             method: "POST",
           },

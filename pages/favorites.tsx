@@ -18,7 +18,7 @@ const favorites = () => {
   useEffect(() => {
 
     const getProductsById = async () => {
-      const response = await fetch('http://localhost:8000/products/byIds', {
+      const response = await fetch(`${process.env.BASE_URL}/products/byIds`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',

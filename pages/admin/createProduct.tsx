@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Category, SubCategory } from "@/commons/types.interface";
-import { getCategories, getSubCategories } from "@/functionsFetch";
+import { getCategories, getSubCategories } from "@/FetchFunctions/categoriesFetch";
 import toast from "react-hot-toast";
 
 const ProductForm = () => {
@@ -118,7 +118,7 @@ const ProductForm = () => {
   //------------------------ FUNCION CREAR PRODUCTO ------------------------
   const createProduct = async () => {
     try {
-      const response = await fetch("http://localhost:8000/products/create", {
+      const response = await fetch(`${process.env.BASE_URL}/products/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
