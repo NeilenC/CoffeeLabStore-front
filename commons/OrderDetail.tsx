@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { calculateTotalProducts, calculateTotalQuantity } from "@/functions";
 
 
-const DetalleCompra = () => {
+const OrderDetail = () => {
   const userId = useSelector((state: UserState) => state.user._id);
   const cartForUser = useSelector((state: CartState) => state.cart.carts[userId]);
   const totalPrice = calculateTotalQuantity(cartForUser);
@@ -37,7 +37,7 @@ const DetalleCompra = () => {
 
       
       const response = await fetch(
-        `http://localhost:8000/cart/${userId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/cart/${userId}`,
         {
           method: "POST",
           headers: {
@@ -62,7 +62,7 @@ const DetalleCompra = () => {
         top: isSmallScreen ? "12%" : ( isMediumScreen || isMidScreen ? "20%" :  "auto"),
         right: 1,
       width: isSmallScreen || isMediumScreen ? "93%" : "30%", 
-      mr: isSmallScreen ? 0.7 : 5 && isMediumScreen ? 1.6 : 5 ,
+      // mr: isSmallScreen ? 0.7 : 5 && isMediumScreen ? 1.6 : 5 ,
       }}>
       {cartForUser && cartForUser.length > 0 && (
         <Box sx={{ width: isSmallScreen || isMediumScreen  ? "96%" : "100%" }}>
@@ -97,4 +97,4 @@ const DetalleCompra = () => {
   );
 };
 
-export default DetalleCompra;
+export default OrderDetail;

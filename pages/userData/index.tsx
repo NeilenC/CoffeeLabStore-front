@@ -14,17 +14,17 @@ type ShippingData = {
 };
 
 const UserData = () => {
-  const userId = useSelector((state: UserState) => state.user._id);
-  const [user, setUser] = useState<UserState>({  
-    user: {
-    _id: '',
-    name: '',
-    lastName: '',
-    email: '',
-    address: '',
-    role: '',
-    phoneNumber: 0,
-  },
+  const userId = useSelector((state: any) => state.user._id);
+  const [user, setUser] = useState<any>({ 
+    user :{
+      _id: '',
+      name: '',
+      lastName: '',
+      email: '',
+      address: '',
+      role: '',
+      phoneNumber: 0,
+    } 
   })
   const [shippingData, setShippingData] = useState<ShippingData | null>(null);
   const router = useRouter();
@@ -42,7 +42,7 @@ const UserData = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/users/${userId}`, { method: "GET" });
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/${userId}`, { method: "GET" });
   
         if (response.ok) {
           const userData = await response.json();
@@ -58,16 +58,10 @@ const UserData = () => {
     getUserInfo();
   }, [userId]);
 
-
   const dataItems = [
     { label: "Nombre", value: `${user?.name} ${user?.lastName}`, buttonLabel: "Modificar" , href:'/userData/username'},
     { label: "Email", value: user?.email, buttonLabel: "Modificar", href:'/userData/email' },
     { label: "Teléfono", value: user?.phoneNumber, buttonLabel: "Modificar", href:'/userData/phoneNumber' },
-    {
-      label: "Dirección",
-      value: `${shippingData?.address} n° ${shippingData?.directionNum} ${shippingData?.apartment || ""}`,
-      buttonLabel: "",
-    },
     { label: "Contraseña", value: '*******', buttonLabel: "Modificar", href:'/userData/password' },
   ];
 

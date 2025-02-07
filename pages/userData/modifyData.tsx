@@ -38,13 +38,13 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
       [fieldName]: value,
     }));
   };
-  const user = useSelector((state: UserState) => state.user);
+  const user = useSelector((state: UserState) => state);
 
   // ---------------------- PUT PARA MODIFICAR LOS DATOS ----------------------
 
   const handleSaveClick = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/users/${user._id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

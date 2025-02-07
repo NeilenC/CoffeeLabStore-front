@@ -10,7 +10,7 @@ import { CartState, UserState } from "@/commons/types.interface";
 import {
   clearCart,
 } from "@/redux/actions";
-import DetalleCompra from "@/commons/DetalleCompra";
+import OrderDetail from "@/commons/OrderDetail";
 import NotFound from "@/commons/NotFound";
 import CartCard from "@/commons/CartCard";
 
@@ -68,7 +68,7 @@ const CartItems = () => {
         </Box>
 
         {/* DETALLES DE COMPRA */}
-       <DetalleCompra />
+       <OrderDetail />
       </Box>
  
     </Box>

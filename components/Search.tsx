@@ -132,11 +132,11 @@ const Search = () => {
           {showResults &&
             searchResults?.map((product) => (
               <List sx={{ bgcolor: theme.palette.primary.main }}>
-                <Grid container spacing={1} key={product._id} sx={{ p: 1 }}>
+                     
+            <Grid container spacing={1} key={product._id} sx={{ p: 1,  cursor: 'pointer',  "&:hover": { bgcolor: "#fac880",  },}}>
                   <Grid
                     item
                     sx={{
-                      "&:hover": { bgcolor: "#fac880", p: 0.5, pr: 2 },
                       ml: 1,
                     }}
                     onClick={() => handleClickSearch(product._id)}

@@ -7,14 +7,14 @@ const LogoIcon = () => {
     const isMediumScreen = useMediaQuery('(max-width: 1000px)')
 
   return (
-    <Box sx={{ maxWidth: "28%" }}>
+    <Box sx={{ maxWidth: "38%" }}>
     <Link href={"/"}>
       <Grid item sx={{ display: "flex", }} xs={2} md={12} sm={12} >
         <Box
           component="img"
           src="/chemexvector.png"
           alt="logo"
-          sx={{ width:  isSmallScreen ? "50px" : "50px", height: "10%" }}
+          sx={{ width:  isSmallScreen ? "50px" : "50px",  }}
    
         />
         <Box

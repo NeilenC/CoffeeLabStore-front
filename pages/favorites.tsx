@@ -6,19 +6,19 @@ import { UserState } from "@/commons/types.interface";
 import NotFound from "@/commons/NotFound";
 
 const favorites = () => {
-  const user = useSelector((state: UserState) => state.user);
+  const user = useSelector((state: UserState) => state);
   const favoriteProducts = useSelector((state: any) => state.favorites);
-  const userId = user?._id
+  const userId = user?.user._id
   const userFavorites = favoriteProducts.users[userId] || [];
   const [products, setProducts] = useState([])
   const isSmallScreen = useMediaQuery('(max-width: 600px)')
   const isMediumScreen = useMediaQuery('(max-width: 1000px)')
 
-
+console.log("favoriteProducts", favoriteProducts)
   useEffect(() => {
 
     const getProductsById = async () => {
-      const response = await fetch('http://localhost:8000/products/byIds', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/products/byIds`, {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',

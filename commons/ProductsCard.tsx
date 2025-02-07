@@ -4,8 +4,6 @@ import {
   Button,
   Card,
   CardContent,
-  Grid,
-  IconButton,
   Typography,
   useMediaQuery,
 } from "@mui/material";

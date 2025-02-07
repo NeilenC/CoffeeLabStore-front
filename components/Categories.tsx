@@ -27,7 +27,7 @@ const Categories = () => {
 
   useEffect(() => {
     getCategories({ setCategories });
-  }, [selectedCategory, categories]);
+  }, [selectedCategory]);
 
   const handleMouseEnterCategory = useCallback((categoryId: string) => {
     getSubCategory(categoryId);
@@ -64,7 +64,7 @@ const Categories = () => {
   const getSubCategory = async (categoryId: any) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/subcategory/${categoryId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/subcategory/${categoryId}`,
         {
           method: "GET",
         },
@@ -145,6 +145,7 @@ const Categories = () => {
                   columns: subCategory.length > 4 ? "2" : "1",
                   width: "250px",
                   columnGap: "30px",
+                  cursor: 'pointer'
                 }}
                 onMouseEnter={handleMouseEnterSubcategory}
                 onMouseLeave={handleMouseLeaveSubcategory}

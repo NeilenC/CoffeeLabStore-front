@@ -9,7 +9,7 @@ const ProductDetails = ({ productId, quantity }:any) => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/products/${productId}`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/products/${productId}`);
         if (!response.ok) {
           throw new Error("Error fetching product details");
         }

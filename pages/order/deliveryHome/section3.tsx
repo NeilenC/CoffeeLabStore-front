@@ -50,7 +50,7 @@ const Section3 = ({
   handlePlaceOrder,
 }: any) => {
   const [formattedCardExpirationDate, setFormattedCardExpirationDate] = useState("");
-  const user = useSelector((state: UserState) => state.user);
+  const user = useSelector((state: UserState) => state);
   const [cardNumberError, setCardNumberError] = useState(false)
   const [cardSecurityCodeError, setCardSecurityCodeError] = useState(false)
   const [cardExpirationDateError, setCardExpirationDateError] = useState(false)

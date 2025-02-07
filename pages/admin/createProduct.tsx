@@ -118,7 +118,7 @@ const ProductForm = () => {
   //------------------------ FUNCION CREAR PRODUCTO ------------------------
   const createProduct = async () => {
     try {
-      const response = await fetch("http://localhost:8000/products/create", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/products/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,9 +138,9 @@ const ProductForm = () => {
 
   //------------------------ FUNCION OBTENER CATEGORIAS ------------------------
 
-  useEffect(() => {
-    getCategories({ setCategories });
-  }, []);
+  // useEffect(() => {
+  //   getCategories({ setCategories });
+  // }, []);
 
   //------------------------ FUNCION OBTENER SUBCATEGORIAS ------------------------
 

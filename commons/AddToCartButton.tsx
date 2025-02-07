@@ -15,14 +15,22 @@ const AddToCartButtom = ({ product, quantity }: any) => {
   const dispatch = useDispatch();
 
   function addItemToCart(product: Product, quantity: number) {
+    if (!userId) {
+      // Si el usuario no está logueado, mostrar un mensaje de toast
+      toast.error("¡Debes iniciar sesión para agregar productos al carrito!", {
+        autoClose: 2000,
+      });
+      return; // Evita continuar con la ejecución si no está logueado
+    }
+  
     if (product.stock > 0) {
       dispatch(addToCart(product, quantity, userId));
-      toast.success("Producto agregado al carrito" ,{
-        autoClose: 1000, 
+      toast.success("Producto agregado al carrito", {
+        autoClose: 1000,
       });
     } else {
-      toast.error("No se encuentra stock para este producto",{
-        autoClose: 1000, 
+      toast.error("No se encuentra stock para este producto", {
+        autoClose: 1000,
       });
     }
   }

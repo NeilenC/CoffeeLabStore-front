@@ -4,7 +4,7 @@ import { Category, Product, SubCategory } from "@/commons/types.interface";
 
 export const getProducts = async ({ setProducts, products }: any) => {
   try {
-    const response = await fetch("http://localhost:8000/products", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/products`, {
       method: "GET",
     });
     if (!response.ok) {
@@ -29,7 +29,7 @@ export async function getProductsBySubCategory({
   try {
     if (categoryId) {
       const response = await fetch(
-        `http://localhost:8000/products/bySubCategory/${subCategoryId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/products/bySubCategory/${subCategoryId}`,
         { method: "GET" },
       );
       const dataPromise: Promise<Product[]> = response.json();
@@ -55,7 +55,7 @@ export async function getProductsByCategory({
   try {
     if (categoryId) {
       const response = await fetch(
-        `http://localhost:8000/products/byCategory/${categoryId}`,
+        `${process.env.NEXT_PUBLIC_API_BASE}/products/byCategory/${categoryId}`,
         { method: "GET" },
       );
       const dataPromise: Promise<Product[]> = response.json();
@@ -79,7 +79,7 @@ export const getSubCategory = async ({
 }: any) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/subcategory/${categoryId}`,
+      `${process.env.NEXT_PUBLIC_API_BASE}/subcategory/${categoryId}`,
       {
         method: "GET",
       },
@@ -101,7 +101,7 @@ export const getCategory = async ({
   category,
 }: any) => {
   const categories = await fetch(
-    `http://localhost:8000/categories/${categoryId}`,
+    `${process.env.NEXT_PUBLIC_API_BASE}/categories/${categoryId}`,
     { method: "GET" },
   );
 
@@ -113,7 +113,7 @@ export const getCategory = async ({
 //------------------------ FUNCION OBTENER CATEGORIAS ------------------------
 
 export const getCategories = async ({ setCategories }: any) => {
-  const response = await fetch("http://localhost:8000/categories", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/categories`, {
     method: "GET",
   });
   const dataPromise: Promise<Category[]> = response.json();
@@ -130,7 +130,7 @@ export const getSubCategories = async ({
 }: any) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/subcategory/${selectedCategory}`,
+      `${process.env.NEXT_PUBLIC_API_BASE}/subcategory/${selectedCategory}`,
       {
         method: "GET",
       },
@@ -147,10 +147,21 @@ export const getSubCategories = async ({
 };
 // ------------------------ FUNCION PARA BUSCADOR ------------------------
 
-export const searchProducts = async ({ searchTerm, setSearchResults }: any) => {
+interface SearchProductsParams {
+  searchTerm: string;
+  setSearchResults: (results: Product[]) => void;
+}
+
+export const searchProducts = async ({ searchTerm, setSearchResults }: SearchProductsParams): Promise<Product[] | void> => {
   try {
+    if (!searchTerm.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const encodedSearchTerm = encodeURIComponent(searchTerm);
     const response = await fetch(
-      `http://localhost:8000/products/search/${searchTerm}`,
+      `${process.env.NEXT_PUBLIC_API_BASE}/products/search/${encodedSearchTerm}`,
       {
         method: "GET",
       },
@@ -162,20 +173,22 @@ export const searchProducts = async ({ searchTerm, setSearchResults }: any) => {
 
     const data = await response.json();
 
-    if (Array.isArray(data) && data.length > 0) {
-      setSearchResults(data);
-    } else {
-      setSearchResults([]);
+    if (!Array.isArray(data)) {
+      throw new Error("La respuesta de la API no es un arreglo válido.");
     }
+
+    setSearchResults(data);
+    return data; // Retornar los resultados si es necesario
   } catch (error) {
     console.error("Error al realizar la búsqueda:", error);
+    setSearchResults([]);
   }
 };
 
 export async function fetchProductDetails({productId, setProduct} : any) {
   try {
     const response = await fetch(
-      `http://localhost:8000/products/${productId}`,
+      `${process.env.NEXT_PUBLIC_API_BASE}/products/${productId}`,
     );
     if (!response.ok) {
       throw new Error("Failed to fetch product details");

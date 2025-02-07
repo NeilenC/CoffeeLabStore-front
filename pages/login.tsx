@@ -18,20 +18,23 @@ import theme from "@/styles/theme";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Swal from "sweetalert2";
+import Image from "next/image";
+import logo from "../public/chemexvector.png";
+
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const isSmallScreen = useMediaQuery('(max-width: 600px)')
-  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 1000px)");
 
   const handleSubmit = async (
     values: any,
-    { setSubmitting, resetForm }: FormikHelpers<any>,
+    { setSubmitting, resetForm }: FormikHelpers<any>
   ) => {
     try {
-      const response = await fetch("http://localhost:8000/auth/login", {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,12 +60,12 @@ const LoginForm = () => {
         router.push("/");
         resetForm();
       } else {
-       Swal.fire({
-        icon: "error",
-        title: "No se ha podido iniciar sesión",
-        text: "Verifica que los datos ingresados sean correctos",
-        confirmButtonColor: theme.palette.primary.main,
-      });
+        Swal.fire({
+          icon: "error",
+          title: "No se ha podido iniciar sesión",
+          text: "Verifica que los datos ingresados sean correctos",
+          confirmButtonColor: theme.palette.primary.main,
+        });
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
@@ -73,99 +76,115 @@ const LoginForm = () => {
   };
 
   return (
-    <Container component="main" maxWidth="sm" sx={{ height: "60vh" , 
-    mt: isSmallScreen || isMediumScreen ? "0px" : "100px" 
-    }}>
-      <CssBaseline />
-      <Box
+    <Box
+      sx={{
+        height: "90vh",
+        backgroundImage: "url('/background1.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <Container
+        component="main"
         sx={{
-          marginTop: 10,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          bgcolor: "rgba(247, 247, 250, 0.8)",
+          width: "400px",
+          p: 3,
+          borderRadius: "8px",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Iniciar Sesión
-        </Typography>
-        <Formik
-          initialValues={{
-            email: "",
-            password: "",
+        <CssBaseline />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
-          onSubmit={handleSubmit}
         >
-          {({ isSubmitting }) => (
-            <Form noValidate>
-              <Field
-                as={TextField}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Correo electrónico"
-                name="email"
-                autoComplete="email"
-              />
-              <Field
-                as={TextField}
-                variant="outlined"
-                margin="normal"
-                required
-                label="Contraseña"
-                fullWidth
-                name="password"
-                type={showPassword ? "text" : "password"}
-                id="password"
-                autoComplete="current-password"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        sx={{bgcolor:"lightgrey", mr:0.5}}
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        edge="end"
-                      >
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-               ),
-              }}
-            />
-              <Box sx={{ display: "flex", justifyContent: "center" }}>
-                <Typography variant="body1">¿No tenés cuenta?</Typography>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    ml: 1,
-                    "&:hover": {
-                      color: theme.palette.primary.main,
-                      cursor: "pointer",
-                    },
+          <Image src={logo} alt={"logo"} height={50} width={50}></Image>
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            onSubmit={handleSubmit}
+          >
+            {({ isSubmitting }) => (
+              <Form noValidate>
+                <Field
+                  as={TextField}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Correo electrónico"
+                  name="email"
+                  autoComplete="email"
+                />
+                <Field
+                  as={TextField}
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  label="Contraseña"
+                  fullWidth
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  autoComplete="current-password"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          sx={{ bgcolor: "lightgrey", mr: 0.5 }}
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          edge="end"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
                   }}
-                  onClick={() => {
-                    router.push("/register");
-                  }}
-                >
-                  Registrate acá
-                </Typography>
-              </Box>
+                />
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <Typography variant="body1">¿No tenés cuenta?</Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      ml: 1,
+                      "&:hover": {
+                        color: theme.palette.primary.main,
+                        cursor: "pointer",
+                      },
+                    }}
+                    onClick={() => {
+                      router.push("/register");
+                    }}
+                  >
+                    Registrate acá
+                  </Typography>
+                </Box>
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2, color: "black" }}
-                disabled={isSubmitting}
-              >
-                Iniciar Sesión
-              </Button>
-            </Form>
-          )}
-        </Formik>
-      </Box>
-    </Container>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2, color: "black" }}
+                  disabled={isSubmitting}
+                >
+                  Iniciar Sesión
+                </Button>
+              </Form>
+            )}
+          </Formik>
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

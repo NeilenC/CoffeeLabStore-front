@@ -17,7 +17,7 @@ type DrawerProps = {
 const NavListDrawer = ({ setOpenDrawer }: DrawerProps) => {
   const [open, setOpen] = React.useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
-  const user = useSelector((state: UserState) => state.user);
+  const user = useSelector((state: UserState) => state);
   const router = useRouter()
   const isCartPath = router.pathname
   const isMidScreen = useMediaQuery('(max-width:1000px)');

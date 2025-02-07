@@ -60,7 +60,8 @@ export type AddTotalPriceAction = {
 };
 
 export type UserState = {
-  user: {
+  user : {
+
     _id: string;
     name: string;
     lastName: string;
@@ -68,7 +69,7 @@ export type UserState = {
     address: string;
     role: string;
     phoneNumber: number;
-  };
+  }
 };
 
 export type OrderState = {
@@ -84,6 +85,7 @@ export type OrderState = {
 };
 
 type userData = {
+  _id: string;
   name: string;
   lastName: string;
   dni: number;
@@ -94,6 +96,7 @@ type userData = {
 type paymentData = {
   paymentMethod: string;
   cardNumber?: number;
+  deliveryCharge: number;
 };
 
 type shoppingData = {

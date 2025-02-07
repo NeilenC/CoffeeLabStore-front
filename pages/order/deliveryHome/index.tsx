@@ -9,15 +9,15 @@ import Section3 from "./section3";
 import { sendOrderToBackend } from "./function";
 
 const DeliveryHome = () => {
-  const user = useSelector((state: UserState) => state.user);
+  const user = useSelector((state: UserState) => state);
   const [section, setSection] = useState(1);
 
   // Datos de la sección 1 (Datos Personales)
-  const [name, setName] = useState(user.name || "");
-  const [lastName, setLastName] = useState(user.lastName || "");
+  const [name, setName] = useState(user.user.name || "");
+  const [lastName, setLastName] = useState(user.user.lastName || "");
   const [dni, setDni] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber || "");
-  const [email, setEmail] = useState(user.email || "");
+  const [phoneNumber, setPhoneNumber] = useState(user.user.phoneNumber || "");
+  const [email, setEmail] = useState(user.user.email || "");
 
   // Datos de la sección 2 (Detalles de Envio)
   const [address, setAddress] = useState("");
@@ -95,7 +95,7 @@ const DeliveryHome = () => {
 
       console.log("LLEGA HASTA ACA!")
 
-      await sendOrderToBackend(user._id, orderData, router);
+      await sendOrderToBackend(user.user._id, orderData, router);
     }
   };
 

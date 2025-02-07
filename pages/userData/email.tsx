@@ -24,7 +24,7 @@ const Email = () => {
     try {
       if(newEmail) {
 
-        const response = await fetch(`http://localhost:8000/users/${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',

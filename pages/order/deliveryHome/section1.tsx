@@ -22,7 +22,7 @@ const Section1 = ({
   setEmail,
   handleNextSection,
 }: any) => {
-  const user = useSelector((state: UserState) => state.user);
+  const user = useSelector((state: UserState) => state);
   const [nameError, setNameError] = useState(false);
   const [lastNameError, setLastNameError] = useState(false);
   const [dniError, setDniError] = useState(false);

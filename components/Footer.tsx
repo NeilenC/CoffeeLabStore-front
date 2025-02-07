@@ -1,18 +1,12 @@
 import React from "react";
-import {
-  AppBar,
-  Box,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { AppBar, Box, Container, Grid, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import CallIcon from "@mui/icons-material/Call";
-import EmailIcon from "@mui/icons-material/Email";
+import { FaWhatsapp } from "react-icons/fa";  
+
 const FooterAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
   color: "white",
-  marginTop: "auto", // Para que el pie de página se ajuste justo debajo del contenido
+  marginTop: "auto", 
 }));
 
 const ContainerWrapper = styled(Container)(({ theme }) => ({
@@ -21,34 +15,30 @@ const ContainerWrapper = styled(Container)(({ theme }) => ({
 
 const Footer = () => {
   return (
-    <FooterAppBar position="static" sx={{ alignSelf: "flex-end"}}>
-      <Box sx={{ bgcolor: "black", height: "50%" }}>
+    <FooterAppBar position="relative" sx={{ alignSelf: "flex-end" }}>
+      <Box sx={{ bgcolor: "rgb(60, 60, 60)", }}>
         <ContainerWrapper>
-          <Grid container spacing={2} sx={{ color: "white", margin: "auto" }}>
+          <Grid container spacing={2} sx={{ color: "white",  }}>
             <Grid item xs={12} sm={6}>
               <Typography variant="h6">Información de contacto</Typography>
               <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  "&:hover": { color: "#DAA520" },
                 }}
               >
-                <CallIcon sx={{ fontSize: "20px" }} />
-                <Typography variant="body2"> &nbsp; +54 221 6918419</Typography>
+               <FaWhatsapp />
+                <Typography variant="body2" sx={{ml:1}}> <a href="https://wa.me/542216918419" target="_blank" rel="noopener noreferrer" style={{ color: "white", textDecoration: "none" }}>
+                    +54 221 6918419 
+                  </a></Typography>
               </Box>
               <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  "&:hover": { color: "#DAA520" },
                 }}
               >
-                <EmailIcon sx={{ fontSize: "20px" }} />
-                <Typography variant="body2" sx={{ py: 1 }}>
-                  {" "}
-                  &nbsp; coffeelab@store.com
-                </Typography>
+                <Typography variant="body2" sx={{paddingTop:'50px'}}>© 2024 CoffeeLabStore.</Typography>
               </Box>
             </Grid>
             <Grid item xs={12} sm={6}>

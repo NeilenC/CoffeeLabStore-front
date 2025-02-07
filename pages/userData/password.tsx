@@ -33,7 +33,7 @@ const Password = () => {
     try {
       if(newPassword) {
 
-        const response = await fetch(`http://localhost:8000/users/modifyPassword/${userId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/modifyPassword/${userId}`, {
           method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

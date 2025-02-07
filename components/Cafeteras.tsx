@@ -27,7 +27,7 @@ const Cafeteras = () => {
   useEffect(() => {
     const getSubCategory = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/subcategory`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/subcategory`, {
           method: "GET",
         });
 
@@ -87,6 +87,9 @@ const Cafeteras = () => {
                 flexDirection: "column",
                 alignItems: "center",
                 width: { xs: "100%", sm: "60%", md: "calc(80% / 5)" },
+                "&:hover": { color: theme.palette.text.secondary },
+                cursor:'pointer'
+
               }}
             >
               <Image alt={alt} src={img} height={80} width={80} />
@@ -94,7 +97,6 @@ const Cafeteras = () => {
                 sx={{
                   m: "auto",
                   marginTop: "auto",
-                  "&:hover": { color: theme.palette.text.secondary },
                   fontWeight: "bold",
                   width: "90%",
                 }}

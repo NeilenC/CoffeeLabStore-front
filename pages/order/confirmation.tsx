@@ -11,12 +11,22 @@ const Confirmation = () => {
   const [order, setOrder] = useState<OrderState | null>(null);
   const dispatch = useDispatch();
 
+  console.log("userid", user._id);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("userid", user._id);
+
+        if (!user._id) {
+          console.log("El user._id es inválido o no existe");
+        } else {
+          console.log("user._id es válido");
+        }
+        console.log(`${process.env.NEXT_PUBLIC_API_BASE}/order/${user._id}`);
+
         const response = await fetch(
-          `http://localhost:8000/order/${user._id}`,
-          { method: "GET" },
+          `${process.env.NEXT_PUBLIC_API_BASE}/order/${user._id}`,
+          { method: "POST" }
         );
 
         if (!response.ok) {
@@ -35,7 +45,7 @@ const Confirmation = () => {
     fetchData();
   }, [user._id]);
 
-  console.log("order", order)
+  console.log("order", order);
   return (
     <Box
       sx={{
@@ -57,8 +67,9 @@ const Confirmation = () => {
           <Typography variant="h6">Detalles</Typography>
           <Typography variant="body2">
             Llegará a la dirección: {order.shoppingData?.address}{" "}
-            {order.shoppingData?.directionNum} {order.shoppingData.apartment}
-            &nbsp; -  &nbsp; {order.shoppingData?.provincia} &nbsp;  {order.shoppingData.localidad}
+            {order.shoppingData?.directionNum} {order.shoppingData?.apartment}
+            &nbsp; - &nbsp; {order.shoppingData?.provincia} &nbsp;{" "}
+            {order.shoppingData?.localidad}
           </Typography>
           <Typography variant="body2">
             Código de seguimiento: {order.trackingNumber}

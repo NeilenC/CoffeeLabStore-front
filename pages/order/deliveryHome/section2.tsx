@@ -20,7 +20,7 @@ import { UserState } from "@/commons/types.interface";
     setLocalidad,
     handleNextSection,
   }: any) => {
-    const user = useSelector((state: UserState) => state.user);
+    const user = useSelector((state: UserState) => state);
     const [addressError, setAddressError] = useState(false);
     const [directionNumError, setDirectionNumError] = useState(false);
     const [codigoError, setCodigoError] = useState(false);
@@ -50,7 +50,7 @@ import { UserState } from "@/commons/types.interface";
       );
       const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}");
 
-      if (storedUserData.name !== user.name) {
+      if (storedUserData.name !== user.user.name) {
         setAddress(shippingData.address || '');
         setApartment(shippingData.apartment || '');
         setDirectionNum(shippingData.directionNum || '');

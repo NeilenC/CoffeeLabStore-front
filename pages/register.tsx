@@ -6,205 +6,383 @@ import {
   TextField,
   Typography,
   Box,
-  Grid, 
-  IconButton, 
-  InputAdornment
+  Grid,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
-import { Formik, Form, Field, FormikHelpers } from "formik"; // Import FormikHelpers
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import * as Yup from "yup";
 import { useRouter } from "next/router";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-       
+import Swal from "sweetalert2";
+import theme from "@/styles/theme";
 
 const RegistrationForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
   const initialValues = {
     name: "",
     lastName: "",
     email: "",
-    address: "",
     phoneNumber: "",
     password: "",
     confirmPassword: "",
   };
 
+  const validationSchema = Yup.object({
+    name: Yup.string().required("El nombre es obligatorio"),
+    lastName: Yup.string().required("El apellido es obligatorio"),
+    email: Yup.string()
+      .email("Correo electrónico inválido")
+      .required("El correo es obligatorio"),
+    phoneNumber: Yup.string().required("El número de teléfono es obligatorio"),
+    password: Yup.string()
+      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .required("La contraseña es obligatoria"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password")], "Las contraseñas no coinciden")
+      .required("Confirma tu contraseña"),
+  });
+
   const handleSubmit = async (
-    values: any, 
-    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>, 
+    values: any,
+    { setSubmitting, resetForm }: FormikHelpers<typeof initialValues>
   ) => {
     try {
-      const response = await fetch("http://localhost:8000/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
 
       if (response.ok) {
         resetForm();
+        Swal.fire({
+          icon: "success",
+          title: `Registro exitoso`,
+          confirmButtonColor: theme.palette.primary.main,
+        });
         router.push("/login");
       } else {
-      toast.error("Hubo un error, por favor vuelva a intentar" ,{
-        autoClose: 1500, 
-      });
+        const errorData = await response.json();
 
+        const errorMessage =
+          errorData?.message || "Hubo un error, por favor vuelva a intentar";
+
+        toast.error(errorMessage, {
+          autoClose: 1500,
+        });
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
+      // Mensaje genérico para errores de red u otros casos no controlados
+      toast.error(
+        "Hubo un problema de conexión. Por favor, inténtalo más tarde.",
+        {
+          autoClose: 1500,
+        }
+      );
     } finally {
       setSubmitting(false);
     }
   };
 
   return (
-    <Container component="main" maxWidth="sm" sx={{ pb: 10 }}>
-      <CssBaseline />
-      <Box sx={{ pt: 7 }}>
-        <Box
+    <Box
+      sx={{
+        backgroundImage: "url('/background.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <Box sx={{ paddingBlock: 2.5 }}>
+        <Container
+          component="main"
+          maxWidth="sm"
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            p: 2,
+            bgcolor: "rgba(247, 247, 250, 0.8)",
+            borderRadius: "8px",
           }}
         >
-          <Typography component="h1" variant="h5" sx={{ m: 2 }}>
-            Registro
-          </Typography>
-          <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-            {({ isSubmitting }) => (
-              <Form noValidate>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="name"
-                      label="Nombre"
-                      name="name"
-                      autoComplete="name"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Apellido"
-                      name="lastName"
-                      autoComplete="lastName"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="email"
-                      label="Correo electrónico"
-                      name="email"
-                      autoComplete="email"
-                    />
-                  </Grid>
+          <CssBaseline />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography component="h1" variant="h5" sx={{ pb: '1rem '}}>
+              Regístrate
+            </Typography>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+            >
+              {({ isSubmitting, errors, touched }) => (
+                <Form noValidate>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                      <Field
+                        as={TextField}
+                        variant="outlined"
+                        fullWidth
+                        id="name"
+                        label="Nombre"
+                        name="name"
+                        error={touched.name && Boolean(errors.name)}
+                        helperText={
+                          <Box
+                            sx={{
+                              minHeight: "1.5em",
+                              visibility: errors.name ? "visible" : "hidden",
+                            }}
+                          >
+                            <ErrorMessage name="name" />
+                          </Box>
+                        }
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: touched.name
+                                ? errors.name
+                                  ? "red"
+                                  : "orange"
+                                : "orange",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "orange",
+                            },
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <Field
+                        as={TextField}
+                        variant="outlined"
+                        fullWidth
+                        id="lastName"
+                        label="Apellido"
+                        name="lastName"
+                        error={touched.lastName && Boolean(errors.lastName)}
+                        helperText={
+                          <Box
+                            sx={{
+                              minHeight: "1.5em",
+                              visibility: errors.lastName
+                                ? "visible"
+                                : "hidden",
+                            }}
+                          >
+                            <ErrorMessage name="lastName" />
+                          </Box>
+                        }
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: touched.lastName
+                                ? errors.lastName
+                                  ? "red"
+                                  : "orange"
+                                : "orange",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "orange",
+                            },
+                          },
+                        }}
+                      />
+                    </Grid>
 
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      id="phoneNumber"
-                      label="Número de teléfono"
-                      name="phoneNumber"
-                      autoComplete="phoneNumber"
-                    />
+                    <Grid item xs={12} sm={12}>
+                      <Field
+                        as={TextField}
+                        variant="outlined"
+                        fullWidth
+                        id="email"
+                        label="Correo electrónico"
+                        name="email"
+                        error={touched.email && Boolean(errors.email)}
+                        helperText={
+                          <Box
+                            sx={{
+                              minHeight: "1.5em",
+                              visibility: errors.email ? "visible" : "hidden",
+                            }}
+                          >
+                            <ErrorMessage name="email" />
+                          </Box>
+                        }
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={12}>
+                      <Field
+                        as={TextField}
+                        variant="outlined"
+                        fullWidth
+                        id="phoneNumber"
+                        label="Teléfono"
+                        name="phoneNumber"
+                        error={
+                          touched.phoneNumber && Boolean(errors.phoneNumber)
+                        }
+                        helperText={
+                          <Box
+                            sx={{
+                              minHeight: "1.5em",
+                              visibility: errors.phoneNumber
+                                ? "visible"
+                                : "hidden",
+                            }}
+                          >
+                            <ErrorMessage name="phoneNumber" />
+                          </Box>
+                        }
+                      />
+                    </Grid>
+
+                    <Grid item xs={6}>
+                      <Field
+                        as={TextField}
+                        variant="outlined"
+                        fullWidth
+                        id="password"
+                        label="Contraseña"
+                        name="password"
+                        type={showPassword ? "text" : "password"}
+                        error={touched.password && Boolean(errors.password)}
+                        helperText={
+                          <Box
+                            sx={{
+                              minHeight: "1.5em",
+                              visibility: errors.password
+                                ? "visible"
+                                : "hidden",
+                            }}
+                          >
+                            <ErrorMessage name="password" />
+                          </Box>
+                        }
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() => setShowPassword((prev) => !prev)}
+                              >
+                                {showPassword ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: touched.password
+                                ? errors.password
+                                  ? "red"
+                                  : "orange"
+                                : "orange",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "orange",
+                            },
+                          },
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Field
+                        as={TextField}
+                        variant="outlined"
+                        fullWidth
+                        id="confirmPassword"
+                        label="Repetir Contraseña"
+                        name="confirmPassword"
+                        type={showPassword ? "text" : "password"}
+                        error={
+                          touched.confirmPassword &&
+                          Boolean(errors.confirmPassword)
+                        }
+                        helperText={
+                          <Box
+                            sx={{
+                              minHeight: "1.5em",
+                              visibility: errors.confirmPassword
+                                ? "visible"
+                                : "hidden",
+                            }}
+                          >
+                            <ErrorMessage name="confirmPassword" />
+                          </Box>
+                        }
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() => setShowPassword((prev) => !prev)}
+                              >
+                                {showPassword ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            "& fieldset": {
+                              borderColor: touched.confirmPassword
+                                ? errors.confirmPassword
+                                  ? "red"
+                                  : "orange"
+                                : "orange",
+                            },
+                            "&:hover fieldset": {
+                              borderColor: "orange",
+                            },
+                          },
+                        }}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Field
-                      as={TextField}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      label="Contraseña"
-                      id="password"
-                      autoComplete="new-password"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              sx={{bgcolor:"lightgrey", mr:0.5}}
-                              onClick={() => setShowPassword((prev) => !prev)}
-                              edge="end"
-                            >
-                              {showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                          </InputAdornment>
-                     ),
-                    }}
-                  />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Field
-                      as={TextField}
-                      variant="outlined"
-                      required
-                      fullWidth
-                      name="confirmPassword"
-                      label="Repetir contraseña"
-                      type={showPassword ? "text" : "password"}
-                      id="confirmPassword"
-                      autoComplete="new-password"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              sx={{bgcolor:"lightgrey", mr:0.5}}
-                              onClick={() => setShowPassword((prev) => !prev)}
-                              edge="end"
-                            >
-                              {showPassword ? <Visibility /> : <VisibilityOff />}
-                            </IconButton>
-                          </InputAdornment>
-                     ),
-                    }}
-                  />
-                  </Grid>
-                </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2, color: "black" }}
-                  disabled={isSubmitting}
-                >
-                  Registrarse
-                </Button>
-                <Button
-                  fullWidth
-                  variant="contained"
-                  sx={{ color: "black" }}
-                  onClick={() => {
-                    router.push("/login");
-                  }}
-                >
-                  login
-                </Button>
-              </Form>
-            )}
-          </Formik>
-        </Box>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, color: "black" }}
+                    disabled={isSubmitting}
+                  >
+                    Registrarse
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          </Box>
+        </Container>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

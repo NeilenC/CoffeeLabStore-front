@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import { Product } from "@/commons/types.interface";
 import AddToCartButtom from "@/commons/AddToCartButton";
 import BuyButton from "@/commons/BuyButton";
-import AddToFavButton from "@/commons/AddToFavButton";
 import { fetchProductDetails } from "@/functionsFetch";
 
 const initialProductState: Product = {

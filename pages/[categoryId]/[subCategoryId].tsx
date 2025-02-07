@@ -64,14 +64,16 @@ function CategoryDetail() {
   };
 
   return (
-    <Box sx={{ 
-        pt: isMediumScreen && !isSmallScreen ? 10 : 1, 
-        display: "flex",
-        height: "100vh", 
-        maxWidth:"100%" , 
-        bgcolor: isSmallScreen || isMediumScreen ? "whitesmoke" : "white",
-        flexDirection: isSmallScreen || isMediumScreen ? "column" : null,  
-      }}>
+<Box sx={{ 
+    pt: isMediumScreen && !isSmallScreen ? 10 : 1, 
+    display: "flex",
+    minHeight: "100vh",  // Permite que el contenido crezca más allá del viewport
+    maxWidth:"100%" , 
+    bgcolor: isSmallScreen || isMediumScreen ? "whitesmoke" : "white",
+    flexDirection: isSmallScreen || isMediumScreen ? "column" : null,  
+  }}>
+
+
           {isSmallScreen || isMediumScreen ? 
           (
             <Box sx={{display: "flex", height:"20%"}}>

@@ -43,6 +43,7 @@ export const REMOVE_FROM_FAVORITES = "REMOVE_FROM_FAVORITES";
 export const RESET_STATE = "RESET_STATE";
 
 export const addToFavorites = (userId: string, productId: string) => ({
+
   type: ADD_TO_FAVORITES,
   payload: { userId, productId },
 });
