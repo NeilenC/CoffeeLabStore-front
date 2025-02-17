@@ -29,7 +29,6 @@ const userReducer = createReducer(initialState, {
     return action.payload;
   },
   [clearUserInfo.type]: (state) => {
-    console.log("state", state)
     return initialState;
   },
 });

@@ -56,10 +56,6 @@ const Section3 = ({
   const [cardExpirationDateError, setCardExpirationDateError] = useState(false)
   const [cardType, setCardType] = useState("");
 
-console.log("paymentMethod",paymentMethod )
-console.log("cardNumber", cardNumber)
-console.log("cardSecurityCode", cardSecurityCode)
-console.log("cardExpirationDate",cardExpirationDate )
 
   const handleSaveToLocalStorage = () => {
     const paymentData = {
@@ -75,7 +71,7 @@ console.log("cardExpirationDate",cardExpirationDate )
     const paymentData = JSON.parse(localStorage.getItem("paymentData") || "{}");
     const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}");
 
-    if (storedUserData.name === user.name) {
+    if (storedUserData.name === user.user.name) {
       setPaymentMethod(paymentData.paymentMethod || "");
       setCardNumber(paymentData.cardNumber || "");
       setCardSecurityCode(paymentData.cardSecurityCode || "");
@@ -210,7 +206,6 @@ console.log("cardExpirationDate",cardExpirationDate )
         value={formattedCardExpirationDate}
         onChange={(e) => {
           const newValue: any = e.target.value;
-          console.log(newValue); // Verifica qué valor se está pasando
           setFormattedCardExpirationDate(newValue);
           setCardExpirationDateError(false);
         }}
@@ -243,12 +238,10 @@ console.log("cardExpirationDate",cardExpirationDate )
       <Button
         onClick={() => {
           if (validatePaymentFields()) {
-            console.log("VALIDO")
             handlePlaceOrder();
             handleSaveToLocalStorage();
             
           }
-          console.log(" NO VALIDO")
         }}
         sx={{ color: "black" }}
       >

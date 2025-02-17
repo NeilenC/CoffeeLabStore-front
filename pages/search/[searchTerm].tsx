@@ -8,9 +8,8 @@ import React, { useEffect, useState } from "react";
 const searchResults = () => {
   const router = useRouter();
   const [searchResults, setSearchResults] = useState<Product[]>([]);
-  const searchTerm = router.query.searchTerm;
+  const searchTerm:any = router.query.searchTerm;
 
-  console.log("searchResults", searchResults);
 
   useEffect(() => {
     if (searchTerm) {

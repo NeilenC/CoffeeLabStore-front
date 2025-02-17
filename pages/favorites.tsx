@@ -14,9 +14,7 @@ const favorites = () => {
   const isSmallScreen = useMediaQuery('(max-width: 600px)')
   const isMediumScreen = useMediaQuery('(max-width: 1000px)')
 
-console.log("favoriteProducts", favoriteProducts)
   useEffect(() => {
-
     const getProductsById = async () => {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/products/byIds`, {
         method: 'POST',

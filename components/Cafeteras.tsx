@@ -49,13 +49,10 @@ const Cafeteras = () => {
       sub.name.includes(cafeteraName.toLowerCase()),
     );
 
-    console.log("matchedSubCategory", matchedSubCategory);
 
     if (matchedSubCategory) {
       router.push(`/${matchedSubCategory.category}/${matchedSubCategory._id}`);
-    } else {
-      console.log("no matchea");
-    }
+    } 
   };
 
   return (

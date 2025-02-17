@@ -3,7 +3,6 @@ import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { OrderState, UserState } from "@/commons/types.interface";
-import { cartReducer } from "@/redux/CartReducer";
 import { clearCart } from "@/redux/actions";
 
 const Confirmation = () => {
@@ -11,18 +10,9 @@ const Confirmation = () => {
   const [order, setOrder] = useState<OrderState | null>(null);
   const dispatch = useDispatch();
 
-  console.log("userid", user._id);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("userid", user._id);
-
-        if (!user._id) {
-          console.log("El user._id es inválido o no existe");
-        } else {
-          console.log("user._id es válido");
-        }
-        console.log(`${process.env.NEXT_PUBLIC_API_BASE}/order/${user._id}`);
 
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE}/order/${user._id}`,
@@ -45,7 +35,6 @@ const Confirmation = () => {
     fetchData();
   }, [user._id]);
 
-  console.log("order", order);
   return (
     <Box
       sx={{

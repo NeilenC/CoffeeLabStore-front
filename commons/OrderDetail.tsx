@@ -33,7 +33,6 @@ const OrderDetail = () => {
         productId: product._id,
         quantity: product.quantity,
       }));
-      console.log("product", productDetails)
 
       
       const response = await fetch(

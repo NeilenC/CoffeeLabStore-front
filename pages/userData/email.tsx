@@ -35,7 +35,6 @@ const Email = () => {
       });
 
       if (response.ok) {
-        console.log('Email modificado con éxito');
         router.push('/userData')
 
       } else {

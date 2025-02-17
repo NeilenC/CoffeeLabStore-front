@@ -47,8 +47,6 @@ const Password = () => {
       });
       
       if (response.ok) {
-        console.log('Contraseña modificada con éxito');
-        // Agregar toast
         router.push('/userData')
        }
       } else {

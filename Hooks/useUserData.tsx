@@ -16,7 +16,6 @@
 //         dispatch(setUserInfo(data));
 //       }
 //     } catch (e) {
-//       console.log("ERROR USUARIO", e);
 //     }
 //   };
 

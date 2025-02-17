@@ -31,8 +31,6 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
   const [formData, setFormData] = useState(initialData);
   const router = useRouter();
   const handleChange = (fieldName: string, value: string) => {
-    console.log("fieldName", fieldName);
-    console.log("value", value);
     setFormData((prevData) => ({
       ...prevData,
       [fieldName]: value,
@@ -44,7 +42,7 @@ const EditUserDataForm: React.FC<EditUserDataFormProps> = ({ initialData }) => {
 
   const handleSaveClick = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/${user._id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/users/${user.user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

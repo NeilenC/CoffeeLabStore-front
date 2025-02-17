@@ -35,7 +35,6 @@ const Navbar = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const path = router.pathname;
 
-  console.log("nombreee", user)
   const handleToggle = () => {
     setExpanded(!expanded);
     setTimeout(() => {
@@ -221,6 +220,7 @@ const Navbar = () => {
         display: "flex",
         cursor: "pointer",
         ml: 2, // Espacio entre el icono y el texto
+        pt:0.5
       }}
     >
       Logout <LogOutOutlinedIcon sx={{ ml: 1 }} />

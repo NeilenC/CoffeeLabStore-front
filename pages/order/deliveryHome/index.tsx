@@ -93,8 +93,6 @@ const DeliveryHome = () => {
         },
       };
 
-      console.log("LLEGA HASTA ACA!")
-
       await sendOrderToBackend(user.user._id, orderData, router);
     }
   };

@@ -33,7 +33,6 @@ const PhoneNumber = () => {
         });
         
         if (response.ok) {
-          console.log('Número de teléfono modificado con éxito');
         setNewPhoneNumber(null)
         router.push('/userData')
       } else {

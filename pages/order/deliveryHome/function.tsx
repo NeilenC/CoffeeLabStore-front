@@ -4,9 +4,6 @@ export const sendOrderToBackend = async (
   router: any,
 ) => {
 
-  console.log("userId",userId)
-  console.log("orderData",orderData)
-  console.log("router",router)
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/order/${userId}`, {
       method: "POST",
@@ -25,7 +22,6 @@ export const sendOrderToBackend = async (
     }
 
     const responseData = await response.json();
-    console.log("Respuesta del backend:", responseData);
 
     router.push("/order/confirmation");
   } catch (error) {
