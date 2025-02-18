@@ -43,7 +43,7 @@ const Section1 = ({
   useEffect(() => {
     const storedUserData = JSON.parse(localStorage.getItem("userData") || "{}");
 
-    if (storedUserData.name !== user.name) {
+    if (storedUserData.name !== user.user.name) {
       setName(storedUserData.name || "");
       setLastName(storedUserData.lastName || "");
       setDni(storedUserData.dni || "");

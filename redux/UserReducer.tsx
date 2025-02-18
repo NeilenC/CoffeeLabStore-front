@@ -1,4 +1,5 @@
 import { createAction, createReducer } from "@reduxjs/toolkit";
+import counterReducer from "@reduxjs/toolkit"
 
 export interface UserInfo {
   id: string;

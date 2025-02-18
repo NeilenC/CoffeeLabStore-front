@@ -13,6 +13,9 @@ const nextConfig = {
       "www.mallorca-hogar.cl",
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;

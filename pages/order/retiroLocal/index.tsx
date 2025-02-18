@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { CartState, UserState } from "@/commons/types.interface";
 import Section1 from "../deliveryHome/section1";
 import Section3 from "../deliveryHome/section3";
-import { sendOrderToBackend } from "../deliveryHome/function";
+import { sendOrderToBackend } from "../../../utils/function";
 import { useRouter } from "next/router";
 
 const index = () => {

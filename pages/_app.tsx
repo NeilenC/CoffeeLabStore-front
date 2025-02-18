@@ -8,9 +8,9 @@ import theme from "../styles/theme";
 import Layout from "@/components/Layout";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
+import Head from "next/head";
 
 export default function App({ Component, pageProps }: AppProps) {
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedCartString = localStorage.getItem("cart");
@@ -20,16 +20,21 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Layout>
-            <Component {...pageProps} />
-            <ToastContainer position="top-right" />
-          </Layout>
-        </ThemeProvider>
-      </PersistGate>
-    </Provider>
+    <>
+      <Head>
+        <title>My new cool app</title>
+      </Head>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Layout>
+              <Component {...pageProps} />
+              <ToastContainer position="top-right" />
+            </Layout>
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
+    </>
   );
 }
