@@ -106,149 +106,136 @@ const Navbar = () => {
 
           {router.pathname !== "/cart" && (
             <AppBar sx={{ display: { xs: "none", sm: "block" } }}>
-              <Box sx={{ bgcolor: theme.palette.primary.main, color: "white" }}>
-                <Toolbar>
-                  <Grid
-                    container
-                    alignItems="center"
-                    sx={{  }}
+  <Box sx={{ bgcolor: theme.palette.primary.main, color: "white" }}>
+    <Toolbar sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      {/* Contenedor que divide el espacio en tres partes iguales */}
+      <Grid container spacing={2} sx={{ width: '100%' }} justifyContent="space-between" alignItems="center">
+        
+        {/* Logo en el margen izquierdo */}
+        <Grid item sx={{  justifyContent: 'flex-start',  width:'200px'}}>
+          <LogoIcon />
+        </Grid>
+
+        {/* Barra de búsqueda en el centro */}
+        <Grid item sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center' }}>
+          <Search />
+        </Grid>
+
+        {/* Íconos de Usuario en el margen derecho */}
+        <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          {user.name !== "" ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              {/* Nombre del Usuario e Icono */}
+              <Typography
+                onClick={handleToggle}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  color: "black",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    backgroundColor: "white",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontWeight: "regular",
+                    fontSize: "14px",
+                    border: "0.5px solid grey",
+                  }}
+                >
+                  {user?.name?.charAt(0).toUpperCase()}
+                  {user?.lastName?.charAt(0).toUpperCase()}
+                </Box>
+                <KeyboardArrowDownIcon sx={{ ml: 1 }} />
+              </Typography>
+
+              {/* Carrito de Compras */}
+              <CartIcon handleCartClick={handleCartClick} cart={cart} />
+
+              {/* Menú Expandible */}
+              {expanded && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    zIndex: 1,
+                    backgroundColor: "white",
+                    color: "black",
+                    width: "180px",
+                    p: 2,
+                    top: "40px",
+                    right: 0,
+                    boxShadow: 3,
+                    borderRadius: 1,
+                  }}
+                >
+                  <Typography
+                    onClick={goToUserData}
+                    variant="body2"
+                    sx={{ cursor: "pointer", textAlign: "right", pb: 1 }}
                   >
-                    <LogoIcon />
+                    Tus datos
+                  </Typography>
+                  <Typography
+                    onClick={goToUserFavorites}
+                    variant="body2"
+                    sx={{ cursor: "pointer", textAlign: "right", pb: 1 }}
+                  >
+                    Favoritos
+                  </Typography>
+                  <Typography
+                    onClick={goToHistory}
+                    variant="body2"
+                    sx={{ cursor: "pointer", textAlign: "right" }}
+                  >
+                    Tus compras
+                  </Typography>
+                </Box>
+              )}
 
-                    <Grid item  sx={{ mr: "15%" }}>
-                      <Search />
-                    </Grid>
+              {/* Cerrar Sesión */}
+              <Typography
+                onClick={handleLogout}
+                variant="body2"
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  cursor: "pointer",
+                }}
+              >
+                Cerrar Sesión <LogoutOutlinedIcon sx={{ ml: 0.5 }} />
+              </Typography>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+                color: "white",
+                gap: 1,
+              }}
+              onClick={() => router.push("/login")}
+            >
+              Iniciar Sesión <LoginOutlinedIcon />
+            </Box>
+          )}
+        </Grid>
 
-                    <Grid
-                      item
-                      sx={{ position: "relative" }}
-                      xs={1}
-                      md={1.5}
-                      sm={1}
-                    >
-                    {user._id !== "" ? (
-  <Box
-    sx={{
-      width:'230px',
-      cursor: "pointer",
-      display: "flex",
-      justifyContent: "space-between", 
-      alignItems: "center", 
-    }}
-  >
-   <Typography
-  onClick={handleToggle}
-  sx={{
-    display: "flex",
-    alignItems: "center", // Asegura que los elementos estén centrados verticalmente
-    color:'black'
-  }}
->
-  <Box
-    sx={{
-      width: 30, // Ajusta el tamaño del círculo
-      height: 30, // Ajusta el tamaño del círculo
-      borderRadius: "50%", // Hace que el Box tenga forma circular
-      backgroundColor: "white", // Fondo blanco
-      display: "flex", 
-      justifyContent: "center", // Centra horizontalmente las iniciales
-      alignItems: "center", // Centra verticalmente las iniciales
-      fontWeight: "regular", // Puedes ajustar el grosor de la letra si lo deseas
-      fontSize: "14px", // Ajusta el tamaño de la fuente
-      marginRight: 1, // Espaciado entre el círculo y el siguiente ícono
-      border: "0.5px solid grey", // Agrega un borde negro si lo deseas
-    }}
-  >
-    {user?.name?.charAt(0).toUpperCase()}{user?.lastName?.charAt(0).toUpperCase()}
+      </Grid>
+    </Toolbar>
   </Box>
-  <KeyboardArrowDownIcon sx={{ }} />
-</Typography>
+
+  {/* ---------------------- COMPONENTE DE CATEGORÍAS ---------------------- */}
+  <Categories />
+</AppBar>
 
 
-    <Grid item xs={2} md={1}>
-      <CartIcon
-        handleCartClick={handleCartClick}
-        cart={cart}
-      />
-    </Grid>
-
-    {expanded && (
-      <Box
-        sx={{
-          position: "absolute",
-          zIndex: 1,
-          backgroundColor: "white",
-          color:'black',
-          width: isMediumScreen ? "100%" : "80%",
-          p: 2,
-          pb: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-end",
-          transform: "translateX(-50%)",
-          top:'40px'
-        }}
-      >
-        <Typography
-          onClick={goToUserData}
-          variant="body2"
-          sx={{ pb: 1, cursor: "pointer", textAlign: "right" }}
-        >
-          Tus datos
-        </Typography>
-        <Typography
-          onClick={goToUserFavorites}
-          variant="body2"
-          sx={{ pb: 1, cursor: "pointer", textAlign: "right" }}
-        >
-          Favoritos
-        </Typography>
-        <Typography
-          onClick={goToHistory}
-          variant="body2"
-          sx={{ cursor: "pointer", textAlign: "right" }}
-        >
-          Tus compras
-        </Typography>
-      </Box>
-    )}
-
-    <Typography
-      onClick={handleLogout}
-      variant="body2"
-      sx={{
-        display: "flex",
-        cursor: "pointer",
-        ml: 2, // Espacio entre el icono y el texto
-        pt:0.5
-      }}
-    >
-      Logout <LogoutOutlinedIcon sx={{ ml: 1 }} />
-    </Typography>
-  </Box>
-): (
-                        <Grid item sx={{ ml: "auto" }}>
-                          <Box
-                            sx={{
-                              cursor: "pointer",
-                              color: "white",
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                            onClick={() => router.push("/login")}
-                          >
-                            LogIn &nbsp; <LoginOutlinedIcon />
-                          </Box>
-                        </Grid>
-                      )}
-                    </Grid>
-                  </Grid>
-                </Toolbar>
-              </Box>
-
-              {/* ---------------------- COMPONENTE DE CATEGORÍAS ---------------------- */}
-              <Categories />
-            </AppBar>
           )}
           {/*  EN CARRITO SI SE ENCUENTRA EN PANTALLA PEQUEÑA O MEDIANA NO SE MUESTRA */}
           {router.pathname === "/cart" && !isMediumScreen && (

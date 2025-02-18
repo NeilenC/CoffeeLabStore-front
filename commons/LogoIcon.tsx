@@ -22,8 +22,8 @@ const LogoIcon = () => {
           src="/Logo.png"
           alt="logo"
           sx={{
-           width:  isSmallScreen || isMediumScreen  ? "100px" : "30%",
-           height:  isSmallScreen || isMediumScreen ? "25px" : "30%",
+           width:  isSmallScreen || isMediumScreen  ? "100px" : "120px",
+           height:  isSmallScreen || isMediumScreen ? "25px" : "30px",
            my: "auto"
            }}
 
