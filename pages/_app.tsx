@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>My new cool app</title>
+        <title>Coffeelab</title>
       </Head>
       <Provider store={store}>
         <PersistGate persistor={persistor}>

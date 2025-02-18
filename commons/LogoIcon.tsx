@@ -19,7 +19,7 @@ const LogoIcon = () => {
         />
         <Box
           component="img"
-          src="/logo.png"
+          src="/Logo.png"
           alt="logo"
           sx={{
            width:  isSmallScreen || isMediumScreen  ? "100px" : "30%",
