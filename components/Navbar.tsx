@@ -16,7 +16,7 @@ import Categories from "./Categories";
 import theme from "../styles/theme";
 import Search from "./Search";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
-import LogOutOutlinedIcon from "@mui/icons-material/LogOutOutlined";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import NavListDrawer from "@/commons/NavListDrawer";
@@ -223,7 +223,7 @@ const Navbar = () => {
         pt:0.5
       }}
     >
-      Logout <LogOutOutlinedIcon sx={{ ml: 1 }} />
+      Logout <LogoutOutlinedIcon sx={{ ml: 1 }} />
     </Typography>
   </Box>
 ): (
