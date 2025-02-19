@@ -83,7 +83,7 @@ const Historial = () => {
               <Divider sx={{ my: 2 }} />
 
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-                {order.cartDetails.map((item:any, idx:any) => (
+                { order.cartDetails.map((item:any, idx:any) => (
                   <Box
                     key={idx}
                     sx={{
@@ -95,7 +95,7 @@ const Historial = () => {
                   >
                     <ProductDetails productId={item.productId} quantity={item.quantity} />
                   </Box>
-                ))}
+                ))  }
               </Box>
             </Box>
           ))

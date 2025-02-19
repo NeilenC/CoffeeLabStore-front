@@ -16,6 +16,7 @@ import { calculateTotalProducts, calculateTotalQuantity } from "@/functions";
 
 const OrderDetail = () => {
   const userId = useSelector((state: UserState) => state.user._id);
+
   const cartForUser = useSelector((state: CartState) => state.cart.carts[userId]);
   const totalPrice = calculateTotalQuantity(cartForUser);
   const totalProducts = calculateTotalProducts(cartForUser)
@@ -61,6 +62,7 @@ const OrderDetail = () => {
         top: isSmallScreen ? "12%" : ( isMediumScreen || isMidScreen ? "20%" :  "auto"),
         right: 1,
       width: isSmallScreen || isMediumScreen ? "93%" : "30%", 
+      
       // mr: isSmallScreen ? 0.7 : 5 && isMediumScreen ? 1.6 : 5 ,
       }}>
       {cartForUser && cartForUser.length > 0 && (
@@ -72,6 +74,7 @@ const OrderDetail = () => {
               width: "100%",
               bgcolor: "white",
               boxShadow: "0px 1.5px 3px -1px rgba(0,0,0,0.4)",
+         
             }}
           >
             <Typography variant="h6">Resumen de compra</Typography>

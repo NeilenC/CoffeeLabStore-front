@@ -16,11 +16,10 @@ const AddToCartButtom = ({ product, quantity }: any) => {
 
   function addItemToCart(product: Product, quantity: number) {
     if (!userId) {
-      // Si el usuario no está logueado, mostrar un mensaje de toast
       toast.error("¡Debes iniciar sesión para agregar productos al carrito!", {
         autoClose: 2000,
       });
-      return; // Evita continuar con la ejecución si no está logueado
+      return; 
     }
   
     if (product.stock > 0) {

@@ -37,7 +37,7 @@ export type AddToCartAction = {
   payload: {
     product: Product;
     userId: string;
-    quantity: number
+    quantity: number;
   };
 };
 
@@ -45,14 +45,14 @@ export type RemoveFromCartAction = {
   type: "REMOVE_FROM_CART";
   payload: {
     product: Product;
-    userId: string
+    userId: string;
   };
 };
 
-export type  ClearCartAction = {
+export type ClearCartAction = {
   type: "CLEAR_CART";
-  payload: { userId : string};
-}
+  payload: { userId: string };
+};
 
 export type AddTotalPriceAction = {
   type: "UPDATE_CART_TOTAL";
@@ -60,8 +60,7 @@ export type AddTotalPriceAction = {
 };
 
 export type UserState = {
-  user : {
-
+  user: {
     _id: string;
     name: string;
     lastName: string;
@@ -69,7 +68,7 @@ export type UserState = {
     address: string;
     role: string;
     phoneNumber: number;
-  }
+  };
 };
 
 export type OrderState = {
@@ -80,8 +79,10 @@ export type OrderState = {
   paymentData: paymentData;
   cartTotal: number;
   trackingNumber: string;
-  cartId: string[];
-  cartDetails: any
+  cartId?: string[] | null;
+  productId?: Product;
+  quantity?: number;
+  cartDetails?: any;
 };
 
 type userData = {

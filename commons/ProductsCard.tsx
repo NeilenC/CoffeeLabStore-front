@@ -52,18 +52,25 @@ const ProductsCard = ({ products = [] }: any) => {
       >
        
             <Link href={`/products/${product._id}`}>
-              <Box sx={{ 
-                 height: 257,
-                 overflow: "auto", justifyContent:"center", }}>
-                <Box
-                  component="img"
-                  src={product.imageURL[0]}
-                  sx={{ width: 250,  overflow:"scroll"
-                }}
-                />
-              </Box>
+            <Box sx={{ 
+  height: 257, 
+  display: "flex", 
+  justifyContent: "center", 
+  alignItems: "center" 
+}}>
+  <Box
+    component="img"
+    src={product.imageURL[0]}
+    sx={{
+      width: 250, 
+      height: '100%',  // Ajusta la altura
+      objectFit: "contain",  // Puede ser "cover" o "contain" dependiendo del resultado que desees
+    }}
+  />
+</Box>
+
             </Link>
-            <CardContent sx={{ p: 0 }}>
+            <CardContent sx={{ p: 0}}>
             <Typography variant="body1" color="initial" noWrap>
                 {product.name.length > 25 ? `${product.name.substring(0, 25)}...` : product.name}
             </Typography>

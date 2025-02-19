@@ -176,6 +176,10 @@ const ProductDetail = () => {
           sx={{whiteSpace: "pre-wrap"}}>
             Descripción: {product.description}
           </Typography>
+          <Typography variant="body1" gutterBottom
+          sx={{whiteSpace: "pre-wrap"}}>
+            Stock disponible: {product.stock}
+          </Typography>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <TextField
               type="number"

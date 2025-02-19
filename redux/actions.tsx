@@ -56,3 +56,22 @@ export const removeFromFavorites = (userId: string, productId: string) => ({
 export const resetState = () => ({
   type: RESET_STATE,
 });
+
+// ----------------------------------- COMPRA INDIVIDUAL DE UN PRODUCTO ----------------------------------
+
+
+export const SET_PRODUCT_FOR_PURCHASE = "SET_PRODUCT_FOR_PURCHASE";
+export const RESET_PRODUCT_FOR_PURCHASE = "RESET_PRODUCT_FOR_PURCHASE";
+
+export const setProductForPurchase = (product: Product, quantity: number) => {
+  return {
+    type: SET_PRODUCT_FOR_PURCHASE,
+    payload: { product, quantity },
+  };
+};
+
+export const resetProductForPurchase = () => {
+  return {
+    type: RESET_PRODUCT_FOR_PURCHASE,
+  };
+};
