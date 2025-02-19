@@ -15,10 +15,10 @@ import { Box, Divider, Typography } from "@mui/material";
 const inter = Inter({ subsets: ["latin"] });
 
 const images = [
-  { src: cafe, alt: "imagen" },
-  { src: osloweb, alt: "imagen" },
-  { src: trinity, alt: "imagen" },
-  { src: baristatools, alt: "imagen" },
+  { src: cafe.src, alt: "imagen" },
+  { src: osloweb.src, alt: "imagen" },
+  { src: trinity.src, alt: "imagen" },
+  { src: baristatools.src, alt: "imagen" },
 ];
 
 export default function Home() {
