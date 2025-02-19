@@ -1,33 +1,37 @@
 import React from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 import Image from "next/image";
 
-const ImageCarousel = ({ images }: any) => {
+const ImageCarousel = ({ images }: { images: { src: string; alt: string }[] }) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); 
+
   return (
     <Box
       sx={{
-        height: "500px",
+        width: "100%",
+        maxHeight: isSmallScreen ? "300px" : "500px", 
         overflow: "hidden",
-        position: "relative", // Asegura que el z-index funcione correctamente
-        zIndex: 0, // Menor que la navbar (que debería tener un z-index mayor)
+        position: "relative",
+        zIndex: 0,
       }}
     >
       <Carousel
         showStatus={false}
         showIndicators={false}
         showThumbs={false}
-        infiniteLoop={true}
+        infiniteLoop
         autoPlay={false}
         interval={5000}
         stopOnHover={false}
       >
-        {images.map((image: any, index: any) => (
+        {images.map((image, index) => (
           <Box
             key={index}
             sx={{
-              height: "500px",
+              height: isSmallScreen ? "300px" : "500px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -36,9 +40,9 @@ const ImageCarousel = ({ images }: any) => {
             <Image
               src={image.src}
               alt={image.alt}
-              width={900}
-              height={500} // Mantiene la proporción ajustándose al alto del contenedor
-              style={{ objectFit: "cover" }} // Hace que la imagen cubra el espacio sin distorsionarse
+              width={isSmallScreen ? 600 : 900} 
+              height={isSmallScreen ? 300 : 500}
+              style={{ objectFit: "cover", width: "100%", height: "auto" }} 
             />
           </Box>
         ))}

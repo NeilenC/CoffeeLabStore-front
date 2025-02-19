@@ -21,7 +21,6 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 import logo from "../public/chemexvector.png";
 
-
 const LoginForm = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -78,7 +77,7 @@ const LoginForm = () => {
   return (
     <Box
       sx={{
-        height: "90vh",
+        height: "100vh",
         backgroundImage: "url('/background1.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -92,9 +91,10 @@ const LoginForm = () => {
         component="main"
         sx={{
           bgcolor: "rgba(247, 247, 250, 0.8)",
-          width: "400px",
+          width: isSmallScreen ? "90%" : isMediumScreen ? "80%" : "400px", // Ajusta el ancho para pantallas pequeñas
           p: 3,
           borderRadius: "8px",
+          maxWidth: "100%", // Para asegurar que no se desborde
         }}
       >
         <CssBaseline />
@@ -151,7 +151,7 @@ const LoginForm = () => {
                     ),
                   }}
                 />
-                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
                   <Typography variant="body1">¿No tenés cuenta?</Typography>
                   <Typography
                     variant="body1"
@@ -174,7 +174,13 @@ const LoginForm = () => {
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2, color: "black" }}
+                  sx={{
+                    mt: 3,
+                    mb: 2,
+                    color: "black",
+                    fontSize: isSmallScreen ? "0.9rem" : "1rem", // Ajusta el tamaño del texto
+                    padding: isSmallScreen ? "10px" : "12px", // Ajusta el padding
+                  }}
                   disabled={isSubmitting}
                 >
                   Iniciar Sesión

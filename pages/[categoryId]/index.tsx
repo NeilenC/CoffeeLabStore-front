@@ -8,6 +8,7 @@ import {
   Button,
   Pagination,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import Image from "next/image";
@@ -31,33 +32,35 @@ import SideBarCategories from "@/commons/SideBarCategories";
 
 function CategoryDetail() {
   const router = useRouter();
-  const categoryId = router.query.categoryId
+  const categoryId = router.query.categoryId;
   const [products, setProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState("");
   const [subCategory, setSubcategory] = useState<SubCategory[]>([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState<boolean>(true);
   const productsPerPage = 9;
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = products.slice(
     indexOfFirstProduct,
-    indexOfLastProduct,
+    indexOfLastProduct
   );
-  const isSmallScreen = useMediaQuery('(max-width: 600px)')
-  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 1000px)");
   useEffect(() => {
-    getSubCategory({ categoryId, setSubcategory, subCategory });
+
+    getSubCategory({ categoryId, setSubcategory, subCategory })
   }, [categoryId]);
 
-
   useEffect(() => {
-      getProductsByCategory({
-        categoryId,
-        setProducts,
-        products 
-      });
+    setLoading(true);
+    getProductsByCategory({
+      categoryId,
+      setProducts,
+      products,
+    }).finally(() => setLoading(false));
   }, [categoryId, category]);
 
   useEffect(() => {
@@ -65,82 +68,47 @@ function CategoryDetail() {
   }, [categoryId]);
 
   const handleSelectSubcategory = (subcategoryId: string) => {
-    setSelectedSubCategory(subcategoryId)
-    router.push(`/${categoryId}/${subcategoryId}`)
+    setSelectedSubCategory(subcategoryId);
+    router.push(`/${categoryId}/${subcategoryId}`);
   };
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   };
 
-
-
   return (
-    <Box sx={{    
-      display: "flex",
-      height: "100vh", 
-      maxWidth:"100%" , 
-      flexDirection: isSmallScreen || isMediumScreen ? "column" : null,
-      mt: isMediumScreen && !isSmallScreen ? 10 : 2
-    }}>
-
-      {isSmallScreen || isMediumScreen ? 
-          (
-            <Box sx={{display: "flex", height:"20%"}}>
-    <Box sx={{  direction: "column", bgcolor:"white", width:"100%" }}>
-                <DrawerListCategories
-                  category={category} 
-                  subCategory={subCategory} 
-                  selectedSubCategory={selectedSubCategory} 
-                  setSelectedSubCategory={setSelectedSubCategory} 
-                  categoryId={categoryId} 
-                  />
-              </Box>
-            </Box>
-          ) : 
-          (
-            <SideBarCategories
-              category={category} 
-              subCategory={subCategory} 
-              selectedSubCategory={selectedSubCategory} 
-              setSelectedSubCategory={setSelectedSubCategory} 
-              categoryId={categoryId} 
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        maxWidth: "100%",
+        flexDirection: isSmallScreen || isMediumScreen ? "column" : null,
+        mt: isMediumScreen && !isSmallScreen ? 10 : 2,
+      }}
+    >
+      {isSmallScreen || isMediumScreen ? (
+        <Box sx={{ display: "flex", height: "20%" }}>
+          <Box sx={{ direction: "column", bgcolor: "white", width: "100%" }}>
+            <DrawerListCategories
+              category={category}
+              subCategory={subCategory}
+              selectedSubCategory={selectedSubCategory}
+              setSelectedSubCategory={setSelectedSubCategory}
+              categoryId={categoryId}
             />
-          )
-        }
-        {/* <Typography
-          variant="h5"
-          sx={{ justifyContent: "center", p: 4, fontWeight: "bold" }}
-        >
-          {category}
-        </Typography> */}
-        {/* <Grid container spacing={2} sx={{ ml: 2 }}>
-          {subCategory.map((subcategory) => (
-            <Grid
-              item
-              xs={12}
-              key={subcategory._id}
-              sx={{
-                "&:hover": {
-                  color: theme.palette.text.secondary,
-                  cursor: "pointer",
-                },
-                color:
-                  selectedSubCategory === subcategory.name
-                    ? "#DAA520"
-                    : "inherit",
-              }}
-              onClick={ () => {handleSelectSubcategory(subcategory._id)}}
-            >
-              <Typography sx={{ fontWeight: "bold" }}
-              
-               >
-                {subcategory.name}
-              </Typography>
-            </Grid>
-          ))}
-        </Grid> */}
-      <Grid container spacing={3} sx={{ display: "flex", pt: 3, m: "auto" }}>
+          </Box>
+        </Box>
+      ) : (
+        <SideBarCategories
+          category={category}
+          subCategory={subCategory}
+          selectedSubCategory={selectedSubCategory}
+          setSelectedSubCategory={setSelectedSubCategory}
+          categoryId={categoryId}
+        />
+      )}
+
+      <Grid container spacing={3} sx={{ display: "flex", m:'auto',  justifyContent:'center', width:'100%',}}>
         <Box sx={{}}>
           {selectedSubCategory === "Oslo" ? (
             <Box>
@@ -151,14 +119,26 @@ function CategoryDetail() {
           null}
         </Box>
         {/* MAP DE LOS PRODUCTOS */}
-
-        {products.length ? (
-          <Box sx={{ mr: 1 }}>
+        {loading ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              minHeight: "50vh",
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : products.length > 0 ? (
+          <Box sx={{ mr: 1 , width:'100%' }}>
             <Box sx={{ m: "auto", bgcolor: "whitesmoke" }}>
               <ProductsCard products={currentProducts} />
-              {/* PAGINACION */}
             </Box>
-            <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+
+            {/* Paginación */}
+            <Box sx={{ mt: 3, display: "flex", justifyContent: "center"}}>
               <Button
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -185,15 +165,16 @@ function CategoryDetail() {
             </Box>
           </Box>
         ) : (
+          // Mostrar mensaje solo si no hay productos y no está cargando
           <Grid
             container
             key="no-products-message"
             sx={{ width: "50%", m: "auto" }}
           >
-            <Grid item xs={5} sm={5}>
-              <Typography variant="h6"> Lo sentimos!</Typography>
+            <Grid item xs={12} sx={{ textAlign: "center" }}>
+              <Typography variant="h6">¡Lo sentimos!</Typography>
               <Typography variant="body1">
-                No hay productos para esta categoría.{" "}
+                No hay productos para esta categoría.
               </Typography>
             </Grid>
           </Grid>
@@ -204,12 +185,3 @@ function CategoryDetail() {
 }
 
 export default CategoryDetail;
-
-
-
-
-
-
-
-
-

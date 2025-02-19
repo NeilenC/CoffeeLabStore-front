@@ -73,17 +73,14 @@ const RegistrationForm = () => {
         router.push("/login");
       } else {
         const errorData = await response.json();
-
         const errorMessage =
           errorData?.message || "Hubo un error, por favor vuelva a intentar";
-
         toast.error(errorMessage, {
           autoClose: 1500,
         });
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
-      // Mensaje genérico para errores de red u otros casos no controlados
       toast.error(
         "Hubo un problema de conexión. Por favor, inténtalo más tarde.",
         {
@@ -105,9 +102,10 @@ const RegistrationForm = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        minHeight: "100vh",
       }}
     >
-      <Box sx={{ paddingBlock: 2.5 }}>
+      <Box sx={{ paddingBlock: 2.5, paddingInline:'20px' }}>
         <Container
           component="main"
           maxWidth="sm"
@@ -125,7 +123,7 @@ const RegistrationForm = () => {
               alignItems: "center",
             }}
           >
-            <Typography component="h1" variant="h5" sx={{ pb: '1rem '}}>
+            <Typography component="h1" variant="h5" sx={{ pb: '1rem ' }}>
               Regístrate
             </Typography>
             <Formik
@@ -136,7 +134,7 @@ const RegistrationForm = () => {
               {({ isSubmitting, errors, touched }) => (
                 <Form noValidate>
                   <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={6} sm={6}>
                       <Field
                         as={TextField}
                         variant="outlined"
@@ -155,23 +153,9 @@ const RegistrationForm = () => {
                             <ErrorMessage name="name" />
                           </Box>
                         }
-                        sx={{
-                          "& .MuiOutlinedInput-root": {
-                            "& fieldset": {
-                              borderColor: touched.name
-                                ? errors.name
-                                  ? "red"
-                                  : "orange"
-                                : "orange",
-                            },
-                            "&:hover fieldset": {
-                              borderColor: "orange",
-                            },
-                          },
-                        }}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={6} sm={6}>
                       <Field
                         as={TextField}
                         variant="outlined"
@@ -192,24 +176,10 @@ const RegistrationForm = () => {
                             <ErrorMessage name="lastName" />
                           </Box>
                         }
-                        sx={{
-                          "& .MuiOutlinedInput-root": {
-                            "& fieldset": {
-                              borderColor: touched.lastName
-                                ? errors.lastName
-                                  ? "red"
-                                  : "orange"
-                                : "orange",
-                            },
-                            "&:hover fieldset": {
-                              borderColor: "orange",
-                            },
-                          },
-                        }}
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={12}>
+                    <Grid item xs={12}>
                       <Field
                         as={TextField}
                         variant="outlined"
@@ -231,7 +201,7 @@ const RegistrationForm = () => {
                       />
                     </Grid>
 
-                    <Grid item xs={12} sm={12}>
+                    <Grid item xs={12}>
                       <Field
                         as={TextField}
                         variant="outlined"
@@ -257,7 +227,7 @@ const RegistrationForm = () => {
                       />
                     </Grid>
 
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sm={6}>
                       <Field
                         as={TextField}
                         variant="outlined"
@@ -294,23 +264,9 @@ const RegistrationForm = () => {
                             </InputAdornment>
                           ),
                         }}
-                        sx={{
-                          "& .MuiOutlinedInput-root": {
-                            "& fieldset": {
-                              borderColor: touched.password
-                                ? errors.password
-                                  ? "red"
-                                  : "orange"
-                                : "orange",
-                            },
-                            "&:hover fieldset": {
-                              borderColor: "orange",
-                            },
-                          },
-                        }}
                       />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={6} sm={6}>
                       <Field
                         as={TextField}
                         variant="outlined"
@@ -350,28 +306,19 @@ const RegistrationForm = () => {
                             </InputAdornment>
                           ),
                         }}
-                        sx={{
-                          "& .MuiOutlinedInput-root": {
-                            "& fieldset": {
-                              borderColor: touched.confirmPassword
-                                ? errors.confirmPassword
-                                  ? "red"
-                                  : "orange"
-                                : "orange",
-                            },
-                            "&:hover fieldset": {
-                              borderColor: "orange",
-                            },
-                          },
-                        }}
                       />
                     </Grid>
                   </Grid>
+
                   <Button
                     type="submit"
                     fullWidth
                     variant="contained"
-                    sx={{ mt: 3, mb: 2, color: "black" }}
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      color: "black",
+                    }}
                     disabled={isSubmitting}
                   >
                     Registrarse
