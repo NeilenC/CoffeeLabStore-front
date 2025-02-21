@@ -39,7 +39,7 @@ function CategoryDetail() {
   const [selectedSubCategory, setSelectedSubCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState<boolean>(true);
-  const productsPerPage = 9;
+  const productsPerPage = 8;
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -133,7 +133,7 @@ function CategoryDetail() {
           </Box>
         ) : products.length > 0 ? (
           <Box sx={{ mr: 1, width: "100%" }}>
-            <Box sx={{ m: "auto", bgcolor: "whitesmoke" }}>
+            <Box sx={{ m: "auto"}}>
               <ProductsCard products={currentProducts} />
             </Box>
 

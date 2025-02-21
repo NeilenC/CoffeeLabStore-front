@@ -23,7 +23,7 @@ const BuyButton = ({ product, quantity }: { product: Product; quantity: number }
     <Box sx={{ pt: 2 }}>
       <Button
         sx={{
-          fontWeight: "bold",
+          fontWeight: "regular",
           "&:hover": { color: "white", bgcolor: "black" },
         }}
         variant="contained"

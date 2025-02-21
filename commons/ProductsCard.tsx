@@ -13,7 +13,7 @@ import { Product } from "./types.interface";
 import AddToFavButton from "./AddToFavButton";
 import { useRouter } from "next/router";
 
-const ProductsCard = ({ products = [] }: any) => {
+const ProductsCard = ({ products = [], isInSubcategory = false }: any) => {
   const [visibleProducts, setVisibleProducts] = useState(9);
   const [visibleProductsList, setVisibleProductsList] = useState<Product[]>([]);
   const router = useRouter();
@@ -33,18 +33,20 @@ const ProductsCard = ({ products = [] }: any) => {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center",
+        justifyContent: isInSubcategory ? "flex-start" : "center",
         alignItems: "center",
-        pb: 10,
+        py: 5,
       }}
     >
       <Box
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          maxWidth: { xs: "90%", md: "90%", sm: "90%" },
-          // bgcolor: { xs: "red", md: "blue", sm: "pink" },
-          bgcolor:'#eeeeee', p:1, borderRadius:'4px',
+          maxWidth: isInSubcategory ? "100%" : "90%",
+          minWidth: isInSubcategory ? "100%" : "90%",
+          p: 1,
+          bgcolor: "#eeeeee",
+          borderRadius: "4px",
           alignSelf: "center",
         }}
       >
@@ -55,8 +57,22 @@ const ProductsCard = ({ products = [] }: any) => {
               display: "flex",
               p: 1,
               boxSizing: "border-box",
-              flex: { xs: "1 1 50%", sm: "1 1 33.33%", md: "1 1 25%" },
-              maxWidth: { xs: "50%", sm: "33.33%", md: "25%" },
+              // Ajustar el tamaño de las cards si estamos en subcategoría
+              flex: {
+                xs: "1 1 50%",
+                sm: "1 1 33.33%",
+                md: isInSubcategory ? "1 1 33%" : "1 1 25%",
+              },
+              minWidth: {
+                xs: "50%",
+                sm: "33.33%",
+                md: isInSubcategory ? "150px" : "25%",
+              },
+              maxWidth: {
+                xs: "50%",
+                sm: "33.33%",
+                md: isInSubcategory ? "250px" : " 25%",
+              },
             }}
           >
             <Card
@@ -109,31 +125,31 @@ const ProductsCard = ({ products = [] }: any) => {
         ))}
 
         {/* Botón "Ver más" */}
-      {visibleProducts < products.length &&
-        window.location.pathname === "/" && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              mt: 2,
-              width: "100%",
-              pb:1
-            }}
-          >
-            <Button
-              variant="contained"
-              onClick={() => setVisibleProducts((prev) => prev + 8)}
+        {visibleProducts < products.length &&
+          window.location.pathname === "/" && (
+            <Box
               sx={{
-                borderRadius: 8,
-                color: "black",
-                "&:hover": { color: "white", bgcolor: "black" },
-                width: { xs: "80%", md: "90%" },
+                display: "flex",
+                justifyContent: "center",
+                mt: 2,
+                width: "100%",
+                pb: 1,
               }}
             >
-              Ver más
-            </Button>
-          </Box>
-        )}
+              <Button
+                variant="contained"
+                onClick={() => setVisibleProducts((prev) => prev + 8)}
+                sx={{
+                  borderRadius: 8,
+                  color: "black",
+                  "&:hover": { color: "white", bgcolor: "black" },
+                  width: { xs: "80%", md: "90%" },
+                }}
+              >
+                Ver más
+              </Button>
+            </Box>
+          )}
       </Box>
     </Box>
   );

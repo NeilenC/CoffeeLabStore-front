@@ -32,7 +32,7 @@ function CategoryDetail() {
   const [currentPage, setCurrentPage] = useState(1);
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 1000px)");
-  const productsPerPage = 9;
+  const productsPerPage = 8;
   const totalPages = Math.ceil(products.length / productsPerPage);
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -95,17 +95,15 @@ function CategoryDetail() {
         />
       )}
 
-      <Grid container sx={{ pt: 3, justifyContent: "center", width: "100%" }}>
+      <Grid container sx={{ pt: 3}}>
         {loading ? (
           // Loader
           <Box sx={{ display: "flex", justifyContent: "center", mt: 30}}>
             <CircularProgress size={50} />
           </Box>
         ) : products.length ? (
-          <Box sx={{ pb: 3, width: "90%" }}>
-            <Box sx={{ bgcolor: "whitesmoke" }}>
-              <ProductsCard products={currentProducts} />
-            </Box>
+          <Box sx={{ pb: 3, width:'100%'}}>
+              <ProductsCard products={currentProducts} isInSubcategory={true}/>
             {/* PAGINACIÓN */}
             <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
               <Button disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)}>

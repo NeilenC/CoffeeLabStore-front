@@ -27,9 +27,12 @@ const Cafeteras = () => {
   useEffect(() => {
     const getSubCategory = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/subcategory`, {
-          method: "GET",
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE}/subcategory`,
+          {
+            method: "GET",
+          }
+        );
 
         const dataPromise = response.json();
         const data = await dataPromise;
@@ -46,64 +49,62 @@ const Cafeteras = () => {
 
   const handleCafeteraClick = (cafeteraName: string) => {
     const matchedSubCategory = subCategory.find((sub) =>
-      sub.name.includes(cafeteraName.toLowerCase()),
+      sub.name.includes(cafeteraName.toLowerCase())
     );
-
 
     if (matchedSubCategory) {
       router.push(`/${matchedSubCategory.category}/${matchedSubCategory._id}`);
-    } 
+    }
   };
 
   return (
     <Box
       sx={{
+        justifyContent: "center",
+        textAlign: "center",
+        p: 3,
         bgcolor: "#eeeeee",
-        px: { xs: 2, sm: 4, md: "28%" },
-        py: { xs: 4, sm: 6, md: 8 },
-        pb: { xs: 4, sm: 6, md: 7 },
       }}
     >
-      <Box sx={{ justifyContent: "center", textAlign: "center", pb: 5 }}>
-        <Typography sx={{ fontWeight: "bold", margin: "auto" }}>
-          Encontrá tu cafetera ideal acá
-        </Typography>
-      </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", pb: 2 }}>
-        <Grid container spacing={2}>
-          {cafeteras.map(({ img, alt, description }) => (
-            <Box
-              onClick={() => {
-                handleCafeteraClick(alt);
-              }}
-              key={alt}
-              sx={{
-                textAlign: "center",
-                m: "auto",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                width: { xs: "100%", sm: "60%", md: "calc(80% / 5)" },
-                "&:hover": { color: theme.palette.text.secondary },
-                cursor:'pointer'
-
-              }}
+      <Typography
+        variant="h5"
+        sx={{ fontWeight: "bold", margin: "auto", py: 2 }}
+      >
+        Encontra tu cafetera ideal acá
+      </Typography>
+      <Grid
+        container
+        justifyContent="center"
+        sx={{ width: "100%" }}
+      >
+        {cafeteras.map(({ img, alt, description }) => (
+          <Grid
+            item
+            xs={4}
+            sm={2}
+            md={1}
+            lg={1}
+            key={alt}
+            sx={{
+              width: "100%",
+              textAlign: "center",
+              cursor: "pointer",
+              "&:hover": { color: "text.secondary" },
+              py:2
+            }}
+            onClick={() => handleCafeteraClick(alt)}
+          >
+            {/* Imagen */}
+            <Image alt={alt} src={img} height={80} width={80} />
+            {/* Descripción */}
+            <Typography
+              sx={{ fontWeight: "bold", mt: 1, width: "90%", mx: "auto" }}
             >
-              <Image alt={alt} src={img} height={80} width={80} />
-              <Typography
-                sx={{
-                  m: "auto",
-                  marginTop: "auto",
-                  fontWeight: "bold",
-                  width: "90%",
-                }}
-              >
-                {description}
-              </Typography>
-            </Box>
-          ))}
-        </Grid>
-      </Box>
+              {description}
+            </Typography>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

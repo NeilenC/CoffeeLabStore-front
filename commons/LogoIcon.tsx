@@ -7,7 +7,7 @@ const LogoIcon = () => {
     const isMediumScreen = useMediaQuery('(max-width: 1000px)')
 
   return (
-    <Box sx={{ maxWidth: "38%" }}>
+    <Box >
     <Link href={"/"}>
       <Grid item sx={{ display: "flex", }} xs={2} md={12} sm={12} >
         <Box

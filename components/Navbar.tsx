@@ -112,20 +112,19 @@ const Navbar = () => {
                     display: "flex",
                     justifyContent: "center",
                     width: "100%",
+                    px: '10px !important ', 
+                    pr:'10px'
                   }}
                 >
                   {/* Contenedor que divide el espacio en tres partes iguales */}
                   <Grid
                     container
-                    spacing={2}
-                    sx={{ width: "100%" }}
-                    justifyContent="space-between"
                     alignItems="center"
                   >
                     {/* Logo en el margen izquierdo */}
                     <Grid
                       item
-                      sx={{ justifyContent: "flex-start", width: "200px" }}
+                      sx={{ justifyContent: "flex-start",  }}
                     >
                       <LogoIcon />
                     </Grid>
@@ -137,6 +136,7 @@ const Navbar = () => {
                         flexGrow: 1,
                         display: "flex",
                         justifyContent: "center",
+                        
                       }}
                     >
                       <Search />
@@ -243,6 +243,7 @@ const Navbar = () => {
                               display: "flex",
                               alignItems: "center",
                               cursor: "pointer",
+                              pt: { md: 0.5},
                             }}
                           >
                             Cerrar Sesión{" "}

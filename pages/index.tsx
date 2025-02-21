@@ -60,22 +60,21 @@ export default function Home() {
     <Box>
       <ImageCarousel images={images} />
       <Cafeteras />
-      <Typography variant="h3" sx={{ p: 5, textAlign: "center" }}>
+      <Typography variant="h3" sx={{ pt: 5, textAlign: "center" }}>
         {" "}
         Nuestros cafés{" "}
       </Typography>
 
+      <ProductsCard products={coffeeProducts} />
 
-  <ProductsCard products={coffeeProducts} />
-
-      <Typography variant="h3" sx={{ p: 5, textAlign: "center" }}>
+      <Typography variant="h3" sx={{ pt: 5, textAlign: "center" }}>
         {" "}
-      Herramientas para Baristas
+        Barista Tools
       </Typography>
 
       <ProductsCard products={kitProducts} />
 
-      <Typography variant="h3" sx={{ p: 5, textAlign: "center" }}>
+      <Typography variant="h3" sx={{ pt: 5, textAlign: "center" }}>
         {" "}
         Otros que te pueden interesar{" "}
       </Typography>
