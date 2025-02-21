@@ -8,7 +8,7 @@ const NotFound = ({children}: any) => {
   return (
       <Box
           sx={{
-            bgcolor: "black",
+            bgcolor: "#1f2833",
             width: "70%",
             p: 8,
             m: "auto",
@@ -37,7 +37,7 @@ const NotFound = ({children}: any) => {
               router.push("/");
             }}
           >
-            Ir a inicio
+            Volver a inicio
           </Button>
       </Box>
   )

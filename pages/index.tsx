@@ -10,7 +10,8 @@ import Cafeteras from "@/components/Cafeteras";
 import ProductsCard from "@/commons/ProductsCard";
 import { getProducts } from "@/functionsFetch";
 import { Product } from "@/commons/types.interface";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography, useMediaQuery } from "@mui/material";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,41 +23,59 @@ const images = [
 ];
 
 export default function Home() {
+  const [visibleProducts, setVisibleProducts] = useState(9);
+  const [visibleProductsList, setVisibleProductsList] = useState<Product[]>([]);
+  const router = useRouter();
+  const ruta = router.pathname;
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 1000px)");
   const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (window.location.pathname === "/") {
+      setVisibleProductsList(products.slice(0, visibleProducts));
+    } else {
+      setVisibleProductsList(products);
+    }
+  }, [visibleProducts, products]);
+
   useEffect(() => {
     getProducts({ setProducts, products });
   }, []);
 
   const coffeeProducts = products.filter(
-    (product) => product.category.name === "Café",
+    (product) => product.category.name === "Café"
   );
   const kitProducts = products.filter(
-    (product) => product.category.name === "Accesorios",
+    (product) => product.category.name === "Accesorios"
   );
   const otherProducts = products.filter(
     (product) =>
       product.category.name !== "Accesorios" &&
       product.category.name !== "Café" &&
-      product.category.name !== "Equipamiento",
+      product.category.name !== "Equipamiento"
   );
 
   return (
     <Box>
       <ImageCarousel images={images} />
       <Cafeteras />
-      <Typography variant="h5" sx={{ p: 5, textAlign: "center" }}>
+      <Typography variant="h3" sx={{ p: 5, textAlign: "center" }}>
         {" "}
         Nuestros cafés{" "}
       </Typography>
-      <ProductsCard products={coffeeProducts} />
 
-      <Typography variant="h5" sx={{ p: 5, textAlign: "center" }}>
+
+  <ProductsCard products={coffeeProducts} />
+
+      <Typography variant="h3" sx={{ p: 5, textAlign: "center" }}>
         {" "}
-        Barista Tools
+      Herramientas para Baristas
       </Typography>
+
       <ProductsCard products={kitProducts} />
 
-      <Typography variant="h5" sx={{ p: 5, textAlign: "center" }}>
+      <Typography variant="h3" sx={{ p: 5, textAlign: "center" }}>
         {" "}
         Otros que te pueden interesar{" "}
       </Typography>

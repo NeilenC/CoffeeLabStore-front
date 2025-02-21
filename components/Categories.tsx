@@ -29,13 +29,15 @@ const Categories = () => {
     getCategories({ setCategories });
   }, [selectedCategory]);
 
-  const handleMouseEnterCategory = useCallback((categoryId: string) => {
-    getSubCategory(categoryId);
-    setSelectedCategory(categoryId);
-    setIsMouseOverCategory(true);
-    setIsClosingCategory(false);
-
-  }, [selectedCategory]);
+  const handleMouseEnterCategory = useCallback(
+    (categoryId: string) => {
+      getSubCategory(categoryId);
+      setSelectedCategory(categoryId);
+      setIsMouseOverCategory(true);
+      setIsClosingCategory(false);
+    },
+    [selectedCategory]
+  );
 
   const handleMouseLeaveCategory = useCallback(() => {
     if (!isMouseOverSubcategory) {
@@ -67,7 +69,7 @@ const Categories = () => {
         `${process.env.NEXT_PUBLIC_API_BASE}/subcategory/${categoryId}`,
         {
           method: "GET",
-        },
+        }
       );
       const data = await response.json();
       if (response.ok) {
@@ -79,8 +81,11 @@ const Categories = () => {
     }
   };
 
-  const handleSubcategoryChange = (categoryId: string, subcategoryId: string | null) => {
-    if( subcategoryId !== null) {
+  const handleSubcategoryChange = (
+    categoryId: string,
+    subcategoryId: string | null
+  ) => {
+    if (subcategoryId !== null) {
       router.push(`/${categoryId}/${subcategoryId}`);
     } else {
       router.push(`/${categoryId}`);
@@ -103,7 +108,6 @@ const Categories = () => {
     };
   }, [isClosingCategory]);
 
-
   return (
     <Grid container sx={{ bgcolor: "white", height: 50 }}>
       {categories.map((category: Category) => {
@@ -117,9 +121,11 @@ const Categories = () => {
             sx={{ mx: "auto" }}
             onMouseEnter={() => handleMouseEnterCategory(category._id)}
             onMouseLeave={handleMouseLeaveCategory}
-            >
+          >
             <Typography
-              onClick={() => {handleSubcategoryChange(category._id, null)}}
+              onClick={() => {
+                handleSubcategoryChange(category._id, null);
+              }}
               variant="h6"
               sx={{
                 color:
@@ -145,27 +151,38 @@ const Categories = () => {
                   columns: subCategory.length > 4 ? "2" : "1",
                   width: "250px",
                   columnGap: "30px",
-                  cursor: 'pointer'
+                  cursor: "pointer",
                 }}
                 onMouseEnter={handleMouseEnterSubcategory}
                 onMouseLeave={handleMouseLeaveSubcategory}
               >
-                {subCategory.map((subcategory: any) => (
-                  <Box key={subcategory._id} sx={{ py: 0.5 }}>
+                <Box sx={{}}>
+                  {subCategory.map((subcategory: any) => (
                     <Typography
+                      key={subcategory._id}
                       variant="body2"
                       sx={{
-                        paddingLeft: 1,
                         textAlign: "left",
-                        "&:hover": { color: "grey" },
+                        cursor: "pointer",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          color: "grey",
+                          backgroundColor: "#f5f5f5",
+                          borderRadius: "4px",
+                        },
+                        "&:active": {
+                          transform: "scale(0.98)",
+                        },
+                        borderLeft: "3px solid transparent",
                       }}
-                      onClick={() => handleSubcategoryChange(category._id, subcategory._id)}
+                      onClick={() =>
+                        handleSubcategoryChange(category._id, subcategory._id)
+                      }
                     >
-                      {subcategory.name}
+                      <Box sx={{ py: 1 }}>{subcategory.name} </Box>
                     </Typography>
-                    {/* <Divider sx={{width:"80%", ml:1}}/> */}
-                  </Box>
-                ))}
+                  ))}
+                </Box>
               </Box>
             ) : null}
           </Grid>

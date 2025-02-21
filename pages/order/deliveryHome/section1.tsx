@@ -146,7 +146,7 @@ const Section1 = ({
             handleSaveToLocalStorage();
           }
         }}
-          sx={{ color: "black" }}
+          sx={{ color: "black", background:'orange' , '&:hover':{background:'lightgrey'} }}
         >
           Siguiente
         </Button>

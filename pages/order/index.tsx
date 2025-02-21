@@ -54,7 +54,7 @@ const FormaEntrega = () => {
       router.push("/order/deliveryHome");
     }
     if (selectedValue === "local") {
-      router.push("/order/retiroLocal");
+      router.push("/order/localpickup");
     }
   }
 

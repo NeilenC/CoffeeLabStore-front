@@ -280,7 +280,6 @@ const Navbar = () => {
                 height: "80px",
                 bgcolor: "white",
                 alignItems: "center",
-                ml: 1,
               }}
             >
               <LogoIcon />

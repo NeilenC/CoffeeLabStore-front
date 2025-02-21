@@ -13,14 +13,13 @@ import { Product } from "./types.interface";
 import AddToFavButton from "./AddToFavButton";
 import { useRouter } from "next/router";
 
-
 const ProductsCard = ({ products = [] }: any) => {
   const [visibleProducts, setVisibleProducts] = useState(9);
   const [visibleProductsList, setVisibleProductsList] = useState<Product[]>([]);
-  const router = useRouter()
-  const ruta = router.pathname  
-  const isSmallScreen = useMediaQuery('(max-width: 600px)')
-  const isMediumScreen = useMediaQuery('(max-width: 1000px)')
+  const router = useRouter();
+  const ruta = router.pathname;
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isMediumScreen = useMediaQuery("(max-width: 1000px)");
 
   useEffect(() => {
     if (window.location.pathname === "/") {
@@ -31,69 +30,85 @@ const ProductsCard = ({ products = [] }: any) => {
   }, [visibleProducts, products]);
 
   return (
-    <Box sx={{ 
-      display: "flex",
-      flexDirection: "row", 
-      flexWrap: "wrap", 
-      // pl: 1,
-       justifyContent: ruta == '/' || ruta == '/favorites'  && isSmallScreen || isMediumScreen ? "center" :  null ,
-       maxWidth: "100%", 
-
-      }}>
-    {visibleProductsList.map((product: Product) => (
-    <Box sx={{ p:1,  flex: "0 0 30%", }}>
-      <Card
-        key={product._id} 
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        pb: 10,
+      }}
+    >
+      <Box
         sx={{
-          maxWidth: 282,
-          p: 2,
-          m: "auto", 
+          display: "flex",
+          flexWrap: "wrap",
+          maxWidth: { xs: "90%", md: "90%", sm: "90%" },
+          // bgcolor: { xs: "red", md: "blue", sm: "pink" },
+          bgcolor:'#eeeeee', p:1, borderRadius:'4px',
+          alignSelf: "center",
         }}
       >
-       
-            <Link href={`/products/${product._id}`}>
-            <Box sx={{ 
-  height: 257, 
-  display: "flex", 
-  justifyContent: "center", 
-  alignItems: "center" 
-}}>
-  <Box
-    component="img"
-    src={product.imageURL[0]}
-    sx={{
-      width: 250, 
-      height: '100%',  // Ajusta la altura
-      objectFit: "contain",  // Puede ser "cover" o "contain" dependiendo del resultado que desees
-    }}
-  />
-</Box>
-
-            </Link>
-            <CardContent sx={{ p: 0}}>
-            <Typography variant="body1" color="initial" noWrap>
-                {product.name.length > 25 ? `${product.name.substring(0, 25)}...` : product.name}
-            </Typography>
-              <Box
-                color="black"
-                sx={{ py: 1, display: "flex", justifyContent: "space-between" }}
-              >
-                <Typography variant="body1" sx={{ my: "auto" }}>
-                  ${product.price}
+        {visibleProductsList.map((product: Product) => (
+          <Box
+            key={product._id}
+            sx={{
+              display: "flex",
+              p: 1,
+              boxSizing: "border-box",
+              flex: { xs: "1 1 50%", sm: "1 1 33.33%", md: "1 1 25%" },
+              maxWidth: { xs: "50%", sm: "33.33%", md: "25%" },
+            }}
+          >
+            <Card
+              sx={{
+                width: "100%",
+                m: "auto",
+              }}
+            >
+              <Link href={`/products/${product._id}`}>
+                <Box
+                  sx={{
+                    height: { xs: 180, sm: 200, md: 250 },
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={product.imageURL[0]}
+                    sx={{
+                      maxHeight: { xs: 140, sm: 180, md: 220 },
+                      objectFit: "contain",
+                    }}
+                  />
+                </Box>
+              </Link>
+              <CardContent sx={{ p: { xs: 1, sm: 2 } }}>
+                <Typography variant="body1" color="initial" noWrap>
+                  {product.name.length > 25
+                    ? `${product.name.substring(0, 25)}...`
+                    : product.name}
                 </Typography>
-                
-                <AddToFavButton product={product}  />
-              </Box>
-
-              <AddToCartButtom product={product} quantity={1} />
-            </CardContent>
-          </Card>
+                <Box
+                  color="black"
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography variant="body1" sx={{ my: "auto" }}>
+                    ${product.price}
+                  </Typography>
+                  <AddToFavButton product={product} />
+                </Box>
+                <AddToCartButtom product={product} quantity={1} />
+              </CardContent>
+            </Card>
           </Box>
-        // </Grid>
+        ))}
 
-      ))}
-
-      {/* Botón "Ver más" */}
+        {/* Botón "Ver más" */}
       {visibleProducts < products.length &&
         window.location.pathname === "/" && (
           <Box
@@ -101,7 +116,8 @@ const ProductsCard = ({ products = [] }: any) => {
               display: "flex",
               justifyContent: "center",
               mt: 2,
-              width: { xs: "100%", md: "100%" },
+              width: "100%",
+              pb:1
             }}
           >
             <Button
@@ -118,6 +134,7 @@ const ProductsCard = ({ products = [] }: any) => {
             </Button>
           </Box>
         )}
+      </Box>
     </Box>
   );
 };

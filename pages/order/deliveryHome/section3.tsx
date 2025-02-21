@@ -243,7 +243,7 @@ const Section3 = ({
             
           }
         }}
-        sx={{ color: "black" }}
+        sx={{ color: "black", background:'orange' , '&:hover':{background:'lightgrey'} }}
       >
         Confirmar
       </Button>

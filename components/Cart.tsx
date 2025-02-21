@@ -38,16 +38,15 @@ const CartItems = () => {
     <Box 
     display="flex" 
     flexDirection={isSmallScreen ? "column" : "row"} 
-    sx={{ p: isSmallScreen || isMediumScreen ? 2 : 5,
+    sx={{ pb:5,
     }}>
       <Box
        width={isSmallScreen || isMediumScreen ? "100%" : "100%"} 
        >
+            {cartForUser && cartForUser.length ? (
         <Grid container 
          width={isSmallScreen || isMediumScreen ? "100%" : "68%"}
         >
-            {cartForUser && cartForUser.length ? (
-              <>
             { cartForUser.map((product: any) => (
              // CARD DEL CARRITO 
               <CartCard product={product}/>
@@ -60,11 +59,11 @@ const CartItems = () => {
              vaciar carrito
             </Button>
           </Box>
-                </>
+          </Grid>
+
             ) : (
                <NotFound> No hay productos en el carrito </NotFound>
             )}
-          </Grid>
         </Box>
 
         {/* DETALLES DE COMPRA */}

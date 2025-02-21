@@ -50,8 +50,7 @@ function CategoryDetail() {
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
   const isMediumScreen = useMediaQuery("(max-width: 1000px)");
   useEffect(() => {
-
-    getSubCategory({ categoryId, setSubcategory, subCategory })
+    getSubCategory({ categoryId, setSubcategory, subCategory });
   }, [categoryId]);
 
   useEffect(() => {
@@ -108,7 +107,16 @@ function CategoryDetail() {
         />
       )}
 
-      <Grid container spacing={3} sx={{ display: "flex", m:'auto',  justifyContent:'center', width:'100%',}}>
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          display: "flex",
+          m: "auto",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Box sx={{}}>
           {selectedSubCategory === "Oslo" ? (
             <Box>
@@ -120,25 +128,17 @@ function CategoryDetail() {
         </Box>
         {/* MAP DE LOS PRODUCTOS */}
         {loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              minHeight: "50vh",
-            }}
-          >
-            <CircularProgress />
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress size={50} />
           </Box>
         ) : products.length > 0 ? (
-          <Box sx={{ mr: 1 , width:'100%' }}>
+          <Box sx={{ mr: 1, width: "100%" }}>
             <Box sx={{ m: "auto", bgcolor: "whitesmoke" }}>
               <ProductsCard products={currentProducts} />
             </Box>
 
             {/* Paginación */}
-            <Box sx={{ mt: 3, display: "flex", justifyContent: "center"}}>
+            <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
               <Button
                 disabled={currentPage === 1}
                 onClick={() => handlePageChange(currentPage - 1)}

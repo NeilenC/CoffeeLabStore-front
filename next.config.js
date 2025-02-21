@@ -11,6 +11,7 @@ const nextConfig = {
       "llebarias.es",
       "mallorca-hogar.cl",
       "www.mallorca-hogar.cl",
+      "dcdn.mitiendanube.com"
     ],
   },
   eslint: {
