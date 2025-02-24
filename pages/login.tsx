@@ -179,7 +179,7 @@ const LoginForm = () => {
                     mb: 2,
                     color: "black",
                     fontSize: isSmallScreen ? "0.9rem" : "1rem", // Ajusta el tamaño del texto
-                    padding: isSmallScreen ? "10px" : "12px", // Ajusta el padding
+                    padding:  "5px", // Ajusta el padding
                   }}
                   disabled={isSubmitting}
                 >

@@ -309,7 +309,24 @@ const RegistrationForm = () => {
                       />
                     </Grid>
                   </Grid>
-
+                  <Box sx={{ display: "flex", justifyContent: "center", mt: 1 }}>
+                  <Typography variant="body1">¿Ya tenés una cuenta?</Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      ml: 1,
+                      "&:hover": {
+                        color: theme.palette.primary.main,
+                        cursor: "pointer",
+                      },
+                    }}
+                    onClick={() => {
+                      router.push("/login");
+                    }}
+                  >
+                   Iniciá sesión
+                  </Typography>
+                </Box>
                   <Button
                     type="submit"
                     fullWidth
@@ -323,6 +340,7 @@ const RegistrationForm = () => {
                   >
                     Registrarse
                   </Button>
+                
                 </Form>
               )}
             </Formik>
